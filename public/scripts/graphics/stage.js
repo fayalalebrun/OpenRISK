@@ -12,10 +12,10 @@ graphics.Stage = function(renderer){
     let stage = this;
     this.draw = function(ctx, sizeMultiplier){
 	stage.scenes.sort(graphics.util.zLevelComparator);
-
+	ctx.scale(sizeMultiplier);
 	stage.scenes.forEach(function(scene){
 	    ctx.save();
-	    scene.draw(ctx,sizeMultiplier);
+	    scene.draw(ctx);
 	    ctx.restore();
 	});
     };
