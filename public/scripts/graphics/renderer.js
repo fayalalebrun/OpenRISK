@@ -18,6 +18,12 @@ graphics.Renderer = function (canvasName) {
 	renderer.canvas.width = multiplier*16;
 	renderer.canvas.height = multiplier*9;
 
+	renderer.stages.forEach(function(stage) {
+	    stage.width = renderer.canvas.width;
+	    stage.height = renderer.canvas.height;
+	});
+	
+
 	return renderer.canvas.width/1280; //Keeps track of the ratio between the current screen size and our target, 1280*720
 
     }
@@ -28,12 +34,11 @@ graphics.Renderer = function (canvasName) {
 	renderer.stages.sort(graphics.util.zLevelComparator);
 	
 	renderer.stages.forEach(function (stage) {
-	    stage.draw(sizeMultiplier);
+	    renderer.ctx.save();
+	    stage.draw(renderer.ctx, sizeMultiplier);
+	    renderer.ctx.restore();
 	});
     };
 
     this.draw();
 };
-
-
-
