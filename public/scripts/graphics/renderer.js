@@ -29,15 +29,17 @@ graphics.Renderer = function (canvasName) {
     }
 
     this.draw = function() {
-	let sizeMultiplier = resizeCanvas();
+	renderer.ctx.save();
+	renderer.ctx.scale(resizeCanvas());
 
 	renderer.stages.sort(graphics.util.zLevelComparator);
 	
 	renderer.stages.forEach(function (stage) {
 	    renderer.ctx.save();
-	    stage.draw(renderer.ctx, sizeMultiplier);
+	    stage.draw(renderer.ctx);
 	    renderer.ctx.restore();
 	});
+	renderer.ctx.restore();
     };
 
     this.draw();
