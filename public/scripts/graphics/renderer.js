@@ -30,7 +30,8 @@ graphics.Renderer = function (canvasName) {
 
     this.draw = function() {
 	renderer.ctx.save();
-	renderer.ctx.scale(resizeCanvas());
+	let sizeMultiplier = resizeCanvas();
+	renderer.ctx.scale(sizeMultiplier, sizeMultiplier);
 
 	renderer.stages.sort(graphics.util.zLevelComparator);
 	

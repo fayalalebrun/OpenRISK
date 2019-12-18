@@ -3,12 +3,13 @@ if(typeof graphics === 'undefined'){
 }
 
 
-graphics.Stage = function(renderer){
+graphics.Stage = function(renderer,z){
     this.renderer = renderer;
     this.width = 1280;
     this.height = 720;
     this.scenes = [];
     this.camera = new graphics.Stage.Camera(0,0,1);
+    this.z = z;
 
     let stage = this;
     this.draw = function(ctx){

@@ -2,10 +2,11 @@ if(typeof graphics === 'undefined'){
     graphics = {};
 }
 
-graphics.Scene = function(stage, x, y, width, height, rotation) {
+graphics.Scene = function(stage, x, y, z, width, height, rotation) {
     this.stage = stage;
     this.x = x;
     this.y = y;
+    this.z = z;
     this.width = width;
     this.height = height;
     this.rotation = rotation;
