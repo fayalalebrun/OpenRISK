@@ -34,7 +34,7 @@ graphics.Renderer = function (canvasName) {
 	renderer.ctx.scale(sizeMultiplier, sizeMultiplier);
 
 	renderer.stages.sort(graphics.util.zLevelComparator);
-	
+
 	renderer.stages.forEach(function (stage) {
 	    renderer.ctx.save();
 	    stage.draw(renderer.ctx);

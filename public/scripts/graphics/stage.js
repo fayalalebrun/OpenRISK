@@ -14,11 +14,11 @@ graphics.Stage = function(renderer,z){
     let stage = this;
     this.draw = function(ctx){
 
-	ctx.transform(-stage.camera.x,-stage.camera.y);
-	ctx.scale(stage.camera.zoom);
+	ctx.translate(-stage.camera.x,-stage.camera.y);
+	ctx.scale(stage.camera.zoom, stage.camera.zoom);
 	
 	stage.scenes.sort(graphics.util.zLevelComparator);
-	
+
 	stage.scenes.forEach(function(scene){
 	    ctx.save();
 	    scene.draw(ctx);

@@ -16,12 +16,12 @@ graphics.Actor = function (scene, x, y, z, width, height, rotation, scale, img) 
     let actor = this;
 
     this.draw = function(ctx) {
-	ctx.transform(x,y);
-	ctx.transform(width/2,height/2);
-	ctx.rotate(rotation);
-	ctx.transform(-width/2,-height/2);
-	ctx.scale(scale);
-
+	ctx.translate(actor.x,actor.y);
+	ctx.translate(actor.width/2,actor.height/2);
+	ctx.rotate(actor.rotation);
+	ctx.translate(-actor.width/2,-actor.height/2);
+	ctx.scale(actor.scale,actor.scale);
+	
 	ctx.drawImage(actor.img,0,0);
 
 	actor.children.sort(graphics.util.zLevelComparator);
