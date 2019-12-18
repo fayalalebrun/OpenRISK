@@ -1,0 +1,39 @@
+if(typeof graphics === 'undefined'){
+    graphics = {};
+}
+
+graphics.Renderer = function (canvasName) {
+    this.canvas = document.getElementById(canvasName);
+    this.ctx = this.canvas.getContext('2d');
+    this.stages = [];
+
+    let renderer = this; // Needed as this points to the function when inside a function
+    
+    function resizeCanvas() {
+	let widthUpper = document.body.clientWidth/16;
+	let heightUpper = document.body.clientHeight/9;
+
+	let multiplier = Math.min(widthUpper, heightUpper);
+
+	renderer.canvas.width = multiplier*16;
+	renderer.canvas.height = multiplier*9;
+
+	return renderer.canvas.width/1280; //Keeps track of the ratio between the current screen size and our target, 1280*720
+
+    }
+
+    this.draw = function() {
+	let sizeMultiplier = resizeCanvas();
+
+	renderer.stages.sort(graphics.util.zLevelComparator);
+	
+	renderer.stages.forEach(function (stage) {
+	    stage.draw(sizeMultiplier);
+	});
+    };
+
+    this.draw();
+};
+
+
+

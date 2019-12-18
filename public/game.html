@@ -2,8 +2,21 @@
 <html>
   <head>
     <title>OpenRISK</title>
+    <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0px;
+      border: 0;
+      overflow: hidden; /*  Disable scrollbars */
+      display: block;  /* No floating content on sides */
+    }
+    </style>
   </head>
   <body>
-     <canvas id="mainCanvas" width="640" height="480"></canvas>
+    <canvas id="mainCanvas" width="640" height="480"></canvas>
+    <script src="scripts/graphics/util.js"></script>
+    <script src="scripts/graphics/renderer.js"></script>
+    <script src="scripts/main.js"></script>
   </body>
 </html>
