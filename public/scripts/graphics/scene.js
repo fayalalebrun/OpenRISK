@@ -14,16 +14,36 @@ graphics.Scene = function(stage, x, y, z, width, height, rotation) {
 
     let scene = this;
 
-    this.draw = function(ctx){
+    function transformContext(ctx){
 	ctx.translate(scene.x,scene.y);
-	ctx.translate(scene.width/2,scene.heigth/2);
+	ctx.translate(scene.width/2,scene.height/2);
 	ctx.rotate(scene.rotation);
-	ctx.translate(-scene.width/2,-scene.heigth/2);
+	ctx.translate(-scene.width/2,-scene.height/2);
+	
+    }
+
+    this.draw = function(ctx){
+	transformContext(ctx);
 	
 	scene.actors.forEach(function(actor){
 	    ctx.save();	    
 	    actor.draw(ctx);
 	    ctx.restore();
+	});
+    };
+
+    this.eventHitTest = function(ctx,event,x,y){
+	transformContext(ctx);
+
+	if(!graphics.util.rectContainsCoordinates(ctx, scene.width, scene.height, x, y)){
+	    return false;
+	}
+	
+	return scene.actors.some(function(actor){
+	    ctx.save();	    
+	    let res = actor.eventHitTest(ctx,event,x,y);
+	    ctx.restore();
+	    return res;
 	});
     };
 

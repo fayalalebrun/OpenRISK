@@ -11,11 +11,17 @@ graphics.Stage = function(renderer,z){
     this.camera = new graphics.Stage.Camera(0,0,1);
     this.z = z;
 
-    let stage = this;
-    this.draw = function(ctx){
 
+    
+    let stage = this;
+
+    function transformContext(ctx){
 	ctx.translate(-stage.camera.x,-stage.camera.y);
 	ctx.scale(stage.camera.zoom, stage.camera.zoom);
+    }
+    
+    this.draw = function(ctx){
+	transformContext(ctx);
 	
 	stage.scenes.sort(graphics.util.zLevelComparator);
 
@@ -25,6 +31,24 @@ graphics.Stage = function(renderer,z){
 	    ctx.restore();
 	});
     };
+    
+    this.eventHitTest = function(ctx, event, x, y){
+	transformContext(ctx);
+
+	if(!graphics.util.rectContainsCoordinates(ctx, stage.width, stage.height, x, y)){
+	    return false;
+	}
+	
+	stage.scenes.sort(graphics.util.zLevelComparator);
+
+	return stage.scenes.some(function(scene){
+	    ctx.save();
+	    let res = scene.eventHitTest(ctx, event, x, y);
+	    ctx.restore();
+	    return res;
+	});
+    };
+    
     this.addScene = function(scene){
 	stage.scenes.push(scene);
     };
