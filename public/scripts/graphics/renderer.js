@@ -6,10 +6,11 @@ graphics.Renderer = function (canvasName) {
     this.canvas = document.getElementById(canvasName);
     this.ctx = this.canvas.getContext('2d');
     this.stages = [];
+    this.sizeMultiplier = 1;
 
     let renderer = this; // Needed as this points to the function when inside a function
     
-    function resizeCanvas() {
+    this.resizeCanvas= function() {
 	let widthUpper = document.body.clientWidth/16;
 	let heightUpper = document.body.clientHeight/9;
 
@@ -24,14 +25,14 @@ graphics.Renderer = function (canvasName) {
 	});
 	
 
-	return renderer.canvas.width/1280; //Keeps track of the ratio between the current screen size and our target, 1280*720
+	renderer.sizeMultiplier = renderer.canvas.width/1280; //Keeps track of the ratio between the current screen size and our target, 1280*720
 
-    }
+    };
 
     this.draw = function() {
 	renderer.ctx.save();
-	let sizeMultiplier = resizeCanvas();
-	renderer.ctx.scale(sizeMultiplier, sizeMultiplier);
+
+	renderer.ctx.scale(renderer.sizeMultiplier, renderer.sizeMultiplier);
 
 	renderer.stages.sort(graphics.util.zLevelComparator);
 
@@ -43,5 +44,10 @@ graphics.Renderer = function (canvasName) {
 	renderer.ctx.restore();
     };
 
+    this.addStage = function(stage) {
+	renderer.stages.push(stage);
+    };
+
+    this.resizeCanvas();
     this.draw();
 };

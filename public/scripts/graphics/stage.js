@@ -25,6 +25,9 @@ graphics.Stage = function(renderer,z){
 	    ctx.restore();
 	});
     };
+    this.addScene = function(scene){
+	stage.scenes.push(scene);
+    };
 };
 
 

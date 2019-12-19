@@ -26,4 +26,8 @@ graphics.Scene = function(stage, x, y, z, width, height, rotation) {
 	    ctx.restore();
 	});
     };
+
+    this.addActor = function(actor) {
+	scene.actors.push(actor);
+    };
 };

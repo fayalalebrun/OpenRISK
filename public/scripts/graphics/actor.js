@@ -32,4 +32,8 @@ graphics.Actor = function (scene, x, y, z, width, height, rotation, scale, img) 
 	    ctx.restore();
 	});
     };
+
+    this.addChild = function(actor){
+	actor.children.push(actor);
+    };
 };
