@@ -3,60 +3,60 @@ if(typeof graphics === 'undefined'){
 }
 
 
-graphics.Stage = function(renderer,z){
-    this.renderer = renderer;
-    this.width = 1280;
-    this.height = 720;
-    this.scenes = [];
-    this.camera = new graphics.Stage.Camera(0,0,1);
-    this.z = z;
-
-
-    
-    let stage = this;
-
-    function transformContext(ctx){
-	ctx.translate(-stage.camera.x,-stage.camera.y);
-	ctx.scale(stage.camera.zoom, stage.camera.zoom);
+graphics.Camera = class {
+    constructor(x,y,zoom){
+	this.x = x;
+	this.y = y;
+	this.zoom = zoom;
     }
-    
-    this.draw = function(ctx){
-	transformContext(ctx);
-	
-	stage.scenes.sort(graphics.util.zLevelComparator);
+};
 
-	stage.scenes.forEach(function(scene){
+graphics.Stage = class {
+    constructor(renderer,z){
+	this.renderer = renderer;
+	this.width = 1280;
+	this.height = 720;
+	this.scenes = [];
+	this.camera = new graphics.Camera(0,0,1);
+	this.z = z;
+    }
+
+    _transformContext(ctx){
+	ctx.translate(-this.camera.x,-this.camera.y);
+	ctx.scale(this.camera.zoom, this.camera.zoom);
+    }
+
+    draw(ctx){
+	this._transformContext(ctx);
+	
+	this.scenes.sort(graphics.util.zLevelComparator);
+
+	this.scenes.forEach(function(scene){
 	    ctx.save();
 	    scene.draw(ctx);
 	    ctx.restore();
 	});
-    };
+    }
     
-    this.eventHitTest = function(ctx, event, x, y){
-	transformContext(ctx);
+    eventHitTest(ctx, event, x, y){
+	this._transformContext(ctx);
 
-	if(!graphics.util.rectContainsCoordinates(ctx, stage.width, stage.height, x, y)){
+	if(!graphics.util.rectContainsCoordinates(ctx, this.width, this.height, x, y)){
 	    return false;
 	}
 	
-	stage.scenes.sort(graphics.util.zLevelComparator);
+	this.scenes.sort(graphics.util.zLevelComparator);
 
-	return stage.scenes.some(function(scene){
+	return this.scenes.some(function(scene){
 	    ctx.save();
 	    let res = scene.eventHitTest(ctx, event, x, y);
 	    ctx.restore();
 	    return res;
 	});
-    };
-    
-    this.addScene = function(scene){
-	stage.scenes.push(scene);
-    };
+    }
+
+    addScene(scene){
+	this.scenes.push(scene);
+    }
 };
 
-
-graphics.Stage.Camera = function(x,y,zoom) {
-    this.x = x;
-    this.y = y;
-    this.zoom = zoom;
-};

@@ -2,46 +2,47 @@ if(typeof graphics === 'undefined'){
     graphics = {};
 }
 
-graphics.Actor = function (scene, x, y, z, width, height, rotation, scale, img) {
-    this.scene = scene;
-    this.x = x;
-    this.y = y;
-    this.z = z;
-    this.width = width;
-    this.height = height;
-    this.rotation = rotation;
-    this.img = img;
-    this.children = [];
 
-    let actor = this;
-
-    function transformContext(ctx){
-	ctx.translate(actor.x,actor.y);
-	ctx.translate(actor.width/2,actor.height/2);
-	ctx.rotate(actor.rotation);
-	ctx.translate(-actor.width/2,-actor.height/2);
-	ctx.scale(actor.scale,actor.scale);
+graphics.Actor = class {
+    constructor(scene, x, y, z, width, height, rotation, scale, img){
+	this.scene = scene;
+	this.x = x;
+	this.y = y;
+	this.z = z;
+	this.width = width;
+	this.height = height;
+	this.rotation = rotation;
+	this.img = img;
+	this.children = [];
+    }
+    
+    _transformContext(ctx){
+	ctx.translate(this.x,this.y);
+	ctx.translate(this.width/2, this.height/2);
+	ctx.rotate(this.rotation);
+	ctx.translate(-this.width/2,-this.height/2);
+	ctx.scale(this.scale,this.scale);
     }
 
-    this.draw = function(ctx) {
-	transformContext(ctx);
+    draw(ctx) {
+	this._transformContext(ctx);
 
-	ctx.drawImage(actor.img,0,0);
+	ctx.drawImage(this.img,0,0);
 
-	actor.children.sort(graphics.util.zLevelComparator);
+	this.children.sort(graphics.util.zLevelComparator);
 	
-	actor.children.forEach(function(child){
+	this.children.forEach(function(child){
 	    ctx.save();
-	    child.draw(ctx,options);
+	    child.draw(ctx);
 	    ctx.restore();
 	});
-    };
+    }
 
-    this.eventHitTest = function(ctx,event,x,y) {
-	transformContext(ctx);
+    eventHitTest(ctx,event,x,y) {
+	this._transformContext(ctx);
 
-	actor.children.sort(graphics.util.zLevelComparator);
-	if (actor.children.some(function(child){
+	this.children.sort(graphics.util.zLevelComparator);
+	if (this.children.some(function(child){
 	    ctx.save();
 	    let res = child.eventHitTest(ctx,event,x,y);
 	    ctx.restore();
@@ -49,12 +50,16 @@ graphics.Actor = function (scene, x, y, z, width, height, rotation, scale, img) 
 	})) {
 	    return true;
 	}
-	return graphics.util.rectContainsCoordinates(ctx, actor.width, actor.height, x, y) && actor.onHit();
-    };
+	return graphics.util.rectContainsCoordinates(ctx, this.width, this.height, x, y) && this.onHit(ctx);
+    }
 
-    this.onHit = function() {	return false;    }; //override this function to do something on mouse hit
+    onHit(ctx) {
+	console.log('hit me');
+	return false;    } //override this function to do something on mouse hit
 
-    this.addChild = function(actor){
-	actor.children.push(actor);
-    };
+    addChild(actor){
+	this.children.push(actor);
+    }
+    
+    
 };

@@ -2,77 +2,82 @@ if(typeof graphics === 'undefined'){
     graphics = {};
 }
 
-graphics.Renderer = function (canvasName) {
-    this.canvas = document.getElementById(canvasName);
-    this.ctx = this.canvas.getContext('2d');
-    this.stages = [];
-    this.sizeMultiplier = 1;
 
-    this.virtualCanvas = document.createElement('canvas'); //Used for hit detection
-    this.virtualCtx = this.virtualCanvas.getContext('2d');
+graphics.Renderer = class {
+    constructor(canvasName){
+	this.canvas = document.getElementById(canvasName);
+	this.ctx = this.canvas.getContext('2d');
+	this.stages = [];
+	this.sizeMultiplier = 1;
 
-    let renderer = this; // Needed as this points to the function when inside a function
-    
-    this.resizeCanvas= function() {
+	this.virtualCanvas = document.createElement('canvas'); //Used for hit detection
+	this.virtualCtx = this.virtualCanvas.getContext('2d');
+
+	this._resizeCanvas();
+	this.draw();
+    }
+
+    _resizeCanvas(){
 	let widthUpper = document.body.clientWidth/16;
 	let heightUpper = document.body.clientHeight/9;
 
 	let multiplier = Math.min(widthUpper, heightUpper);
 
-	renderer.canvas.width = multiplier*16;
-	renderer.virtualCanvas.width = multiplier*16;
-	renderer.canvas.height = multiplier*9;
-	renderer.virtualCanvas.height = multiplier*9;
+	this.canvas.width = multiplier*16;
+	this.virtualCanvas.width = multiplier*16;
+	this.canvas.height = multiplier*9;
+	this.virtualCanvas.height = multiplier*9;
 
-	renderer.stages.forEach(function(stage) {
-	    stage.width = renderer.canvas.width;
-	    stage.height = renderer.canvas.height;
+	this.stages.forEach(function(stage) {
+	    stage.width = this.canvas.width;
+	    stage.height = this.canvas.height;
 	});
 	
 
-	renderer.sizeMultiplier = renderer.canvas.width/1280; //Keeps track of the ratio between the current screen size and our target, 1280*720
+	this.sizeMultiplier = this.canvas.width/1280; //Keeps track of the ratio between the current screen size and our target, 1280*720
 
     };
 
-    this.draw = function() {
-	renderer.ctx.save();
+    draw(){
+	this.ctx.save();
 
-	renderer.ctx.scale(renderer.sizeMultiplier, renderer.sizeMultiplier);
+	this.ctx.scale(this.sizeMultiplier, this.sizeMultiplier);
 
-	renderer.stages.sort(graphics.util.zLevelComparator);
+	this.stages.sort(graphics.util.zLevelComparator);
 
-	renderer.stages.forEach(function (stage) {
-	    renderer.ctx.save();
-	    stage.draw(renderer.ctx);
-	    renderer.ctx.restore();
+	let that = this;
+	this.stages.forEach(function (stage) {
+	    that.ctx.save();
+	    stage.draw(that.ctx);
+	    that.ctx.restore();
 	});
-	renderer.ctx.restore();
-    };
+	this.ctx.restore();
+    }
 
-    this.eventHitTest = function(event) {
-	const rect = renderer.canvas.getBoundingClientRect();
+    eventHitTest(event) {
+	const rect = this.canvas.getBoundingClientRect();
 	const realX = event.clientX - rect.left;
 	const realY = event.clientY - rect.top;
+
+	let data = this.ctx.getImageData(realX,realY,1,1).data;
+	console.log(data);
 	
-	renderer.virtualCtx.save();
+	this.virtualCtx.save();
 
-	renderer.virtualCtx.scale(renderer.sizeMultiplier, renderer.sizeMultiplier);
+	this.virtualCtx.scale(this.sizeMultiplier, this.sizeMultiplier);
 
-	renderer.stages.sort(graphics.util.zLevelComparator);
+	this.stages.sort(graphics.util.zLevelComparator);
 
-	renderer.stages.some(function (stage) {
-	    renderer.virtualCtx.save();
-	    let res = stage.eventHitTest(renderer.virtualCtx, event, realX, realY);
-	    renderer.virtualCtx.restore();
+	this.stages.some(function (stage) {
+	    this.virtualCtx.save();
+	    let res = stage.eventHitTest(this.virtualCtx, event, realX, realY);
+	    this.virtualCtx.restore();
 	    return res;
 	});
-	renderer.virtualCtx.restore();
-    };
+	this.virtualCtx.restore();
+    }
 
-    this.addStage = function(stage) {
-	renderer.stages.push(stage);
+    addStage(stage) {
+	this.stages.push(stage);
     };
-
-    this.resizeCanvas();
-    this.draw();
 };
