@@ -1,9 +1,6 @@
-if(typeof graphics === 'undefined'){
-    graphics = {};
-}
+import util from "./util.js";
 
-
-graphics.Camera = class {
+export class Camera{
     constructor(x,y,zoom){
 	this.x = x;
 	this.y = y;
@@ -11,13 +8,13 @@ graphics.Camera = class {
     }
 };
 
-graphics.Stage = class {
+export class Stage{
     constructor(renderer,z){
 	this.renderer = renderer;
 	this.width = 1280;
 	this.height = 720;
 	this.scenes = [];
-	this.camera = new graphics.Camera(0,0,1);
+	this.camera = new Camera(0,0,1);
 	this.z = z;
     }
 
@@ -29,7 +26,7 @@ graphics.Stage = class {
     draw(ctx){
 	this._transformContext(ctx);
 	
-	this.scenes.sort(graphics.util.zLevelComparator);
+	this.scenes.sort(util.zLevelComparator);
 
 	this.scenes.forEach(function(scene){
 	    ctx.save();
@@ -41,11 +38,11 @@ graphics.Stage = class {
     eventHitTest(ctx, event, x, y){
 	this._transformContext(ctx);
 
-	if(!graphics.util.rectContainsCoordinates(ctx, this.width, this.height, x, y)){
+	if(!util.rectContainsCoordinates(ctx, this.width, this.height, x, y)){
 	    return false;
 	}
 	
-	this.scenes.sort(graphics.util.zLevelComparator);
+	this.scenes.sort(util.zLevelComparator);
 
 	return this.scenes.some(function(scene){
 	    ctx.save();

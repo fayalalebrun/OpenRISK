@@ -1,9 +1,6 @@
-if(typeof graphics === 'undefined'){
-    graphics = {};
-}
+import util from "./util.js";
 
-
-graphics.Actor = class {
+export class Actor {
     constructor(scene, x, y, z, width, height, rotation, scale, img){
 	this.scene = scene;
 	this.x = x;
@@ -29,7 +26,7 @@ graphics.Actor = class {
 
 	ctx.drawImage(this.img,0,0);
 
-	this.children.sort(graphics.util.zLevelComparator);
+	this.children.sort(util.zLevelComparator);
 	
 	this.children.forEach(function(child){
 	    ctx.save();
@@ -41,7 +38,7 @@ graphics.Actor = class {
     eventHitTest(ctx,event,x,y) {
 	this._transformContext(ctx);
 
-	this.children.sort(graphics.util.zLevelComparator);
+	this.children.sort(util.zLevelComparator);
 	if (this.children.some(function(child){
 	    ctx.save();
 	    let res = child.eventHitTest(ctx,event,x,y);
@@ -50,7 +47,7 @@ graphics.Actor = class {
 	})) {
 	    return true;
 	}
-	return graphics.util.rectContainsCoordinates(ctx, this.width, this.height, x, y) && this.onHit(ctx);
+	return util.rectContainsCoordinates(ctx, this.width, this.height, x, y) && this.onHit(ctx);
     }
 
     onHit(ctx) {

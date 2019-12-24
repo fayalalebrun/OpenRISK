@@ -1,8 +1,6 @@
-if(typeof graphics === 'undefined'){
-    graphics = {};
-}
+import util from "./util.js";
 
-graphics.Scene = class {
+export class Scene{
     constructor(stage, x, y, z, width, height, rotation){
 	this.stage = stage;
 	this.x = x;
@@ -35,7 +33,7 @@ graphics.Scene = class {
     eventHitTest(ctx,event,x,y){
 	this._transformContext(ctx);
 
-	if(!graphics.util.rectContainsCoordinates(ctx, this.width, this.height, x, y)){
+	if(!util.rectContainsCoordinates(ctx, this.width, this.height, x, y)){
 	    return false;
 	}
 	

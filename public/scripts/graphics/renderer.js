@@ -1,9 +1,6 @@
-if(typeof graphics === 'undefined'){
-    graphics = {};
-}
+import util from "./util.js";
 
-
-graphics.Renderer = class {
+export class Renderer{
     constructor(canvasName){
 	this.canvas = document.getElementById(canvasName);
 	this.ctx = this.canvas.getContext('2d');
@@ -43,7 +40,7 @@ graphics.Renderer = class {
 
 	this.ctx.scale(this.sizeMultiplier, this.sizeMultiplier);
 
-	this.stages.sort(graphics.util.zLevelComparator);
+	this.stages.sort(util.zLevelComparator);
 
 	let that = this;
 	this.stages.forEach(function (stage) {
@@ -66,12 +63,13 @@ graphics.Renderer = class {
 
 	this.virtualCtx.scale(this.sizeMultiplier, this.sizeMultiplier);
 
-	this.stages.sort(graphics.util.zLevelComparator);
+	this.stages.sort(util.zLevelComparator);
 
+	let that = this;
 	this.stages.some(function (stage) {
-	    this.virtualCtx.save();
-	    let res = stage.eventHitTest(this.virtualCtx, event, realX, realY);
-	    this.virtualCtx.restore();
+	    that.virtualCtx.save();
+	    let res = stage.eventHitTest(that.virtualCtx, event, realX, realY);
+	    that.virtualCtx.restore();
 	    return res;
 	});
 	this.virtualCtx.restore();
