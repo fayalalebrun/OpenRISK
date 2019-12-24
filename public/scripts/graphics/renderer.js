@@ -40,7 +40,7 @@ export class Renderer{
 	this.virtualCanvas.width = multiplier*16;
 	this.canvas.height = multiplier*9;
 	this.virtualCanvas.height = multiplier*9;
-p
+
 	this.stages.forEach(function(stage) {
 	    stage.width = this.canvas.width;
 	    stage.height = this.canvas.height;
