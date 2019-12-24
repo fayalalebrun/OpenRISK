@@ -1,3 +1,9 @@
+/**
+ * @fileOverview Contains the Stage and Camera class.
+ * @name stage.js
+ * @author Francisco Ayala Le Brun <frankxlebrun@gmail.com>
+ */
+
 import {util} from "./util.js";
 
 export class Camera{

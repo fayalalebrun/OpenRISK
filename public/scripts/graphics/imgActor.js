@@ -1,3 +1,9 @@
+/**
+ * @fileOverview Contains the ImgActor class.
+ * @name imgActor.js
+ * @author Francisco Ayala Le Brun <frankxlebrun@gmail.com>
+ */
+
 import Actor from './actor.js';
 
 export class ImgActor extends Actor {

@@ -1,3 +1,9 @@
+/**
+ * @fileOverview Contains the Actor class.
+ * @name actor.js
+ * @author Francisco Ayala Le Brun <frankxlebrun@gmail.com>
+ */
+
 import {util} from "./util.js";
 
 export default class Actor {

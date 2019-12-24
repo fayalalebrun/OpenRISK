@@ -1,3 +1,9 @@
+/**
+ * @fileOverview Contains the Scene class.
+ * @name scene.js
+ * @author Francisco Ayala Le Brun <frankxlebrun@gmail.com>
+ */
+
 import {util} from "./util.js";
 
 export class Scene{

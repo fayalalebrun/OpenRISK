@@ -1,3 +1,9 @@
+/**
+ * @fileOverview Contains utility functions.
+ * @name util.js
+ * @author Francisco Ayala Le Brun <frankxlebrun@gmail.com>
+ */
+
 export class util{
     static zLevelComparator(a,b){
 	if(a.z<b.z){
