@@ -1,7 +1,7 @@
-import util from "./util.js";
+import {util} from "./util.js";
 
-export class Actor {
-    constructor(scene, x, y, z, width, height, rotation, scale, img){
+export default class Actor {
+    constructor(scene, x, y, z, width, height, rotation, scale){
 	this.scene = scene;
 	this.x = x;
 	this.y = y;
@@ -9,7 +9,6 @@ export class Actor {
 	this.width = width;
 	this.height = height;
 	this.rotation = rotation;
-	this.img = img;
 	this.children = [];
     }
     
@@ -24,7 +23,7 @@ export class Actor {
     draw(ctx) {
 	this._transformContext(ctx);
 
-	ctx.drawImage(this.img,0,0);
+	this.do_draw(ctx);
 
 	this.children.sort(util.zLevelComparator);
 	
@@ -33,6 +32,10 @@ export class Actor {
 	    child.draw(ctx);
 	    ctx.restore();
 	});
+    }
+
+    do_draw(ctx) {
+
     }
 
     eventHitTest(ctx,event,x,y) {
@@ -47,11 +50,10 @@ export class Actor {
 	})) {
 	    return true;
 	}
-	return util.rectContainsCoordinates(ctx, this.width, this.height, x, y) && this.onHit(ctx);
+	return util.rectContainsCoordinates(ctx, this.width, this.height, x, y) && this.onHit(ctx, event, x, y);
     }
 
-    onHit(ctx) {
-	console.log('hit me');
+    onHit(ctx, event, x, y) {
 	return false;    } //override this function to do something on mouse hit
 
     addChild(actor){

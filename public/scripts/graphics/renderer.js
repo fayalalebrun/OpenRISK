@@ -1,6 +1,20 @@
-import util from "./util.js";
+/**
+ * @fileOverview Contains the Renderer class.
+ * @name renderer.js
+ * @author Francisco Ayala Le Brun <frankxlebrun@gmail.com>
+ */
+
+import {util} from "./util.js";
+
+/** The top level of rendering. Handles drawing and dispatching input events for every Stage under it.
+ */
 
 export class Renderer{
+
+    /**
+     * Creates a Renderer.
+     * @param {string} canvasName - The name of the canvas which the Renderer should preside over
+     */
     constructor(canvasName){
 	this.canvas = document.getElementById(canvasName);
 	this.ctx = this.canvas.getContext('2d');
@@ -13,7 +27,9 @@ export class Renderer{
 	this._resizeCanvas();
 	this.draw();
     }
-
+    /**
+     * @private 
+     */
     _resizeCanvas(){
 	let widthUpper = document.body.clientWidth/16;
 	let heightUpper = document.body.clientHeight/9;
@@ -24,7 +40,7 @@ export class Renderer{
 	this.virtualCanvas.width = multiplier*16;
 	this.canvas.height = multiplier*9;
 	this.virtualCanvas.height = multiplier*9;
-
+p
 	this.stages.forEach(function(stage) {
 	    stage.width = this.canvas.width;
 	    stage.height = this.canvas.height;
@@ -35,6 +51,7 @@ export class Renderer{
 
     };
 
+    /** Draws every Stage, in z-order. */
     draw(){
 	this.ctx.save();
 
@@ -51,13 +68,23 @@ export class Renderer{
 	this.ctx.restore();
     }
 
+    /** 
+     * This function should be called whenever there is a mouse input event, sent for further processing
+     * by each Stage and its children.
+     * @param {Event} event - The mouse event which should be processed.
+     */
     eventHitTest(event) {
 	const rect = this.canvas.getBoundingClientRect();
 	const realX = event.clientX - rect.left;
 	const realY = event.clientY - rect.top;
 
+	/* this.ctx.save();
+	this.ctx.scale(this.sizeMultiplier,this.sizeMultipler);
 	let data = this.ctx.getImageData(realX,realY,1,1).data;
+	console.log(realX + " " + realY);
 	console.log(data);
+
+	this.ctx.restore();*/
 	
 	this.virtualCtx.save();
 
@@ -75,6 +102,10 @@ export class Renderer{
 	this.virtualCtx.restore();
     }
 
+    /** 
+     * Adds a stage to this Renderer.
+     * @param {Stage} stage - Stage that should be added.
+     */
     addStage(stage) {
 	this.stages.push(stage);
     };

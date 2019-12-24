@@ -1,4 +1,4 @@
-import util from "./util.js";
+import {util} from "./util.js";
 
 export class Camera{
     constructor(x,y,zoom){

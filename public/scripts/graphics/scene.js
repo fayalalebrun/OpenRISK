@@ -1,4 +1,4 @@
-import util from "./util.js";
+import {util} from "./util.js";
 
 export class Scene{
     constructor(stage, x, y, z, width, height, rotation){
