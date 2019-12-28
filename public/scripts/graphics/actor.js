@@ -6,9 +6,9 @@
 
 import {util} from "./util.js";
 
-export default class Actor {
-    constructor(scene, x, y, z, width, height, rotation, scale){
-	this.scene = scene;
+export class Actor {
+    constructor(parent, x, y, z, width, height, rotation, scale){
+	this.parent = parent;
 	this.x = x;
 	this.y = y;
 	this.z = z;
@@ -16,6 +16,7 @@ export default class Actor {
 	this.height = height;
 	this.rotation = rotation;
 	this.children = [];
+	this.visible = true;
     }
     
     _transformContext(ctx){
@@ -29,15 +30,17 @@ export default class Actor {
     draw(ctx) {
 	this._transformContext(ctx);
 
-	this.do_draw(ctx);
+	if (this.visible) {
+	    this.do_draw(ctx);
 
-	this.children.sort(util.zLevelComparator);
-	
-	this.children.forEach(function(child){
-	    ctx.save();
-	    child.draw(ctx);
-	    ctx.restore();
-	});
+	    this.children.sort(util.zLevelComparator);
+	    
+	    this.children.forEach(function(child){
+		ctx.save();
+		child.draw(ctx);
+		ctx.restore();
+	    });
+	}
     }
 
     do_draw(ctx) {
