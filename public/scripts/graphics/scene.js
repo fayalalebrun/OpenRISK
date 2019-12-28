@@ -1,29 +1,59 @@
-if(typeof graphics === 'undefined'){
-    graphics = {};
-}
+/**
+ * @fileOverview Contains the Scene class.
+ * @name scene.js
+ * @author Francisco Ayala Le Brun <frankxlebrun@gmail.com>
+ */
 
-graphics.Scene = function(stage, x, y, z, width, height, rotation) {
-    this.stage = stage;
-    this.x = x;
-    this.y = y;
-    this.z = z;
-    this.width = width;
-    this.height = height;
-    this.rotation = rotation;
-    this.actors = [];
+import {util} from "./util.js";
 
-    let scene = this;
+export class Scene{
+    constructor(stage, x, y, z, width, height, rotation){
+	this.stage = stage;
+	this.x = x;
+	this.y = y;
+	this.z = z;
+	this.width = width;
+	this.height = height;
+	this.rotation = rotation;
+	this.actors = [];
+    }
 
-    this.draw = function(ctx){
-	ctx.transform(scene.x,scene.y);
-	ctx.transform(scene.width/2,scene.heigth/2);
-	ctx.rotate(scene.rotation);
-	ctx.transform(-scene.width/2,-scene.heigth/2);
+    _transformContext(ctx){
+	ctx.translate(this.x,this.y);
+	ctx.translate(this.width/2,this.height/2);
+	ctx.rotate(this.rotation);
+	ctx.translate(-this.width/2,-this.height/2);
 	
-	scene.actors.forEach(function(actor){
+    }
+
+    draw(ctx){
+	this._transformContext(ctx);
+
+	this.actors.forEach(function(actor){
 	    ctx.save();	    
 	    actor.draw(ctx);
 	    ctx.restore();
 	});
     };
+
+    eventHitTest(ctx,event,x,y){
+	this._transformContext(ctx);
+
+	if(!util.rectContainsCoordinates(ctx, this.width, this.height, x, y)){
+	    return false;
+	}
+	
+	return this.actors.some(function(actor){
+	    ctx.save();	    
+	    let res = actor.eventHitTest(ctx,event,x,y);
+	    ctx.restore();
+	    return res;
+	});
+    };
+    
+    addActor(actor) {
+	this.actors.push(actor);
+    };
+
 };
+
