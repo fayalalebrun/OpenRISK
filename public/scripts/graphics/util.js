@@ -51,4 +51,17 @@ export class util{
 	ctx.closePath();
 	return ctx.isPointInPath(x,y);
     };
+
+    static imageDataToImage(imageData) {
+	var canvas = document.createElement('canvas');
+	var ctx = canvas.getContext('2d');
+	canvas.width = imageData.width;
+	canvas.height = imageData.height;
+	ctx.putImageData(imageData, 0, 0);
+
+	var image = new Image();
+	image.src = canvas.toDataURL();
+
+	return image;
+    }
 }

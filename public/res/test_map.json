@@ -1,0 +1,16 @@
+{
+  "connections": [
+    {"from":0,"to":2,"type":"b"},
+    {"from":0,"to":3,"type":"b"},
+    {"from":3,"to":4,"type":"b"},
+    {"from":4,"to":1,"type":"b"},
+    {"from":1,"to":2,"type":"b"}
+  ],
+  "nodes": [
+    {"name":"1","color":"ff0000"},
+    {"name":"2","color":"ff00fc"},
+    {"name":"3","color":"f2ff00"},
+    {"name":"4","color":"5900ff"},
+    {"name":"5","color":"ff30"}
+  ]
+}
