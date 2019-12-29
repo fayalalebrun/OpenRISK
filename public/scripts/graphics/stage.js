@@ -40,7 +40,10 @@ export class Stage{
 	this.camera = new Camera(0,0,1);
 	this.z = z;
     }
-
+	/**
+	 * @private
+	 * @param {ctx} ctx 
+	 */
     _transformContext(ctx){
 	ctx.translate(-this.camera.x,-this.camera.y);
 	ctx.scale(this.camera.zoom, this.camera.zoom);

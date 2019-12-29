@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>OpenRISK</title>
+    <!-- TO DO: CSS
+      <link rel='stylesheet' href='stylesheets/splash.css'>-->
+  </head>
+
+  <body class='splash'>
+
+    <main id='main'>
+
+      <section id='createOrJoinGame'>
+        <!-- Play button of the Risk game-->
+        <form action='/game' method='get'>
+          <button id='createGame' type='submit'>Create game</button>
+          <button id='joinGame' type='submit'>Join game</button>
+          <input type="text" placeholder="Please fill in your username">
+        </form>
+      </section>
+      
+      <section id='statistics'>
+        <!-- Show the statistics of all games that have been played thus far-->
+        <button id='showStatistics'>Show Statistics</button>
+      </section>
+
+
+    </main>
+  </body>
+</html>
