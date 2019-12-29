@@ -37,15 +37,20 @@ wss.on("connection", (ws) => {
 	let oMsg = JSON.parse(message);
 	if (oMsg.setNickname){
 	    let msg = oMsg.setNickname;
-	    con.nick = msg;	    
+	    con.nick = msg;
+	    console.log('Player %s[%s] has connected',con.id,con.nick);
 	} else if (oMsg.createLobby){
 	    let msg = oMsg.createLobby;
-	    let game = games[currGameID++]={};
+	    let game = games[++currGameID]={};
+	    game.id = currGameID;
+	    game.title = msg.title;
 	    game.players = {};
 	    game.players[con.id]=con.nick;
 	    game.maxCap = msg.maxCap;
 	    game.mapInfo = msg.mapInfo;
-	    con.send(JSON.stringify({gameID:currGameID-1}));
+	    con.game = game;
+	    con.send(JSON.stringify({gameID:currGameID}));
+	    console.log('Game created: %s', JSON.stringify(game));
 	} else if (oMsg.joinLobby) {
 	    let msg = oMsg.joinLobby;
 	    let game = games[msg.gameID];	    
@@ -56,15 +61,37 @@ wss.on("connection", (ws) => {
 		});
 		
 		game.players.push(con.id);
-
+		con.game = game;
+		
+		console.log('Player %s joined game %s',con.id,game.id);
+		
 		if(Object.keys(game.players).length==game.maxCap){
 		    game.players.forEach((e)=>{
 			connections[e].send(JSON.stringify({lobbyReadyToStart:null}));
 		    });
+		    console.log('Game full %s',game.id);
 		}
 	    } else {
 		con.send(JSON.stringify({joinError:'Lobby full'}));
 	    }
+	} else if (oMsg.playerMessage) {
+	    let msg = oMsg.playerMessage;
+
+	    Object.keys(con.game.players).forEach((e)=>{
+		connections[e].send(message);
+	    });
+	}
+    });
+
+    con.on("close", (ws) =>{
+	console.log("Player %s disconnected", con.id);
+
+	if(con.game){
+	    delete con.game.players[con.id];
+
+	    Object.keys(con.game.players).forEach((e)=>{
+		connections[e].send({playerLeftGame:con.id});
+	    });
 	}
     });
 });
