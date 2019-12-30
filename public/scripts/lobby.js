@@ -10,7 +10,11 @@ const games = $.getJSON('./games', (data)=>{
 	    $('.games').append($info);
 
 	    $button.on("click", (event)=>{
-		console.log("Time to try and join "+e.id);
+		console.log("Redirection to join game" + e.id);
+		window.sessionStorage.setItem('joinGameID', e.id);
+		window.sessionStorage.setItem('createLobbyOptions', null);
+		window.sessionStorage.setItem('lobbyPlayerNames', JSON.stringify(Object.values(e.players)));		
+		window.location.href='play';
 	    });
 	}
     });

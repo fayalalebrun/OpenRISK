@@ -14,6 +14,10 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + "/public/" + 'game.html');
 });
 
+app.get('/play', (req, res) => {
+    res.sendFile(__dirname + "/public/" + 'play.html');
+});
+
 app.get('/games', (req, res) => {
     res.send(JSON.stringify(games));
 });
@@ -38,7 +42,7 @@ wss.on("connection", (ws) => {
 	if (oMsg.setNickname){
 	    let msg = oMsg.setNickname;
 	    con.nick = msg;
-	    console.log('Player %s[%s] has connected',con.id,con.nick);
+	    console.log('Player %s[%s] has connected',con.nick,con.id);
 	} else if (oMsg.createLobby){
 	    let msg = oMsg.createLobby;
 	    let game = games[++currGameID]={};
@@ -55,17 +59,17 @@ wss.on("connection", (ws) => {
 	    let msg = oMsg.joinLobby;
 	    let game = games[msg.gameID];	    
 	    if(Object.keys(game.players).length<game.maxCap){
+
+		game.players.push(con.id);
+		con.game = game;
 		
 		game.players.forEach((e)=>{
 		    connections[e].send(JSON.stringify({playerJoinLobby:game.players[con.id]}));
 		});
 		
-		game.players.push(con.id);
-		con.game = game;
-		
 		console.log('Player %s joined game %s',con.id,game.id);
 		
-		if(Object.keys(game.players).length==game.maxCap){
+		if(Object.keys(game.players).length===game.maxCap){
 		    game.players.forEach((e)=>{
 			connections[e].send(JSON.stringify({lobbyReadyToStart:null}));
 		    });
@@ -86,7 +90,7 @@ wss.on("connection", (ws) => {
     con.on("close", (ws) =>{
 	console.log("Player %s disconnected", con.id);
 
-	if(con.game){
+	if(con.game){	    
 	    delete con.game.players[con.id];
 
 	    Object.keys(con.game.players).forEach((e)=>{
