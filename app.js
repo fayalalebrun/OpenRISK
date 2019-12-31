@@ -22,6 +22,10 @@ app.get('/games', (req, res) => {
     res.send(JSON.stringify(games));
 });
 
+app.get('/games/:id', (req, res) => {
+    res.send(JSON.stringify(games[req.params.id]));    
+});
+
 const server = http.createServer(app);
 
 const wss = new websocket.Server({server});
