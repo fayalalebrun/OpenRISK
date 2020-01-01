@@ -51,6 +51,7 @@ wss.on("connection", (ws) => {
 	    let msg = oMsg.setNickname;
 	    con.nick = msg;
 	    console.log('Player %s[%s] has connected',con.nick,con.id);
+	    con.send(JSON.stringify({conID:con.id}));
 	} else if (oMsg.createLobby){
 	    let msg = oMsg.createLobby;
 	    let game = games[++currGameID]={};
@@ -79,7 +80,10 @@ wss.on("connection", (ws) => {
 		console.log('Player %s joined game %s',con.id,game.id);
 		if(Object.keys(game.players).length===Number(game.maxCap)){
 		    Object.keys(game.players).forEach((e)=>{
-			connections[e].send(JSON.stringify({lobbyReadyToStart:true}));
+			let out = {};
+			let lobbyReady = out.lobbyReadyToStart = {};
+			lobbyReady.seed = Date.now();
+			connections[e].send(JSON.stringify(out));
 		    });
 		    console.log('Game filled %s',game.id);
 		}

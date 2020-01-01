@@ -1,3 +1,6 @@
+import * as game from './game/game.js';
+import * as networking from './networking/networking.js';
+
 let createLobbyOptions = window.sessionStorage.getItem('createLobbyOptions');
 
 
@@ -19,13 +22,15 @@ socket.onopen = (() => {
     }
 });
 
-socket.onmessage = ((event)=>{
+socket.onmessage = (async (event)=>{
     let msg = JSON.parse(event.data);
 
 
     if(msg.lobbyReadyToStart){
-	//ready to go
-	console.log('ready');
+	game.main(msg.lobbyReadyToStart.seed,
+		  new networking.WebSocketPlayerEventSource(game.onPlayerEvent, socket),
+		 await $.getJSON('games/'+window.sessionStorage.getItem('joinGameID')));
+	
     } else if (msg.gameID){
 	window.sessionStorage.setItem('joinGameID', msg.gameID);
 	addNames(window.sessionStorage.getItem('joinGameID'));
@@ -33,6 +38,8 @@ socket.onmessage = ((event)=>{
 	addNames(window.sessionStorage.getItem('joinGameID'));
     } else if (msg.joinError){
 	$('body').append($('<dialog open>Error joining.</dialog>'));
+    } else if (msg.conID!=undefined){
+	window.sessionStorage.setItem('conID', msg.conID);
     }
 });
 
