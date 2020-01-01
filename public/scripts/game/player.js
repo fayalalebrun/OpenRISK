@@ -3,5 +3,6 @@ export class Player{
 	this.id = id;
 	this.nick = nick;
 	this.isLocal = isLocal;
+	this.ownedNodes=[];
     }
 }
