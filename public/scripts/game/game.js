@@ -17,7 +17,8 @@ import * as mapFunctions from "./mapFunctions.js";
 export async function main(seed, playerEventSource, gameInfo){
     globalRand = new Math.seedrandom(seed);
     console.log(seed);
-    let players = decidePlayerOrder(gameInfo);
+    let players = await decidePlayerOrder(gameInfo);
+
 
     $('body').empty();
     $('body').append($('<canvas>').attr('id','mainCanvas').attr('width',640).attr('height',480));
@@ -41,7 +42,7 @@ export async function main(seed, playerEventSource, gameInfo){
     renderer.draw();
 }
 
-function decidePlayerOrder(gameInfo){
+async function decidePlayerOrder(gameInfo){
     let playerMap = [];
     Object.entries(gameInfo.players).forEach(([e,v])=>{
 	let roll = randomIntFromInterval(1,6,globalRand);
@@ -58,10 +59,20 @@ function decidePlayerOrder(gameInfo){
 
     });
 
+    let colorData = await $.getJSON('res/player_colors.json');
+    const colorGenerator = getPlayerColor(colorData.colors);
+
+    
     return playerMap.map((e)=>{
 	let isLocal = e.id == window.sessionStorage.getItem('conID');
-	return new Player(e.id, gameInfo.players[e.id], isLocal);
+	return new Player(e.id, gameInfo.players[e.id], isLocal, colorGenerator.next().value);
     });
+}
+
+function* getPlayerColor(colors) {
+    for(let e of colors){
+	yield e;
+    }
 }
 
 export function onPlayerEvent(event){
