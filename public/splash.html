@@ -10,19 +10,33 @@
 
     <main id='main'>
 
-      <section id='createOrJoinGame'>
+
+      <input id='nickname' type="text"> Nickname
+</input>
+
+	<button id='joinGame'> Join game</button>
+      <section id='createGame'>
         <!-- Play button of the Risk game-->
-        <form action='/game' method='get'>
-          <button id='createGame' type='submit'>Create game</button>
-          <button id='joinGame' type='submit'>Join game</button>
-          <input type="text" placeholder="Please fill in your username">
-        </form>
+	  <input id='gameTitle' type="text" placeholder="Game Title"></input>
+	  <input id='maxPlayers' type="number" placeholder="Max players"></input>
+          <button id='createGameButton'>Create game</button>
       </section>
       
       <section id='statistics'>
         <!-- Show the statistics of all games that have been played thus far-->
         <button id='showStatistics'>Show Statistics</button>
       </section>
+
+      <!--
+    <script
+      src="https://code.jquery.com/jquery-2.2.4.min.js"
+      integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+      crossorigin="anonymous"></script>
+    -->
+    <script
+      src="jquery.js"></script>
+    <script
+      src="scripts/splash.js"></script>
 
 
     </main>

@@ -11,11 +11,15 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + "/public/" + 'game.html');
+    res.sendFile(__dirname + "/public/" + 'splash.html');
 });
 
 app.get('/play', (req, res) => {
     res.sendFile(__dirname + "/public/" + 'play.html');
+});
+
+app.get('/lobby', (req, res) => {
+    res.sendFile(__dirname + "/public/" + 'lobby.html');
 });
 
 app.get('/games', (req, res) => {
@@ -56,6 +60,7 @@ wss.on("connection", (ws) => {
 	    game.players[con.id]=con.nick;
 	    game.maxCap = msg.maxCap;
 	    game.mapInfo = msg.mapInfo;
+	    game.host = con.id;
 	    con.game = game;
 	    con.send(JSON.stringify({gameID:currGameID}));
 	    console.log('Game created: %s', JSON.stringify(game));
@@ -64,10 +69,10 @@ wss.on("connection", (ws) => {
 	    let game = games[msg.gameID];	    
 	    if(Object.keys(game.players).length<game.maxCap){
 
-		game.players.push(con.id);
+		game.players[con.id]=con.nick;
 		con.game = game;
 		
-		game.players.forEach((e)=>{
+		Object.keys(game.players).forEach((e)=>{
 		    connections[e].send(JSON.stringify({playerJoinLobby:game.players[con.id]}));
 		});
 		
@@ -77,9 +82,10 @@ wss.on("connection", (ws) => {
 		    game.players.forEach((e)=>{
 			connections[e].send(JSON.stringify({lobbyReadyToStart:null}));
 		    });
-		    console.log('Game full %s',game.id);
+		    console.log('Game filled %s',game.id);
 		}
 	    } else {
+		console.log('Lobby full: Player %s[%s] tried to join game'+game.id,con.nick,con.id);
 		con.send(JSON.stringify({joinError:'Lobby full'}));
 	    }
 	} else if (oMsg.playerMessage) {
@@ -92,14 +98,23 @@ wss.on("connection", (ws) => {
     });
 
     con.on("close", (ws) =>{
-	console.log("Player %s disconnected", con.id);
+	console.log("Player %s[%s] disconnected", con.nick, con.id);
 
 	if(con.game){	    
 	    delete con.game.players[con.id];
 
 	    Object.keys(con.game.players).forEach((e)=>{
-		connections[e].send({playerLeftGame:con.id});
+		console.log(e);
+		connections[e].send(JSON.stringify({playerLeftGame:con.id}));
 	    });
+
+	    if(con.game.host === con.id && Object.keys(con.game.players).length>0){
+		con.game.host = Object.keys(con.game.players)[0];
+		console.log('Game '+con.game.id+': '+'host %s[%s] replaced by %s[%s]', con.nick, con.id, Object.values(con.game.players)[0], Object.keys(con.game.players)[0]);
+	    } else if (Object.keys(con.game.players).length==0){
+		console.log('Game '+con.game.id+': all players left, terminating game');
+		delete games[con.game.id];
+	    }
 	}
     });
 });
