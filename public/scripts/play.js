@@ -16,7 +16,6 @@ socket.onopen = (() => {
 	join.gameID = window.sessionStorage.getItem('joinGameID');
 	socket.send(JSON.stringify(msg));
 	addNames(join.gameID);
-	console.log(join.gameID);
     }
 });
 
@@ -26,6 +25,7 @@ socket.onmessage = ((event)=>{
 
     if(msg.lobbyReadyToStart){
 	//ready to go
+	console.log('ready');
     } else if (msg.gameID){
 	window.sessionStorage.setItem('joinGameID', msg.gameID);
 	addNames(window.sessionStorage.getItem('joinGameID'));

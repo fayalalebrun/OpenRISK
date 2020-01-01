@@ -77,10 +77,9 @@ wss.on("connection", (ws) => {
 		});
 		
 		console.log('Player %s joined game %s',con.id,game.id);
-		
-		if(Object.keys(game.players).length===game.maxCap){
-		    game.players.forEach((e)=>{
-			connections[e].send(JSON.stringify({lobbyReadyToStart:null}));
+		if(Object.keys(game.players).length===Number(game.maxCap)){
+		    Object.keys(game.players).forEach((e)=>{
+			connections[e].send(JSON.stringify({lobbyReadyToStart:true}));
 		    });
 		    console.log('Game filled %s',game.id);
 		}
