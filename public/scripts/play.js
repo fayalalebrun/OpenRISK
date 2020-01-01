@@ -32,10 +32,13 @@ socket.onmessage = ((event)=>{
     } else if (msg.playerJoinLobby||msg.playerLeftGame!=undefined) {
 	addNames(window.sessionStorage.getItem('joinGameID'));
     } else if (msg.joinError){
-	//give error
-    } else if (msg.playerLeftGame){
-	//trouble
+	$('body').append($('<dialog open>Error joining.</dialog>'));
     }
+});
+
+socket.onclose = ((event)=>{
+    console.log('connection closed');
+    $('body').append($('<dialog open>Connection to server lost.</dialog>'));
 });
 
 
@@ -43,7 +46,6 @@ async function addNames(id){
     let gameData = await $.getJSON('games/'+id);
     $('.playerNames').empty();
     Object.values(gameData.players).forEach((name)=>{
-	console.log(name);
 	$('.playerNames').append($('<p>').text(name));
     });
 }
