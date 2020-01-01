@@ -16,6 +16,10 @@ export class PlayerEventSource{
 	this.callback = callback;
     }
 
+    /**
+      * @abstract 
+      */
+    sendMessage(msg){}
 
     
 }
