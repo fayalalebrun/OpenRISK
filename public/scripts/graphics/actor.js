@@ -15,6 +15,7 @@ export class Actor {
 	this.width = width;
 	this.height = height;
 	this.rotation = rotation;
+	this.scale = scale;
 	this.children = [];
 	this.visible = true;
     }
@@ -35,7 +36,7 @@ export class Actor {
 
 	    this.children.sort(util.zLevelComparator);
 	    
-	    this.children.forEach(function(child){
+	    this.children.forEach((child)=>{
 		ctx.save();
 		child.draw(ctx);
 		ctx.restore();

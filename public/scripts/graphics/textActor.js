@@ -24,7 +24,6 @@ export class TextActor extends Actor {
 	ctx.textAlign = this.textAlign;
 	ctx.textBaseline = this.textBaseline;
 	ctx.direction = this.direction;
-	ctx.fillText(this.text, this.x, this.y);
-
+	ctx.fillText(this.text, 0, 0);
     }
 };

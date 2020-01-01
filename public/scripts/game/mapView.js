@@ -6,16 +6,27 @@
 
 import * as graphics from "../graphics/graphics.js";
 import {ColorZone} from "./colorZone.js";
+import {MapUnits} from "./mapUnits.js";
 
 export class MapView extends graphics.ImgActor {
     constructor(parent, x, y, z, rotation, scale, img, zoneImg, map){
 	super(parent, x, y, z, rotation, scale, img);
 	this.zoneImg = zoneImg;
 	this.map = map;
-	this.zoneContainer = new graphics.Actor(this,0,0,0,0,1);
+	this.zoneContainer = new graphics.Actor(this,0,0,0,0,0,0,1);
 	this.addChild(this.zoneContainer);
 
 	this._parseColorZones(this.parent.stage.renderer.ctx);
+
+	this.mapUnitsContainer = new graphics.Actor(this,0,0,100,0,0,0,1);
+	this._addUnitDisplay(map.nodes, this.mapUnitsContainer);
+	this.addChild(this.mapUnitsContainer);
+    }
+
+    _addUnitDisplay(nodes, parent){
+	nodes.forEach((e)=>{
+	    parent.addChild(new MapUnits(parent, 0, 0, 1, e));
+	});
     }
 
     _parseColorZones(ctx){

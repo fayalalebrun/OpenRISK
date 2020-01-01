@@ -8,6 +8,7 @@
 import * as graphics from '../graphics/graphics.js';
 import {MapView} from './mapView.js';
 import {Map} from './map/map.js';
+import {players} from './game.js';
 
 export async function init(renderer){
     let stage = new graphics.Stage(renderer,2);
@@ -37,10 +38,10 @@ export async function init(renderer){
     let mapData = await $.getJSON('./res/test_map.json');
 
     let map = new Map(mapData);
+
     
     let mapView = new MapView(scene,0,0,0,0,1, img, zoneImg, map);
     scene.actors.push(mapView);
-
-
+    
     return mapView;
 }

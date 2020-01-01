@@ -9,7 +9,7 @@ export class Map {
 
     _buildNodes(nodeData){
 	return nodeData.map((e)=>{
-	    return new MapNode(e.name, e.color);
+	    return new MapNode(e.name, e.color, e.x, e.y);
 	});
     }
 

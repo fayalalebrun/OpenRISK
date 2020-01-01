@@ -17,7 +17,7 @@ import * as mapFunctions from "./mapFunctions.js";
 export async function main(seed, playerEventSource, gameInfo){
     globalRand = new Math.seedrandom(seed);
     console.log(seed);
-    let players = await decidePlayerOrder(gameInfo);
+    players = await decidePlayerOrder(gameInfo);
 
 
     $('body').empty();
@@ -40,6 +40,7 @@ export async function main(seed, playerEventSource, gameInfo){
 
     await mapFunctions.init(renderer);
     renderer.draw();
+
 }
 
 async function decidePlayerOrder(gameInfo){
@@ -81,3 +82,4 @@ export function onPlayerEvent(event){
 
 export var globalRand;
 export var renderer;
+export var players;
