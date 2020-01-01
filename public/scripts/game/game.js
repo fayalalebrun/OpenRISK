@@ -27,7 +27,11 @@ export async function main(seed, playerEventSource, gameInfo){
     let mapStage = new graphics.Stage(renderer,-100);
     renderer.addStage(mapStage);
 
-    window.onresize = renderer.resizeCanvas;
+    window.onresize = (()=>{
+
+	renderer._resizeCanvas();
+	renderer.draw();
+			   });
 
     renderer.canvas.addEventListener('click', function (e) {
 	renderer.eventHitTest(e);

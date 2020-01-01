@@ -41,7 +41,7 @@ export class Renderer{
 	this.canvas.height = multiplier*9;
 	this.virtualCanvas.height = multiplier*9;
 
-	this.stages.forEach(function(stage) {
+	this.stages.forEach((stage) => {
 	    stage.width = this.canvas.width;
 	    stage.height = this.canvas.height;
 	});
@@ -77,14 +77,6 @@ export class Renderer{
 	const rect = this.canvas.getBoundingClientRect();
 	const realX = event.clientX - rect.left;
 	const realY = event.clientY - rect.top;
-
-	/* this.ctx.save();
-	this.ctx.scale(this.sizeMultiplier,this.sizeMultipler);
-	let data = this.ctx.getImageData(realX,realY,1,1).data;
-	console.log(realX + " " + realY);
-	console.log(data);
-
-	this.ctx.restore();*/
 	
 	this.virtualCtx.save();
 
@@ -100,6 +92,7 @@ export class Renderer{
 	    return res;
 	});
 	this.virtualCtx.restore();
+
     }
 
     /** 
