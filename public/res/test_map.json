@@ -1,16 +1,21 @@
 {
-  "connections": [
-    {"from":0,"to":2,"type":"b"},
-    {"from":0,"to":3,"type":"b"},
-    {"from":3,"to":4,"type":"b"},
-    {"from":4,"to":1,"type":"b"},
-    {"from":1,"to":2,"type":"b"}
-  ],
-  "nodes": [
-    {"name":"1","color":"ff0000"},
-    {"name":"2","color":"ff00fc"},
-    {"name":"3","color":"f2ff00"},
-    {"name":"4","color":"5900ff"},
-    {"name":"5","color":"ff30"}
-  ]
+    "connections": [
+	{"from":0,"to":2,"type":"b"},
+	{"from":0,"to":3,"type":"b"},
+	{"from":3,"to":4,"type":"b"},
+	{"from":4,"to":1,"type":"b"},
+	{"from":1,"to":2,"type":"b"}
+    ],
+    "nodes": [
+	{"name":"a","color":"ff0000"},
+	{"name":"b","color":"ff00fc"},
+	{"name":"c","color":"f2ff00"},
+	{"name":"d","color":"5900ff"},
+	{"name":"e","color":"ff30"}
+    ],
+    "zones": {
+	"The Great Wall":{"nodes":[0,1,2],"bonus":3},
+	"Wiz":{"nodes":[3,4],"bonus":1}
+    }
+    
 }
