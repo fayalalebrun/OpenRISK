@@ -16,6 +16,7 @@ export class MapView extends graphics.ImgActor {
 	this.zoneContainer = new graphics.Actor(this,0,0,0,0,0,0,1);
 	this.addChild(this.zoneContainer);
 
+	this.zoneMap = {};
 	this._parseColorZones(this.parent.stage.renderer.ctx);
 
 	this.mapUnitsContainer = new graphics.Actor(this,0,0,100,0,0,0,1);
@@ -37,23 +38,12 @@ export class MapView extends graphics.ImgActor {
 	tempContext.drawImage(this.zoneImg,0,0);
 	let imgDataArr = tempContext.getImageData(0, 0, this.zoneImg.width, this.zoneImg.height).data;
 	this.map.nodes.forEach((e)=>{
-	    let newDataArr = new Uint8ClampedArray(imgDataArr.length);
-	    for(let i = 0; i < imgDataArr.length; i+=4){
-		if(graphics.util.rgbToHex(imgDataArr[i],imgDataArr[i+1],imgDataArr[i+2])===e.colorID){
-		    newDataArr[i]=imgDataArr[i];
-		    newDataArr[i+1]=imgDataArr[i+1];
-		    newDataArr[i+2]=imgDataArr[i+2];
-		    newDataArr[i+3]=imgDataArr[i+3];
-		} else {
-		    newDataArr[i]=0;
-		    newDataArr[i+1]=0;
-		    newDataArr[i+2]=0;
-		    newDataArr[i+3]=0;
-		}
-	    }
-	    let newImgData = new ImageData(newDataArr, this.zoneImg.width, this.zoneImg.height);
-	    let image = graphics.util.imageDataToImage(newImgData);
-	    this.zoneContainer.addChild(new ColorZone(this.zoneContainer,0,0,0,0,1,image));
+	    let zone = new ColorZone(this.zoneContainer,0,0,0,0,1,e);
+	    zone.addDisplayColor(imgDataArr, 255, 0, 0, this.zoneImg);
+	    zone.addDisplayColor(imgDataArr, 0, 255, 0, this.zoneImg);	    
+	    zone.addDisplayColor(imgDataArr, 0, 0, 255, this.zoneImg);
+	    this.zoneContainer.addChild(zone);
+	    this.zoneMap[e.colorID] = zone;
 	});
     }
     
@@ -68,9 +58,11 @@ export class MapView extends graphics.ImgActor {
 	ctx.restore();
 
 	let color = graphics.util.rgbToHex(data[0],data[1],data[2]);
-	console.log(color);
-	
-	return true;
+	let zone = this.zoneMap[color];
+	this.onZoneHit(zone,this);
     }
+
+
+    onZoneHit(zone,mapView){}
     
 }
