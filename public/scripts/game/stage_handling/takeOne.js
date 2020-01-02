@@ -5,7 +5,6 @@ import {PlaceRest} from "./placeRest.js";
 
 export class TakeOne extends StageHandler{
     static onPlayerEvent(event){
-	console.log(event);
 	if(event.takeOne){
 	    if(event.playerID!=game.currPlayer.id){
 		console.error('Received message from wrong player');

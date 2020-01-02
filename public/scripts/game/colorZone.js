@@ -31,8 +31,15 @@ export class ColorZone extends graphics.Actor {
 	let image = graphics.util.imageDataToImage(newImgData);
 	let imgChild = new graphics.ImgActor(this,0,0,0,0,1,image);
 	imgChild.visible = false;
-	this.addChild(imgChild);
-	
+	this.addChild(imgChild);	
+    }
+
+    activateColor(index){
+	this.children[index].visible = true;
+    }
+
+    deactivateAllColor(){
+	this.children.forEach(e=>e.visible=false);
     }
     
     

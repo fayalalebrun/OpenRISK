@@ -40,7 +40,8 @@ export async function main(seed, playerEventSource, gameInfo){
 	renderer.eventHitTest(e);
     });
 
-    let mapView = await mapFunctions.init(renderer);
+    mapView = await mapFunctions.init(renderer);
+    
     renderer.draw();
 
 
@@ -114,3 +115,4 @@ export var currPlayer;
 export function handleEvent(){};
 export function handleInput(){};
 export var gamePlayerEventSource;
+export var mapView;
