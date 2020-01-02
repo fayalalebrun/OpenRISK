@@ -19,7 +19,7 @@ export class ColorZone extends graphics.Actor {
 		newDataArr[i]=r;
 		newDataArr[i+1]=g;
 		newDataArr[i+2]=b;
-		newDataArr[i+3]=255;
+		newDataArr[i+3]=128;
 	    } else {
 		newDataArr[i]=0;
 		newDataArr[i+1]=0;
