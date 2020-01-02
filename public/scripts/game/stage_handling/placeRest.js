@@ -1,6 +1,7 @@
 import {StageHandler} from './stageHandler.js';
 import * as game from '../game.js';
 import {map} from "../mapFunctions.js";
+import {PlaceArmies} from "./placeArmies.js";
 
 export class PlaceRest extends StageHandler {
 
@@ -25,6 +26,7 @@ export class PlaceRest extends StageHandler {
 
 		if(game.players.every(e=>e.unitPool===0)){
 		    console.log('PlaceRest stage complete');
+		    PlaceArmies.select();
 		}
 	    }
 	} else {
