@@ -1,7 +1,7 @@
 import {StageHandler} from './stageHandler.js';
 import * as game from '../game.js';
 import {map} from "../mapFunctions.js";
-import {PlaceArmies} from "./placeArmies.js";
+import {Fortify} from "./fortify.js";
 import * as util from '../util.js';
 
 export class Attack extends StageHandler {
@@ -21,6 +21,7 @@ export class Attack extends StageHandler {
 	    
 	} else if (event.attackEnd){
 	    console.log('Attack stage ended');
+	    Fortify.select();
 	} else {
 	    console.error('Unsupported event type received');
 	}
@@ -49,6 +50,7 @@ export class Attack extends StageHandler {
 	    
 	} else if (zone===Attack.attackFrom){	    
 	    playerEventSource.sendMessage({attackEnd:true});
+	    Attack._clearAttackZones();
 	} else if(zone.node.owner===currPlayer&&zone.node.troopNumber>1){
 	    Attack._clearAttackZones();
 	    Attack.attackFrom = zone;
