@@ -93,9 +93,10 @@ wss.on("connection", (ws) => {
 	    }
 	} else if (oMsg.playerMessage) {
 	    let msg = oMsg.playerMessage;
+	    msg.playerID = con.id;
 
 	    Object.keys(con.game.players).forEach((e)=>{
-		connections[e].send(message);
+		connections[e].send(JSON.stringify(oMsg));
 	    });
 	}
     });

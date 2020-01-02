@@ -29,7 +29,9 @@ export class ColorZone extends graphics.Actor {
 	}
 	let newImgData = new ImageData(newDataArr, zoneImg.width, zoneImg.height);
 	let image = graphics.util.imageDataToImage(newImgData);
-	this.addChild(new graphics.ImgActor(this,0,0,0,0,1,image));
+	let imgChild = new graphics.ImgActor(this,0,0,0,0,1,image);
+	imgChild.visible = false;
+	this.addChild(imgChild);
 	
     }
     

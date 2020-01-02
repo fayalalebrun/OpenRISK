@@ -13,12 +13,14 @@ import {randomIntFromInterval} from "./util.js";
 import {Player} from "./player.js";
 import * as graphics from "../graphics/graphics.js";
 import * as mapFunctions from "./mapFunctions.js";
+import * as stageHandling from "./stage_handling/stage_handling.js";
+
+
 
 export async function main(seed, playerEventSource, gameInfo){
-    globalRand = new Math.seedrandom(seed);
-    console.log(seed);
+    globalRand = new Math.seedrandom(seed);    
     players = await decidePlayerOrder(gameInfo);
-
+    gamePlayerEventSource = playerEventSource;
 
     $('body').empty();
     $('body').append($('<canvas>').attr('id','mainCanvas').attr('width',640).attr('height',480));
@@ -38,16 +40,23 @@ export async function main(seed, playerEventSource, gameInfo){
 	renderer.eventHitTest(e);
     });
 
-    await mapFunctions.init(renderer);
+    let mapView = await mapFunctions.init(renderer);
     renderer.draw();
 
+
+    currPlayer = players[0];
+
+    mapView.onZoneHit = onPlayerInput;
+
+    handleInput = stageHandling.TakeOne.handleInput;
+    handleEvent = stageHandling.TakeOne.onPlayerEvent;
+    
 }
 
 async function decidePlayerOrder(gameInfo){
     let playerMap = [];
     Object.entries(gameInfo.players).forEach(([e,v])=>{
-	let roll = randomIntFromInterval(1,6,globalRand);
-	console.log(roll);
+	let roll = randomIntFromInterval(1,6,globalRand);	
 	playerMap.push({id:e,diceRoll:roll});
     });
 
@@ -63,10 +72,13 @@ async function decidePlayerOrder(gameInfo){
     let colorData = await $.getJSON('res/player_colors.json');
     const colorGenerator = getPlayerColor(colorData.colors);
 
+    let unitAmount = {2:40,3:35,4:30,5:25,6:20};
+
     
     return playerMap.map((e)=>{
 	let isLocal = e.id == window.sessionStorage.getItem('conID');
-	return new Player(e.id, gameInfo.players[e.id], isLocal, colorGenerator.next().value);
+	return new Player(e.id, gameInfo.players[e.id], isLocal, colorGenerator.next().value,
+			  unitAmount[playerMap.length]);
     });
 }
 
@@ -77,9 +89,25 @@ function* getPlayerColor(colors) {
 }
 
 export function onPlayerEvent(event){
-    
+    handleEvent(event);
+    renderer.draw();
+}
+
+function onPlayerInput(zone, mapView){
+    handleInput(currPlayer, zone, mapView, gamePlayerEventSource);
+    renderer.draw();
+}
+
+export function nextPlayer(){
+    let index = players.findIndex(e=>e.id===currPlayer.id);
+    index = (index+1)%players.length;
+    currPlayer = players[index];
 }
 
 export var globalRand;
 export var renderer;
 export var players;
+export var currPlayer;
+export function handleEvent(){};
+export function handleInput(){};
+export var gamePlayerEventSource;

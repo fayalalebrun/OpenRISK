@@ -37,7 +37,7 @@ export async function init(renderer){
 
     let mapData = await $.getJSON('./res/test_map.json');
 
-    let map = new Map(mapData);
+    map = new Map(mapData);
 
     
     let mapView = new MapView(scene,0,0,0,0,1, img, zoneImg, map);
@@ -45,3 +45,5 @@ export async function init(renderer){
     
     return mapView;
 }
+
+export var map;

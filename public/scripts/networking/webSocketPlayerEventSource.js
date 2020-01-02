@@ -12,9 +12,10 @@ export class WebSocketPlayerEventSource extends PlayerEventSource {
 	socket.onmessage = ((event)=>{
 	    let msg = JSON.parse(event.data);
 	    if(msg.playerMessage){
-		this.callback(msg.playerMessage);
+		callback(msg.playerMessage);
 	    } else {
-		console.log('Received non-supported message: ' + msg);
+		console.log('Received non-supported message: ');
+		console.log(msg);
 	    }
 	});
     }
