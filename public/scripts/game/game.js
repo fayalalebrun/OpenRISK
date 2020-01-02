@@ -48,9 +48,12 @@ export async function main(seed, playerEventSource, gameInfo){
 
     mapView.onZoneHit = onPlayerInput;
 
-    handleInput = stageHandling.TakeOne.handleInput;
-    handleEvent = stageHandling.TakeOne.onPlayerEvent;
-    
+    stageHandling.TakeOne.select();
+}
+
+export function setStageHandler(stageHandler){
+    handleInput = stageHandler.handleInput;
+    handleEvent = stageHandler.onPlayerEvent;
 }
 
 async function decidePlayerOrder(gameInfo){

@@ -10,5 +10,10 @@ export class StageHandler {
      * @abstract 
      */
     static handleInput(currPlayer, zone, mapView, game){}
+
     
+    /**
+     * @abstract 
+     */
+    static select(){}    
 }
