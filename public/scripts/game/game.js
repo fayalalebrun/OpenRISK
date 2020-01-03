@@ -40,7 +40,11 @@ export async function main(seed, playerEventSource, gameInfo){
 	renderer.draw();
 			   });
 
-    renderer.canvas.addEventListener('click', function (e) {
+    renderer.canvas.addEventListener('click', (e) => {
+	renderer.eventHitTest(e);
+    });
+
+    renderer.canvas.addEventListener('wheel', (e) => {
 	renderer.eventHitTest(e);
     });
 
@@ -83,7 +87,7 @@ async function decidePlayerOrder(gameInfo){
     let colorData = await $.getJSON('res/player_colors.json');
     const colorGenerator = getPlayerColor(colorData.colors);
 
-    let unitAmount = {2:40,3:35,4:30,5:25,6:20};
+    let unitAmount = {2:4,3:35,4:30,5:25,6:20};
 
     
     return playerMap.map((e)=>{

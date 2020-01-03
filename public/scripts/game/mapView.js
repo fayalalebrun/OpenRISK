@@ -7,6 +7,7 @@
 import * as graphics from "../graphics/graphics.js";
 import {ColorZone} from "./colorZone.js";
 import {MapUnits} from "./mapUnits.js";
+import * as game from "./game.js";
 
 export class MapView extends graphics.ImgActor {
     constructor(parent, x, y, z, rotation, scale, img, zoneImg, map){
@@ -48,18 +49,29 @@ export class MapView extends graphics.ImgActor {
     }
     
     onHit(ctx, event, x, y) {
-	ctx.save();
-	ctx.drawImage(this.zoneImg, 0, 0);
-	ctx.resetTransform();
-	let scaleAmount = this.parent.stage.renderer.sizeMultiplier;
-	ctx.scale(scaleAmount, scaleAmount);
-	let data = ctx.getImageData(x,y,1,1).data;
-	
-	ctx.restore();
 
-	let color = graphics.util.rgbToHex(data[0],data[1],data[2]);
-	let zone = this.zoneMap[color];
-	this.onZoneHit(zone,this);
+	if(event.type==='click'){
+	    ctx.save();
+	    ctx.drawImage(this.zoneImg, 0, 0);
+	    ctx.resetTransform();
+	    let scaleAmount = this.parent.stage.renderer.sizeMultiplier;
+	    ctx.scale(scaleAmount, scaleAmount);
+	    let data = ctx.getImageData(x,y,1,1).data;
+	    
+	    ctx.restore();
+
+	    let color = graphics.util.rgbToHex(data[0],data[1],data[2]);
+	    let zone = this.zoneMap[color];
+	    this.onZoneHit(zone,this);
+	} else if(event.type==='wheel'){
+	    let camera = this.parent.stage.camera;
+	    let scaleChange = event.deltaY/100;
+	    camera.zoom+=scaleChange;
+	    camera.x+= (x*scaleChange);
+	    camera.y+= (y*scaleChange);
+	    
+	    requestAnimationFrame(()=>game.renderer.draw());
+	}
     }
 
 
