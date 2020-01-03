@@ -40,11 +40,21 @@ export async function main(seed, playerEventSource, gameInfo){
 	renderer.draw();
 			   });
 
-    renderer.canvas.addEventListener('click', (e) => {
+
+
+    renderer.canvas.addEventListener('wheel', (e) => {
 	renderer.eventHitTest(e);
     });
 
-    renderer.canvas.addEventListener('wheel', (e) => {
+    renderer.canvas.addEventListener('mousedown', (e) => {
+	renderer.eventHitTest(e);
+    });
+
+    renderer.canvas.addEventListener('mouseup', (e) => {
+	renderer.eventHitTest(e);
+    });
+
+    renderer.canvas.addEventListener('mousemove', (e) => {
 	renderer.eventHitTest(e);
     });
 

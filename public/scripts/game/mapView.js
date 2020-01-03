@@ -10,12 +10,15 @@ import {MapUnits} from "./mapUnits.js";
 import * as game from "./game.js";
 
 export class MapView extends graphics.ImgActor {
+    
     constructor(parent, x, y, z, rotation, scale, img, zoneImg, map){
 	super(parent, x, y, z, rotation, scale, img);
 	this.zoneImg = zoneImg;
 	this.map = map;
 	this.zoneContainer = new graphics.Actor(this,0,0,0,0,0,0,1);
 	this.addChild(this.zoneContainer);
+	this.mousePressed = false;
+	this.mouseDistanceTravelled=0;
 
 	this.zoneMap = {};
 	this._parseColorZones(this.parent.stage.renderer.ctx);
@@ -49,8 +52,11 @@ export class MapView extends graphics.ImgActor {
     }
     
     onHit(ctx, event, x, y) {
-
-	if(event.type==='click'){
+	let camera = this.parent.stage.camera;
+	if(event.type==='mousedown'){
+	    this.mousePressed = true;
+	} else if(event.type==='mouseup'){
+	    this.mousePressed = false;
 	    ctx.save();
 	    ctx.drawImage(this.zoneImg, 0, 0);
 	    ctx.resetTransform();
@@ -63,8 +69,13 @@ export class MapView extends graphics.ImgActor {
 	    let color = graphics.util.rgbToHex(data[0],data[1],data[2]);
 	    let zone = this.zoneMap[color];
 	    this.onZoneHit(zone,this);
+	} else if (event.type==='mousemove'&&this.mousePressed){
+	    camera.x-=event.movementX;
+	    camera.y-=event.movementY;
+	    this.mouseDistanceTravelled+=Math.sqrt(event.movementX*event.movementX+event.movementY*event.movementY);
+	    requestAnimationFrame(()=>game.renderer.draw());
 	} else if(event.type==='wheel'){
-	    let camera = this.parent.stage.camera;
+	    
 	    let scaleChange = event.deltaY/100;
 	    camera.zoom+=scaleChange;
 	    camera.x+= (x*scaleChange);
