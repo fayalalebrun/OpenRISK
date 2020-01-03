@@ -11,6 +11,7 @@ export * from "./player.js";
 export * from "./util.js";
 import {randomIntFromInterval} from "./util.js";
 import {Player} from "./player.js";
+import {Card} from "./card.js";
 import * as graphics from "../graphics/graphics.js";
 import * as mapFunctions from "./mapFunctions.js";
 import * as stageHandling from "./stage_handling/stage_handling.js";
@@ -51,6 +52,9 @@ export async function main(seed, playerEventSource, gameInfo){
     currPlayer = players[0];
 
     mapView.onZoneHit = onPlayerInput;
+
+
+    let cardDeck = Card.createDeck(mapFunctions.map.nodes, globalRand);
 
     stageHandling.WaitReady.ready();
 }
@@ -119,3 +123,4 @@ export function handleEvent(){};
 export function handleInput(){};
 export var gamePlayerEventSource;
 export var mapView;
+export var cardDeck;
