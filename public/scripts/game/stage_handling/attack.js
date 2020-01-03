@@ -7,11 +7,13 @@ import * as util from '../util.js';
 export class Attack extends StageHandler {
 
     static onPlayerEvent(event){
+	
+	if(event.playerID!=game.currPlayer.id){
+	    console.error('Received message from wrong player');
+	    return;
+	}
+	
 	if(event.attack){
-	    if(event.playerID!=game.currPlayer.id){
-		console.error('Received message from wrong player');
-		return;
-	    }
 
 	    let msg = event.attack;
 	    let to = game.mapView.zoneMap[msg.to].node;
@@ -21,6 +23,15 @@ export class Attack extends StageHandler {
 	    
 	} else if (event.attackEnd){
 	    console.log('Attack stage ended');
+
+	    if(game.currPlayer.tookTerritory&&game.cardDeck.length>0){
+		let card = game.cardDeck.pop();
+		game.currPlayer.cards.push(card);
+		console.log(game.currPlayer.nick+' took card '+card.node.name);
+	    }
+
+	    game.currPlayer.tookTerritory=false;
+
 	    Fortify.select();
 	} else {
 	    console.error('Unsupported event type received');
@@ -107,7 +118,7 @@ export class Attack extends StageHandler {
 	    from.owner.ownedNodes.push(to);
 	    to.troopNumber = unitAmount;
 	    from.troopNumber-=unitAmount;
-
+	    from.owner.tookTerritory=true;
 	}
     }
 

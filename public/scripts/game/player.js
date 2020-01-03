@@ -6,5 +6,6 @@ export class Player{
 	this.color = color;
 	this.unitPool = unitPool;
 	this.ownedNodes=[];
+	this.cards = [];
     }
 }

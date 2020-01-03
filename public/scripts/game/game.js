@@ -54,7 +54,7 @@ export async function main(seed, playerEventSource, gameInfo){
     mapView.onZoneHit = onPlayerInput;
 
 
-    let cardDeck = Card.createDeck(mapFunctions.map.nodes, globalRand);
+    cardDeck = Card.createDeck(mapFunctions.map.nodes, globalRand);
 
     stageHandling.WaitReady.ready();
 }
