@@ -3,6 +3,7 @@ import * as game from '../game.js';
 import {map} from "../mapFunctions.js";
 import * as mapFunctions from "../mapFunctions.js";
 import {Attack} from "./attack.js";
+import {Card} from "../card.js";
 
 export class PlaceArmies extends StageHandler {
 
@@ -64,6 +65,30 @@ export class PlaceArmies extends StageHandler {
 	    }
 	});
 
-	player.unitPool+=territorialBonus+continentalBonus;
+	let cardBonus = 0;
+	
+	let cards = player.cards;
+	
+	let infCard = cards.find(c=>c.type===Card.INFANTRY);
+	let cavCard = cards.find(c=>c.type===Card.CAVALRY);
+	let artCard = cards.find(c=>c.type===Card.ARTILLERY);
+	
+	if(infCard&&cavCard&&artCard){
+	    cards.splice(cards.indexOf(infCard),1);
+	    cards.splice(cards.indexOf(cavCard),1);
+	    cards.splice(cards.indexOf(artCard),1);	    
+
+	    cardBonus+=Card.turnInGenerator.next().value;
+	    
+	    if(infCard.node.owner===player||cavCard.node.owner===player||
+	      artCard.node.owner===player){
+		cardBonus+=2;
+	    }
+	}
+
+	console.log('Units awarded to %s:', player.nick);
+	console.log('Territory: %i Zones: %i Cards: %i', territorialBonus, continentalBonus, cardBonus);
+
+	player.unitPool+=territorialBonus+continentalBonus+cardBonus;
     }
 }

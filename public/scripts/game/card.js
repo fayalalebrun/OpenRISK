@@ -25,8 +25,20 @@ export class Card{
 	    i++;
 	}
     }
+
+    static* _turnInValue(){
+	
+	for(let e of [4,6,8,10,12]){
+	    yield e;
+	}
+	
+	for(let i = 15;;i+=5){
+	    yield i;
+	}
+    }
 }
 
 Card.INFANTRY = 0;
 Card.CAVALRY = 1;
 Card.ARTILLERY = 2;
+Card.turnInGenerator = Card._turnInValue();
