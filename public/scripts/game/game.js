@@ -37,7 +37,7 @@ export async function main(seed, playerEventSource, gameInfo){
     window.onresize = (()=>{
 
 	renderer._resizeCanvas();
-	renderer.draw();
+	requestAnimationFrame(()=>renderer.draw());
 			   });
 
 
@@ -60,7 +60,7 @@ export async function main(seed, playerEventSource, gameInfo){
 
     mapView = await mapFunctions.init(renderer);
     
-    renderer.draw();
+    requestAnimationFrame(()=>renderer.draw());
 
 
     currPlayer = players[0];
@@ -115,12 +115,12 @@ function* getPlayerColor(colors) {
 
 export function onPlayerEvent(event){
     handleEvent(event);
-    renderer.draw();
+    requestAnimationFrame(()=>renderer.draw());
 }
 
 function onPlayerInput(zone, mapView){
     handleInput(currPlayer, zone, mapView, gamePlayerEventSource);
-    renderer.draw();
+    requestAnimationFrame(()=>renderer.draw());
 }
 
 export function nextPlayer(){

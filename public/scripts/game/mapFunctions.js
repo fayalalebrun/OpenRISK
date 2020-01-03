@@ -26,12 +26,12 @@ export async function init(renderer){
     let promises = [];
 
     promises.push(new Promise ((resolve)=>{
-	    renderer.draw();
+	    requestAnimationFrame(()=>renderer.draw());
 	    img.onload = (()=> resolve());
     }));
 
     promises.push(new Promise ((resolve)=>{
-	    renderer.draw();
+	    requestAnimationFrame(()=>renderer.draw());
 	    zoneImg.onload = (()=> resolve());
     }));
 
