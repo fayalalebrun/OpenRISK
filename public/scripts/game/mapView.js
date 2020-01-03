@@ -57,18 +57,21 @@ export class MapView extends graphics.ImgActor {
 	    this.mousePressed = true;
 	} else if(event.type==='mouseup'){
 	    this.mousePressed = false;
-	    ctx.save();
-	    ctx.drawImage(this.zoneImg, 0, 0);
-	    ctx.resetTransform();
-	    let scaleAmount = this.parent.stage.renderer.sizeMultiplier;
-	    ctx.scale(scaleAmount, scaleAmount);
-	    let data = ctx.getImageData(x,y,1,1).data;
-	    
-	    ctx.restore();
+	    if(this.mouseDistanceTravelled<10){		
+		ctx.save();
+		ctx.drawImage(this.zoneImg, 0, 0);
+		ctx.resetTransform();
+		let scaleAmount = this.parent.stage.renderer.sizeMultiplier;
+		ctx.scale(scaleAmount, scaleAmount);
+		let data = ctx.getImageData(x,y,1,1).data;
+		
+		ctx.restore();
 
-	    let color = graphics.util.rgbToHex(data[0],data[1],data[2]);
-	    let zone = this.zoneMap[color];
-	    this.onZoneHit(zone,this);
+		let color = graphics.util.rgbToHex(data[0],data[1],data[2]);
+		let zone = this.zoneMap[color];
+		this.onZoneHit(zone,this);
+	    }
+	    this.mouseDistanceTravelled=0;
 	} else if (event.type==='mousemove'&&this.mousePressed){
 	    camera.x-=event.movementX;
 	    camera.y-=event.movementY;
@@ -89,3 +92,4 @@ export class MapView extends graphics.ImgActor {
     onZoneHit(zone,mapView){}
     
 }
+
