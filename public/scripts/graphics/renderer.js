@@ -34,26 +34,34 @@ export class Renderer{
 	let widthUpper = document.body.clientWidth/16;
 	let heightUpper = document.body.clientHeight/9;
 
-	let multiplier = Math.min(widthUpper, heightUpper);
-
-	this.canvas.width = multiplier*16;
-	this.virtualCanvas.width = multiplier*16;
-	this.canvas.height = multiplier*9;
-	this.virtualCanvas.height = multiplier*9;
+	if(widthUpper<heightUpper){
+	    let multiplier = widthUpper;
+	    this.canvas.width = multiplier*16;
+	    this.virtualCanvas.width = multiplier*16;
+	    this.canvas.height = document.body.clientHeight;
+	    this.virtualCanvas.height = document.body.clientHeight;
+	    this.sizeMultiplier = this.canvas.width/1280;
+	} else {
+	    let multiplier = heightUpper;
+	    this.canvas.width = document.body.clientWidth;
+	    this.virtualCanvas.width = document.body.clientWidth;
+	    this.canvas.height = multiplier*9;
+	    this.virtualCanvas.height = multiplier*9;
+	    this.sizeMultiplier = this.canvas.height/720;
+	}
 
 	this.stages.forEach((stage) => {
 	    stage.width = this.canvas.width;
 	    stage.height = this.canvas.height;
 	});
 	
-
-	this.sizeMultiplier = this.canvas.width/1280; //Keeps track of the ratio between the current screen size and our target, 1280*720
-
+	
     };
 
     /** Draws every Stage, in z-order. */
-    draw(){
+    draw(){	
 	this.ctx.save();
+	this._clearScreen(this.ctx);
 
 	this.ctx.scale(this.sizeMultiplier, this.sizeMultiplier);
 
@@ -66,6 +74,14 @@ export class Renderer{
 	    that.ctx.restore();
 	});
 	this.ctx.restore();
+    }
+
+    _clearScreen(ctx){
+	ctx.beginPath();
+	ctx.rect(0,0,this.canvas.width,this.canvas.height);
+	ctx.fillStyle='grey';
+	ctx.fill();
+	ctx.closePath();
     }
 
     /** 
