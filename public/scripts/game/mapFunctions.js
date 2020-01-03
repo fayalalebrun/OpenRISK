@@ -13,7 +13,6 @@ import {players} from './game.js';
 export async function init(renderer){
     let stage = new graphics.Stage(renderer,2);
     renderer.addStage(stage);
-    stage.camera.x = 50;
     let scene = new graphics.Scene(stage, 0, 0, 0, 1280, 720, 0);
     stage.scenes.push(scene);
     let img = new Image();
