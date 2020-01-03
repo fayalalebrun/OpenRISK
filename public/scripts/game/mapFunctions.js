@@ -24,16 +24,21 @@ export async function init(renderer){
     zoneImg.src = '../res/test_map_zones.png';
     img.src = '../res/test_map.png';
     
+    let promises = [];
 
-    await (() => {
-	return new Promise ((resolve)=>{
+    promises.push(new Promise ((resolve)=>{
 	    renderer.draw();
 	    img.onload = (()=> resolve());
-	});
-    }
-	  );
+    }));
 
-    zoneImg.onload = (()=>{renderer.draw();});
+    promises.push(new Promise ((resolve)=>{
+	    renderer.draw();
+	    zoneImg.onload = (()=> resolve());
+    }));
+
+    await Promise.all(promises);
+
+    
 
     let mapData = await $.getJSON('./res/test_map.json');
 
