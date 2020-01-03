@@ -115,8 +115,9 @@ wss.on("connection", (ws) => {
 	    delete con.game.players[con.id];
 
 	    Object.keys(con.game.players).forEach((e)=>{
-		console.log(e);
-		connections[e].send(JSON.stringify({playerLeftGame:con.id}));
+		if(connections[e].readyState === websocket.OPEN){
+		    connections[e].send(JSON.stringify({playerLeftGame:con.id}));
+		}
 	    });
 
 	    if(con.game.host === con.id && Object.keys(con.game.players).length>0){
