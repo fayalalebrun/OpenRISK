@@ -45,63 +45,68 @@ wss.on("connection", (ws) => {
     connections[con.id] = con;
 
     
-    con.on("message", (message) => {
-	let oMsg = JSON.parse(message);
-	if (oMsg.setNickname){
-	    let msg = oMsg.setNickname;
-	    con.nick = msg;
-	    console.log('Player %s[%s] has connected',con.nick,con.id);
-	    con.send(JSON.stringify({conID:con.id}));
-	} else if (oMsg.createLobby){
-	    let msg = oMsg.createLobby;
-	    let game = games[++currGameID]={};
-	    game.id = currGameID;
-	    game.title = msg.title;
-	    game.players = {};
-	    game.players[con.id]=con.nick;
-	    game.maxCap = msg.maxCap;
-	    game.mapInfo = msg.mapInfo;
-	    game.host = con.id;
-	    game.started = false;
-	    con.game = game;
-	    con.send(JSON.stringify({gameID:currGameID}));
-	    console.log('Game created: %s', JSON.stringify(game));
-	} else if (oMsg.joinLobby) {
-	    let msg = oMsg.joinLobby;
-	    let game = games[msg.gameID];	    
-	    if(Object.keys(game.players).length<game.maxCap){
-
+	con.on("message", (message) => {
+	    let oMsg = JSON.parse(message);
+	    if (oMsg.setNickname){
+		let msg = oMsg.setNickname;
+		con.nick = msg;
+		console.log('Player %s[%s] has connected',con.nick,con.id);
+		con.send(JSON.stringify({conID:con.id}));
+	    } else if (oMsg.createLobby){
+		let msg = oMsg.createLobby;
+		let game = games[++currGameID]={};
+		game.id = currGameID;
+		game.title = msg.title;
+		game.players = {};
 		game.players[con.id]=con.nick;
+		game.maxCap = msg.maxCap;
+		game.mapInfo = msg.mapInfo;
+		game.host = con.id;
+		game.started = false;
 		con.game = game;
-		
-		Object.keys(game.players).forEach((e)=>{
-		    connections[e].send(JSON.stringify({playerJoinLobby:game.players[con.id]}));
-		});
-		
-		console.log('Player %s joined game %s',con.id,game.id);
-		if(Object.keys(game.players).length===Number(game.maxCap)){
-		    game.started = true;
-		    Object.keys(game.players).forEach((e)=>{
-			let out = {};
-			let lobbyReady = out.lobbyReadyToStart = {};
-			lobbyReady.seed = Date.now();
-			connections[e].send(JSON.stringify(out));
-		    });
-		    console.log('Game filled %s',game.id);
-		}
-	    } else {
-		console.log('Lobby full: Player %s[%s] tried to join game'+game.id,con.nick,con.id);
-		con.send(JSON.stringify({joinError:'Lobby full'}));
-	    }
-	} else if (oMsg.playerMessage) {
-	    let msg = oMsg.playerMessage;
-	    msg.playerID = con.id;
+		con.send(JSON.stringify({gameID:currGameID}));
+		console.log('Game created: %s', JSON.stringify(game));
+	    } else if (oMsg.joinLobby) {
+		let msg = oMsg.joinLobby;
+		let game = games[msg.gameID];	    
+		if(game&&Object.keys(game.players).length<game.maxCap&&!game.started){
 
-	    Object.keys(con.game.players).forEach((e)=>{
-		connections[e].send(JSON.stringify(oMsg));
-	    });
-	}
-    });
+		    game.players[con.id]=con.nick;
+		    con.game = game;
+		    
+		    Object.keys(game.players).forEach((e)=>{
+			connections[e].send(JSON.stringify({playerJoinLobby:game.players[con.id]}));
+		    });
+		    
+		    console.log('Player %s joined game %s',con.id,game.id);
+		    if(Object.keys(game.players).length===Number(game.maxCap)){
+			game.started = true;
+			Object.keys(game.players).forEach((e)=>{
+			    let out = {};
+			    let lobbyReady = out.lobbyReadyToStart = {};
+			    lobbyReady.seed = Date.now();
+			    connections[e].send(JSON.stringify(out));
+			});
+			console.log('Game filled %s',game.id);
+		    }
+		} else if(!game){
+		    console.log('Game does not exist: Player %s[%s] tried to join game',con.nick,con.id);
+		    con.close();
+		} else if (game.started){
+		    console.log('Game already started: Player %s[%s] tried to join game'+game.id,con.nick,con.id);
+		} else {
+		    console.log('Lobby full: Player %s[%s] tried to join game'+game.id,con.nick,con.id);
+		    con.send(JSON.stringify({joinError:'Lobby full'}));
+		}
+	    } else if (oMsg.playerMessage) {
+		let msg = oMsg.playerMessage;
+		msg.playerID = con.id;
+
+		Object.keys(con.game.players).forEach((e)=>{
+		    connections[e].send(JSON.stringify(oMsg));
+		});
+	    }
+	});
 
     con.on("close", (ws) =>{
 	console.log("Player %s[%s] disconnected", con.nick, con.id);

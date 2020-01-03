@@ -13,7 +13,8 @@ export class WebSocketPlayerEventSource extends PlayerEventSource {
 	    let msg = JSON.parse(event.data);
 	    if(msg.playerMessage){
 		callback(msg.playerMessage);
-	    } else if (msg.playerLeftGame) {
+	    } else if (msg.playerLeftGame!=undefined) {
+		console.log('Player left game, closing socket');
 		socket.close();
 	    } else {
 		console.log('Received non-supported message: ');
