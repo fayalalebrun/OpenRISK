@@ -18,6 +18,9 @@ import * as stageHandling from "./stage_handling/stage_handling.js";
 
 
 export async function main(seed, playerEventSource, gameInfo){
+    stageHandling.WaitReady.select();
+    
+    console.log('Seed: '+seed);
     globalRand = new Math.seedrandom(seed);    
     players = await decidePlayerOrder(gameInfo);
     gamePlayerEventSource = playerEventSource;
@@ -49,7 +52,7 @@ export async function main(seed, playerEventSource, gameInfo){
 
     mapView.onZoneHit = onPlayerInput;
 
-    stageHandling.TakeOne.select();
+    stageHandling.WaitReady.ready();
 }
 
 export function setStageHandler(stageHandler){
