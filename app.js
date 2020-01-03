@@ -23,7 +23,7 @@ app.get('/lobby', (req, res) => {
 });
 
 app.get('/games', (req, res) => {
-    res.send(JSON.stringify(games));
+    res.send(JSON.stringify(games.filter(g=>!g.started)));
 });
 
 app.get('/games/:id', (req, res) => {
@@ -62,6 +62,7 @@ wss.on("connection", (ws) => {
 	    game.maxCap = msg.maxCap;
 	    game.mapInfo = msg.mapInfo;
 	    game.host = con.id;
+	    game.started = false;
 	    con.game = game;
 	    con.send(JSON.stringify({gameID:currGameID}));
 	    console.log('Game created: %s', JSON.stringify(game));
@@ -79,6 +80,7 @@ wss.on("connection", (ws) => {
 		
 		console.log('Player %s joined game %s',con.id,game.id);
 		if(Object.keys(game.players).length===Number(game.maxCap)){
+		    game.started = true;
 		    Object.keys(game.players).forEach((e)=>{
 			let out = {};
 			let lobbyReady = out.lobbyReadyToStart = {};
