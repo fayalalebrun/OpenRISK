@@ -48,7 +48,7 @@ export class Attack extends StageHandler {
 						   unitAmount:amount}});
 	    Attack._clearAttackZones();
 	    
-	} else if (zone===Attack.attackFrom){	    
+	} else if (zone===Attack.attackFrom||currPlayer.ownedNodes.every(e=>e.troopNumber<=1)){	    
 	    playerEventSource.sendMessage({attackEnd:true});
 	    Attack._clearAttackZones();
 	} else if(zone.node.owner===currPlayer&&zone.node.troopNumber>1){
@@ -101,10 +101,13 @@ export class Attack extends StageHandler {
 
 	console.log('After '+from.troopNumber+' '+to.troopNumber);
 
-	if(to.troopNumber==0){
+	if(to.troopNumber==0){	    
+	    to.owner.ownedNodes.splice(to.owner.ownedNodes.indexOf(to),1);
 	    to.owner = from.owner;
+	    from.owner.ownedNodes.push(to);
 	    to.troopNumber = unitAmount;
 	    from.troopNumber-=unitAmount;
+
 	}
     }
 

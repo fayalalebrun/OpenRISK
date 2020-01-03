@@ -51,7 +51,7 @@ export class Fortify extends StageHandler {
 						    unitAmount:amount}});
 	    
 	    Fortify._clearReachableZones();
-	} else if (zone == Fortify.fortifyFrom){
+	} else if (zone == Fortify.fortifyFrom||currPlayer.ownedNodes.every(e=>e.troopNumber<=1)){
 	    Fortify._clearReachableZones();
 	    playerEventSource.sendMessage({fortify:{}});
 	} else if (zone.node.owner===currPlayer&&zone.node.troopNumber>1){
