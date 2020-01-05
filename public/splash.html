@@ -2,8 +2,7 @@
 <html>
   <head>
     <title>OpenRISK</title>
-    <!-- TO DO: CSS
-      <link rel='stylesheet' href='stylesheets/splash.css'>-->
+    <link rel="stylesheet" href="stylesheets/splash.css">
   </head>
 
   <body class='splash'>
@@ -11,13 +10,13 @@
     <main id='main'>
 
 
-      <input id='nickname' type="text"> Nickname
+      <input id='nickname' type="text" required> Nickname
 </input>
 
 	<button id='joinGame'> Join game</button>
       <section id='createGame'>
         <!-- Play button of the Risk game-->
-	  <input id='gameTitle' type="text" placeholder="Game Title"></input>
+	  <input id='gameTitle' type="text" placeholder="Game Title" required></input>
 	  <input id='maxPlayers' type="number" placeholder="Max players"></input>
           <button id='createGameButton'>Create game</button>
       </section>
@@ -27,6 +26,11 @@
         <button id='showStatistics'>Show Statistics</button>
       </section>
 
+
+      <section>
+        <!-- A button that will enter the user in fullscreen mode-->
+        <button id='fullscreenMode'>Fullscreen Mode</button>
+      </section>
       <!--
     <script
       src="https://code.jquery.com/jquery-2.2.4.min.js"

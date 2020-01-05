@@ -1,0 +1,6 @@
+@import 'style.css';
+
+nickname:required, gameTitle:required{
+    border-color: orangered !important;
+}
+
