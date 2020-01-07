@@ -9,4 +9,7 @@ html, body {
 
 dialog {
     position: absolute;
+    float: none;
+    top: 5%;
 }
+
