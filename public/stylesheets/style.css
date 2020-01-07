@@ -16,4 +16,20 @@ input{
 button:hover{
     background-color: orange;
 }
-  
+
+button{
+    position: relative;
+    margin: auto;
+}
+
+section{
+    background-image: url("brickbox.jpg");
+    border-bottom: 50px solid transparent;
+    border-left: 2px solid darkblue;
+    border-right: 2px solid grey;
+    border-top: 2px solid darkblue;
+    border-radius: px;
+    position: relative;
+    margin: auto;
+    top: 25px;
+}

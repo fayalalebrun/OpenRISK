@@ -1,1 +1,9 @@
 @import 'style.css';
+
+.games{
+    background-image: url("brickbox.jpg");
+    width: 325px;
+    height: 200px;
+  
+    
+}

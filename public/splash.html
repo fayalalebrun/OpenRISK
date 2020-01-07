@@ -10,14 +10,14 @@
     <main id='main'>
 
 
-      <input id='nickname' type="text" required> Nickname
+      <input id='nickname' type="text" placeholder='Nickname' required>
 </input>
 
 	<button id='joinGame'> Join game</button>
       <section id='createGame'>
         <!-- Play button of the Risk game-->
 	  <input id='gameTitle' type="text" placeholder="Game Title" required></input>
-	  <input id='maxPlayers' type="number" placeholder="Max players"></input>
+	  <input id='maxPlayers' type="number" placeholder="Max players" min="2" max="5"></input>
           <button id='createGameButton'>Create game</button>
       </section>
       

@@ -1,6 +1,9 @@
 @import 'style.css';
 
-nickname:required, gameTitle:required{
+:required{
     border-color: orangered !important;
 }
 
+input{
+    width: 100px;
+}
