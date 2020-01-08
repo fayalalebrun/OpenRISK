@@ -30,7 +30,28 @@ export async function main(seed, playerEventSource, gameInfo){
     $('body').append($('<canvas>').attr('id','mainCanvas').attr('width',640).attr('height',480));
     $('.uiOverlay').show();
 
-    renderer = new graphics.Renderer('mainCanvas');
+
+        let zoneImg = new Image();
+    let img = new Image();
+    zoneImg.src = '../res/test_map_zones.png';
+    img.src = '../res/test_map.png';
+    
+    let promises = [];
+
+    promises.push(new Promise ((resolve)=>{
+	img.onload = (()=> {	   	    
+	    resolve();
+	});
+    }));
+
+    promises.push(new Promise ((resolve)=>{
+	    zoneImg.onload = (()=> resolve());
+    }));
+
+    await Promise.all(promises);
+    
+    
+    renderer = new graphics.Renderer('mainCanvas',img.width, img.height);
 
     let mapStage = new graphics.Stage(renderer,-100);
     renderer.addStage(mapStage);
@@ -59,7 +80,9 @@ export async function main(seed, playerEventSource, gameInfo){
 	renderer.eventHitTest(e);
     });
 
-    mapView = await mapFunctions.init(renderer);
+
+
+    mapView = await mapFunctions.init(renderer,img,zoneImg);
     
     requestAnimationFrame(()=>renderer.draw());
 
