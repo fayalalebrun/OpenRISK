@@ -73,8 +73,8 @@ export class MapView extends graphics.ImgActor {
 	    }
 	    this.mouseDistanceTravelled=0;
 	} else if (event.type==='mousemove'&&this.mousePressed){
-	    camera.x-=event.movementX;
-	    camera.y-=event.movementY;
+	    camera.x-=event.movementX*(1/game.renderer.sizeMultiplier);
+	    camera.y-=event.movementY*(1/game.renderer.sizeMultiplier);
 	    this.mouseDistanceTravelled+=Math.sqrt(event.movementX*event.movementX+event.movementY*event.movementY);
 	    requestAnimationFrame(()=>game.renderer.draw());
 	} else if(event.type==='wheel'){

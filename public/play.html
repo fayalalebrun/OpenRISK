@@ -2,37 +2,25 @@
 <html>
   <head>
     <title>OpenRISK</title>
-    <style>
-      html, body {
-	  width: 100%;
-	  height: 100%;
-	  margin: 0px;
-	  border: 0;
-	  overflow: hidden; /*  Disable scrollbars */
-	  display: block;  /* No floating content on sides */
-      }
-    </style>
+    <link rel="stylesheet" href="stylesheets/play.css">
   </head>
   <body>
-    <h1>Waiting for other players...</h1> 
-    <section class="playerNames">
-    </section>
-    <!--
+    <div class="waitingForGame">
+      <h1>Waiting for other players...</h1> 
+      <section class="playerNames">
+      </section>
+    </div>
     <script
       src="https://code.jquery.com/jquery-2.2.4.min.js"
       integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
       crossorigin="anonymous"></script>
-    -->
-    <script
-      src="jquery.js"></script>
-    <!--
     <script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js">
     </script>
-    -->
-    <script
-      src="seedrandom.js"></script>
     <script
       type="module"
       src="scripts/play.js"></script>
+    <div class="uiOverlay">
+      <img class="menuButton" src="https://img.icons8.com/android/24/000000/menu.png">
+    </div>
   </body>
 </html>
