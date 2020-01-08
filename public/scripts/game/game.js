@@ -26,8 +26,9 @@ export async function main(seed, playerEventSource, gameInfo){
     players = await decidePlayerOrder(gameInfo);
     gamePlayerEventSource = playerEventSource;
 
-    $('body').empty();
+    $('.waitingForGame').remove();
     $('body').append($('<canvas>').attr('id','mainCanvas').attr('width',640).attr('height',480));
+    $('.uiOverlay').show();
 
     renderer = new graphics.Renderer('mainCanvas');
 
@@ -66,7 +67,6 @@ export async function main(seed, playerEventSource, gameInfo){
     currPlayer = players[0];
 
     mapView.onZoneHit = onPlayerInput;
-
 
     cardDeck = Card.createDeck(mapFunctions.map.nodes, globalRand);
 
