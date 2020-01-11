@@ -131,19 +131,21 @@ export class Attack extends StageHandler {
 	console.log('Attacker');
 	console.log(attackerRolls);
 	
-
+	let attackUnitsLost = {attacker:0,defender:0};
 	for(let i = 0; i < Math.min(attackerRollAmount, defenderRollAmount); i++){	    
 	    if(attackerRolls[i]>defenderRolls[i]){
 		to.troopNumber--;
+		attackUnitsLost.defender++;
 	    } else {
 		unitAmount--;
 		from.troopNumber--;
+		attackUnitsLost.attacker++;
 	    }
 	}
 
 	console.log('After '+from.troopNumber+' '+to.troopNumber);
 
-	Attack._updateResultsDisplay(to, from, attackerRolls, defenderRolls);
+	Attack._updateResultsDisplay(to, from, attackerRolls, defenderRolls, attackUnitsLost);
 
 	if(to.troopNumber==0){
 	    to.owner.ownedNodes.splice(to.owner.ownedNodes.indexOf(to),1);
@@ -157,7 +159,7 @@ export class Attack extends StageHandler {
 
     }
 
-    static _updateResultsDisplay(to, from, attackerRolls, defenderRolls) {
+    static _updateResultsDisplay(to, from, attackerRolls, defenderRolls, attackUnitsLost) {
 	$('.attackerLabel').text(from.owner.nick).css('color',from.owner.color);
 	$('.defenderLabel').text(to.owner.nick).css('color',to.owner.color);
 	$('.originDestination .toLabel').text(to.name);
@@ -183,6 +185,19 @@ export class Attack extends StageHandler {
 
 	for(let i = lowestAmountOfDice; i<2;i++){
 	    $('.defenderDice img:nth-child('+(i+1)+')').hide();
+	}
+
+	$('.lossDisplay div object').css('color','blue');
+	
+	$('.lossDisplay div svg:nth-child(1)').hide();
+	$('.lossDisplay div svg:nth-child(2)').hide();
+	
+	if(attackUnitsLost.attacker>0){
+	    $('.lossDisplay div svg:nth-child(1)').show().css('fill',from.owner.color);
+	}
+
+	if(attackUnitsLost.defender>0){
+	    $('.lossDisplay div svg:nth-child(2)').show().css('fill',to.owner.color);
 	}
 
 	
