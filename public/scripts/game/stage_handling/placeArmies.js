@@ -27,6 +27,8 @@ export class PlaceArmies extends StageHandler {
 		if(player.isLocal){
 		    PlaceArmies._updateSlider();
 		}
+
+		
 		
 		if(player.unitPool===0){
 		    console.log('PlaceArmies stage complete');
@@ -62,6 +64,8 @@ export class PlaceArmies extends StageHandler {
 	    this._updateSlider();
 	    $('.troopNumPanel').fadeIn();
 	}
+
+	PlaceArmies._printStatus();
     }
 
     static _updateSlider(){
@@ -123,4 +127,17 @@ export class PlaceArmies extends StageHandler {
 
 	player.unitPool+=territorialBonus+continentalBonus+cardBonus;
     }
+
+        static _printStatus(){
+	let player = game.currPlayer;
+	let string = player.nick;
+	
+	if(game.currPlayer.isLocal){
+	    string+="(You)";
+	}
+	string+=': Placing armies.';
+	game.setGameStatus(string,player.color);
+    }
+
+
 }

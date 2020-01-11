@@ -19,6 +19,7 @@ export class WaitReady extends StageHandler{
     static select(){
 	game.setStageHandler(this);
 	WaitReady.readyClients = 0;
+	game.setGameStatus('Waiting for other players');
     }
 
     static ready(){

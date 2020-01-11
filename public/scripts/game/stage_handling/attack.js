@@ -173,6 +173,17 @@ export class Attack extends StageHandler {
 	game.setStageHandler(Attack);
 
 	Attack.attackZones = [];
+	Attack._printStatus();
+    }
+
+    static _printStatus(){
+	let player = game.currPlayer;
+	let string = player.nick;
 	
+	if(game.currPlayer.isLocal){
+	    string+="(You)";
+	}
+	string+=': Attack territories.';
+	game.setGameStatus(string,player.color);
     }
 }

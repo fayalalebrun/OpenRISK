@@ -127,5 +127,17 @@ export class Fortify extends StageHandler {
 	game.setStageHandler(this);
 
 	Fortify.reachableZones = [];
+	Fortify._printStatus();
+    }
+
+    static _printStatus(){
+	let player = game.currPlayer;
+	let string = player.nick;
+	
+	if(game.currPlayer.isLocal){
+	    string+="(You)";
+	}
+	string+=': Fortifying.';
+	game.setGameStatus(string,player.color);
     }
 }

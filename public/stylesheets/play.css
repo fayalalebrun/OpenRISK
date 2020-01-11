@@ -129,3 +129,20 @@ dialog {
   cursor: pointer; /* Cursor on hover */
 }
 
+
+/* status bar */
+
+.statusBar {
+    position:absolute;
+    float:right;
+    top: 0;
+    right:0;
+    background-color: black;
+}
+
+.statusBar label {
+    color: red;
+    margin: 2vw;
+    -webkit-text-stroke: thin #d9d9d9;
+    font-size:x-large;
+}

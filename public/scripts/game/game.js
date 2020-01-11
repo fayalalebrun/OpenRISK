@@ -154,6 +154,11 @@ export function nextPlayer(){
     currPlayer = players[index];
 }
 
+export function setGameStatus(status, color='red'){
+    $(".statusBar label").text(status);
+    $(".statusBar label").css('color',color);
+}
+
 export var globalRand;
 export var renderer;
 export var players;
