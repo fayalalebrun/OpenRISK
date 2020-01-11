@@ -37,6 +37,46 @@ dialog {
     outline: #0000FFA0 solid 2px;
 }
 
+/* Menu */
+.menuPanelWrapper{
+    position:absolute;
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+    height:100%;
+}
+
+.menuPanel{
+    margin-right:auto;
+    margin-left:auto;
+    background-image:url('/res/menu_popup.svg');
+    background-size:cover;
+    background-repeat:no-repeat;
+    width:24vw;
+    height:40vw;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+}
+
+.menuPanel label {
+    background-image:url('/res/button_clear.svg');
+    background-size:cover;
+    background-repeat:no-repeat;
+    text-align:center;
+    display:block;
+    width:15vw;
+    margin:1vw;
+    transition: transform 0.2s;
+}
+
+.menuPanel label:hover{
+    transform: translateY(-0.1vw);
+}
+
 /* Troop number panel*/
 
 .troopNumPanel{

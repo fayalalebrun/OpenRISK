@@ -85,13 +85,15 @@ export async function main(seed, playerEventSource, gameInfo){
     mapView = await mapFunctions.init(renderer,img,zoneImg);
     
     requestAnimationFrame(()=>renderer.draw());
-
+    
 
     currPlayer = players[0];
 
     mapView.onZoneHit = onPlayerInput;
 
     cardDeck = Card.createDeck(mapFunctions.map.nodes, globalRand);
+
+    setupMenu();
 
     stageHandling.WaitReady.ready();
 
@@ -129,6 +131,20 @@ async function decidePlayerOrder(gameInfo){
 	let isLocal = e.id == window.sessionStorage.getItem('conID');
 	return new Player(e.id, gameInfo.players[e.id], isLocal, colorGenerator.next().value,
 			  unitAmount[playerMap.length]);
+    });
+}
+
+function setupMenu(){
+    $('.menuButton').click(()=>{
+	$('.menuPanelWrapper').css('display','flex').hide().fadeIn();
+    });
+
+    $('#menuBackButton').click(()=>{
+	$('.menuPanelWrapper').fadeOut();
+    });
+
+    $('#menuFullscreenButton').click(()=>{
+	document.documentElement.requestFullscreen();
     });
 }
 
