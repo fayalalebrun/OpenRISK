@@ -20,9 +20,13 @@ export class Attack extends StageHandler {
 	    let from = game.mapView.zoneMap[msg.from].node;
 
 	    Attack._calcAttack(to,from,msg.unitAmount);
+
+	    $('.attackResPanel').css('display','flex').hide().fadeIn();
 	    
 	} else if (event.attackEnd){
 	    console.log('Attack stage ended');
+
+	    $('.attackResPanel').fadeOut();
 
 	    if(game.currPlayer.tookTerritory&&game.cardDeck.length>0){
 		let card = game.cardDeck.pop();
@@ -83,8 +87,7 @@ export class Attack extends StageHandler {
 	    Attack.attackZones.forEach(z=>{
 		z.activateColor(0);
 	    });
-
-	    $('.troopNumPanel').fadeIn();
+	    $('.attackResPanel').fadeOut(()=>{$('.troopNumPanel').fadeIn();});
 	    Attack._updateSlider(zone);
 	}
     }
@@ -140,7 +143,9 @@ export class Attack extends StageHandler {
 
 	console.log('After '+from.troopNumber+' '+to.troopNumber);
 
-	if(to.troopNumber==0){	    
+	Attack._updateResultsDisplay(to, from, attackerRolls, defenderRolls);
+
+	if(to.troopNumber==0){
 	    to.owner.ownedNodes.splice(to.owner.ownedNodes.indexOf(to),1);
 	    to.owner = from.owner;
 	    from.owner.ownedNodes.push(to);
@@ -148,6 +153,40 @@ export class Attack extends StageHandler {
 	    from.troopNumber-=unitAmount;
 	    from.owner.tookTerritory=true;
 	}
+
+
+    }
+
+    static _updateResultsDisplay(to, from, attackerRolls, defenderRolls) {
+	$('.attackerLabel').text(from.owner.nick).css('color',from.owner.color);
+	$('.defenderLabel').text(to.owner.nick).css('color',to.owner.color);
+	$('.originDestination .toLabel').text(to.name);
+	$('.originDestination .fromLabel').text(from.name);
+
+	let lowestAmountOfDice = Math.min(attackerRolls.length, defenderRolls.length);
+
+	console.log(lowestAmountOfDice);
+	
+	for(let i = 0; i<lowestAmountOfDice; i++){
+	    $('.attackerDice img:nth-child('+(i+1)+')').attr('src','res/dice'+attackerRolls[i]+'.svg');
+	    $('.attackerDice img:nth-child('+(i+1)+')').show();
+	}
+	
+	for(let i = lowestAmountOfDice; i<3;i++){
+	    $('.attackerDice img:nth-child('+(i+1)+')').hide();
+	}
+
+	for(let i = 0; i<lowestAmountOfDice; i++){
+	    $('.defenderDice img:nth-child('+(i+1)+')').attr('src','res/dice'+defenderRolls[i]+'.svg');
+	    $('.defenderDice img:nth-child('+(i+1)+')').show();	    
+	}
+
+	for(let i = lowestAmountOfDice; i<2;i++){
+	    $('.defenderDice img:nth-child('+(i+1)+')').hide();
+	}
+
+	
+	$('.lossDisplay > img').click(()=>{$('.attackResPanel').fadeOut();});
     }
 
     static _genRolls(amount){

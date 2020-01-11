@@ -146,3 +146,98 @@ dialog {
     -webkit-text-stroke: thin #d9d9d9;
     font-size:x-large;
 }
+
+
+/* Attack result panel */
+
+.attackResPanel {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width:55vw;
+    height:23vw;
+    display: none;
+    background-image:url('/res/attack_result_bg.svg');
+    background-size:cover;
+    background-repeat:no-repeat;
+
+    align-items: center;
+}
+
+.attackResPanel > div:first-child {
+    margin-left: 4.8vw;
+}
+
+.attackResPanel > div {
+    margin-top: 5vw;
+}
+
+
+.attackerLabel, .defenderLabel{
+    color: red;
+    margin-right:1vw;
+    margin-bottom: 1vw;
+    display: block;
+    width:12vw;
+
+}
+
+.attackerDice img, .defenderDice img{
+    height: 3vw;
+}
+
+.attackResPanel .diceResults{
+    display:flex;
+}
+
+.originDestination label{
+    color:red;
+    display:block;
+    margin-bottom:2vw;
+    margin-top:1vw;
+}
+
+.originDestination img{
+    height:2vw;
+    margin-bottom:0;
+}
+
+.lossDisplay{
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    right:0;
+    width:40%;
+    height:100%;
+}
+
+.lossDisplay label{
+    display:flex;
+    color: red;
+    font-size: x-large;
+}
+
+.lossDisplay div {
+    display:flex;
+    margin-top:3vw;
+}
+
+.lossDisplay div img {
+    height:6vw;
+}
+
+.lossDisplay > img {
+    position:absolute;
+    right:0;
+    bottom:19vw;
+    align-items: center;
+
+    height: 4vw;
+    margin-top:4vw;
+    transition: transform 0.2s;
+}
+
+.lossDisplay > img:hover{
+    transform: translateY(-0.1vw);
+}
