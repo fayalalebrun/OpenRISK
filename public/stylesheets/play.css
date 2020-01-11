@@ -1,3 +1,5 @@
+@import "style.css";
+
 html, body {
     width: 100%;
     height: 100%;
@@ -5,12 +7,17 @@ html, body {
     border: 0;
     overflow: hidden; /*  Disable scrollbars */
     display: block;  /* No floating content on sides */
+    font-family: rexlia;
 }
 
 dialog {
     position: absolute;
     float: none;
     top: 5%;
+}
+
+#mainCanvas {
+    z-index:-10000;
 }
 
 .menuButton {
@@ -22,9 +29,106 @@ dialog {
 
 .uiOverlay {
     display: none;
+
 }
 
 .menuButton:hover {
     background-color: #0000FFA0;
     outline: #0000FFA0 solid 2px;
 }
+
+/* Troop number panel*/
+
+.troopNumPanel{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:53vw;
+    height:9vw;
+
+}
+
+.troopsBG {
+    position: absolute;
+    margin:0;
+    border:0;
+    height:10vw;
+    bottom:0;
+    right:0;
+}
+
+
+.troopNumPanel .troopNumButton {
+    float: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1vw;
+    margin-right: 4vw;
+}
+
+.troopNumPanel .troopNumLabel{
+    position: absolute;
+    float: right;
+    right: 0.1vw;
+    font-size: x-large;
+    margin: 1vw;
+    color: red;
+
+}
+
+.troopNumPanel .troopNumButton img{
+    height: 3vw;
+    margin-left: auto;
+    margin-right: auto;
+    z-index:100;
+    transition: transform 0.2s;
+}
+
+.troopNumPanel .troopNumButton img:hover{
+    transform: translateY(-0.1vw);
+}
+
+.troopnum_slidecontainer {
+    width: 50vw; /* Width of the outside container */
+    margin: 1vw;
+}
+
+/* The slider itself */
+.troopnum_slidecontainer .slider {
+  -webkit-appearance: none;  /* Override default CSS styles */
+  appearance: none;
+  width: 100%; /* Full-width */
+  height: 1vw; /* Specified height */
+  background: #f7f7f7; /* Grey background */
+  outline: none; /* Remove outline */
+  opacity: 0.9; /* Set transparency (for mouse-over effects on hover) */
+  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+  transition: background-color 200ms linear;
+}
+
+.troopnum_slidecontainer .slider:hover {
+    background-color:#d9d9d9;
+}
+
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.troopnum_slidecontainer .slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 1.5vw; /* Set a specific slider handle width */
+  height: 1.5vw; /* Slider handle height */
+  background: red; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+.troopnum_slidecontainer .slider::-moz-range-thumb {
+  width: 1.5vw; /* Set a specific slider handle width */
+  height: 1.5vw; /* Slider handle height */
+  background: red; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+

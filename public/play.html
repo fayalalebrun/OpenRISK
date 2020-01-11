@@ -21,6 +21,26 @@
       src="scripts/play.js"></script>
     <div class="uiOverlay">
       <img class="menuButton" src="https://img.icons8.com/android/24/000000/menu.png">
+      <div class="troopNumPanel">
+	<img class="troopsBG" src="res/place_troops_bg.svg">  
+	<div class="troopCheckBox">
+	  <div class="upperBox">
+	    <div class="troopNumButton">
+	      <img src="res/place_troops_one.svg">
+	    </div>
+	    <div class="troopNumButton">
+	      <img src="res/place_troops_all.svg">
+	    </div>
+	    <label class="troopNumLabel">
+	      0
+	    </label>
+	  </div>
+	  <div class="troopnum_slidecontainer">
+	    <input type="range" min="1" max="100" value="0" class="slider" id="troopsPlaceRange">
+	  </div>
+
+	</div>
+      </div>
     </div>
   </body>
 </html>

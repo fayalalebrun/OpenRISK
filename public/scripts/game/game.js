@@ -94,6 +94,8 @@ export async function main(seed, playerEventSource, gameInfo){
     cardDeck = Card.createDeck(mapFunctions.map.nodes, globalRand);
 
     stageHandling.WaitReady.ready();
+
+    $('.uiOverlay').fadeIn();
 }
 
 export function setStageHandler(stageHandler){
