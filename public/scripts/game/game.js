@@ -28,7 +28,7 @@ export async function main(seed, playerEventSource, gameInfo){
 
     $('.waitingForGame').remove();
     $('body').append($('<canvas>').attr('id','mainCanvas').attr('width',640).attr('height',480));
-    $('.uiOverlay').show();
+
 
 
         let zoneImg = new Image();

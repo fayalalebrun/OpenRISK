@@ -42,18 +42,21 @@ export class Fortify extends StageHandler {
 	
 	if(!zone){
 	    Fortify._clearReachableZones();
+	    $('.troopNumPanel').fadeOut();
 	} else if (Fortify.reachableZones.some(e=>e===zone)){
  	    let from = Fortify.fortifyFrom;
 	    let amount = Math.min(from.node.troopNumber-1,
-				  Number(window.prompt('Number of units(0-'+(from.node.troopNumber-1)+')')));
+				  Math.round($('#troopsPlaceRange').val()));
 	    playerEventSource.sendMessage({fortify:{from:from.node.colorID,
 						    to:zone.node.colorID,
 						    unitAmount:amount}});
 	    
 	    Fortify._clearReachableZones();
+	    $('.troopNumPanel').fadeOut();
 	} else if (zone == Fortify.fortifyFrom||currPlayer.ownedNodes.every(e=>e.troopNumber<=1)){
 	    Fortify._clearReachableZones();
 	    playerEventSource.sendMessage({fortify:{}});
+	    $('.troopNumPanel').fadeOut();
 	} else if (zone.node.owner===currPlayer&&zone.node.troopNumber>1){
 	    Fortify._clearReachableZones();
 	    Fortify.fortifyFrom = zone;
@@ -69,8 +72,32 @@ export class Fortify extends StageHandler {
 	    Fortify.fortifyFrom.activateColor(2);
 
 	    Fortify.reachableZones.forEach((e)=>e.activateColor(1));
+
+	    $('.troopNumPanel').fadeIn();
+	    Fortify._updateSlider(zone);
 	}
 	
+    }
+
+    static _updateSlider(zone){
+	if(Math.round($('#troopsPlaceRange').val())>zone.node.troopNumber-1){
+	    document.getElementById("troopsPlaceRange").value = zone.node.troopNumber-1;
+	    $('#troopNumLabel').text(Math.round($('#troopsPlaceRange').val()));
+	}
+
+	document.getElementById("troopsPlaceRange").max = zone.node.troopNumber-1;
+	$('#troopsPlaceRange').on('input',()=>{
+	    $('#troopNumLabel').text(Math.round($('#troopsPlaceRange').val()));
+	});
+	$('#troopOne').click(()=>{
+	    $('#troopNumLabel').text(1);
+	    document.getElementById("troopsPlaceRange").value = 1;
+	});
+
+	$('#troopAll').click(()=>{
+	    $('#troopNumLabel').text(zone.node.troopNumber-1);
+	    document.getElementById("troopsPlaceRange").value = zone.node.troopNumber-1;
+	});
     }
 
     static _getReachableNodes(nodeIndex, visitedNodeMap){

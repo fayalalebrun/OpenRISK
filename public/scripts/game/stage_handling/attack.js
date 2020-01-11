@@ -46,10 +46,11 @@ export class Attack extends StageHandler {
 	
 	if(!zone){
 	    Attack._clearAttackZones();
+	    $('.troopNumPanel').fadeOut();
 	} else if(Attack.attackZones.some(e=>e===zone)){
 	    let from = Attack.attackFrom;
 	    let amount = Math.min(from.node.troopNumber-1,
-				  Number(window.prompt('Number of units(0-'+(from.node.troopNumber-1)+')')));
+				  Math.round($('#troopsPlaceRange').val()));
 	    if(amount<1){
 		return;
 	    }
@@ -58,10 +59,13 @@ export class Attack extends StageHandler {
 						   to:zone.node.colorID,
 						   unitAmount:amount}});
 	    Attack._clearAttackZones();
+
+	    $('.troopNumPanel').fadeOut();
 	    
 	} else if (zone===Attack.attackFrom||currPlayer.ownedNodes.every(e=>e.troopNumber<=1)){	    
 	    playerEventSource.sendMessage({attackEnd:true});
 	    Attack._clearAttackZones();
+	    $('.troopNumPanel').fadeOut();
 	} else if(zone.node.owner===currPlayer&&zone.node.troopNumber>1){
 	    Attack._clearAttackZones();
 	    Attack.attackFrom = zone;
@@ -79,7 +83,31 @@ export class Attack extends StageHandler {
 	    Attack.attackZones.forEach(z=>{
 		z.activateColor(0);
 	    });
+
+	    $('.troopNumPanel').fadeIn();
+	    Attack._updateSlider(zone);
 	}
+    }
+
+    static _updateSlider(zone){
+	if(Math.round($('#troopsPlaceRange').val())>zone.node.troopNumber-1){
+	    document.getElementById("troopsPlaceRange").value = zone.node.troopNumber-1;
+	    $('#troopNumLabel').text(Math.round($('#troopsPlaceRange').val()));
+	}
+
+	document.getElementById("troopsPlaceRange").max = zone.node.troopNumber-1;
+	$('#troopsPlaceRange').on('input',()=>{
+	    $('#troopNumLabel').text(Math.round($('#troopsPlaceRange').val()));
+	});
+	$('#troopOne').click(()=>{
+	    $('#troopNumLabel').text(1);
+	    document.getElementById("troopsPlaceRange").value = 1;
+	});
+
+	$('#troopAll').click(()=>{
+	    $('#troopNumLabel').text(zone.node.troopNumber-1);
+	    document.getElementById("troopsPlaceRange").value = zone.node.troopNumber-1;
+	});
     }
 
 
