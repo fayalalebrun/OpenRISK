@@ -32,6 +32,22 @@ export class Fortify extends StageHandler {
 	    }
 	    
 	    console.log('Fortify stage done');
+
+	    if (map.nodes.every(n=>n.owner==game.currPlayer)){		
+		console.log(game.currPlayer.nick+" has won the game");
+
+		if(game.currPlayer.isLocal){
+		    $('.winScreen > div').html('You have won the game!<br/>'+
+						'All of your opponents now stand eliminated. '+
+						'You are the sole controller of the world.');
+		} else {
+		    $('.winScreen > div').html(game.currPlayer.nick + ' has won the game<br/>'+
+						'All other factions are no more.');
+		}
+		$('.winScreenWrapper').css('display','flex').hide().fadeIn();
+		
+	    }
+	    
 	    game.nextPlayer();
 	    PlaceArmies.select();
 	} else {
