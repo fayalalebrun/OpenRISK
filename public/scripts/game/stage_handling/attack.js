@@ -21,6 +21,9 @@ export class Attack extends StageHandler {
 
 	    Attack._calcAttack(to,from,msg.unitAmount);
 
+	    setTimeout(function() {
+		new Audio("../../res/dice.ogg").play();
+	    }, 10);
 	    $('.attackResPanel').css('display','flex').hide().fadeIn();
 	    
 	} else if (event.attackEnd){

@@ -22,11 +22,15 @@ export class Fortify extends StageHandler {
 		    from.troopNumber-=msg.unitAmount;
 		    to.troopNumber+=msg.unitAmount;
 		    console.log('movement done');
+		    setTimeout(function() {
+			new Audio("../../res/march.ogg").play();
+		    }, 10);
+		    
 		}
 		
 		
 	    }
-
+	    
 	    console.log('Fortify stage done');
 	    game.nextPlayer();
 	    PlaceArmies.select();
