@@ -1,0 +1,9 @@
+@import 'style.css';
+
+:required{
+    border-color: orangered !important;
+}
+
+input{
+    width: 100px;
+}
