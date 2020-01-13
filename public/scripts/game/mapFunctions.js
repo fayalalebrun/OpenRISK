@@ -10,33 +10,13 @@ import {MapView} from './mapView.js';
 import {Map} from './map/map.js';
 import {players} from './game.js';
 
-export async function init(renderer){
+export async function init(renderer, img, zoneImg){
     let stage = new graphics.Stage(renderer,2);
     renderer.addStage(stage);
     let scene = new graphics.Scene(stage, 0, 0, 0, 1280, 720, 0);
     stage.scenes.push(scene);
-    let img = new Image();
-    let zoneImg = new Image();
 
     let actor = {};
-
-    zoneImg.src = '../res/test_map_zones.png';
-    img.src = '../res/test_map.png';
-    
-    let promises = [];
-
-    promises.push(new Promise ((resolve)=>{
-	    requestAnimationFrame(()=>renderer.draw());
-	    img.onload = (()=> resolve());
-    }));
-
-    promises.push(new Promise ((resolve)=>{
-	    requestAnimationFrame(()=>renderer.draw());
-	    zoneImg.onload = (()=> resolve());
-    }));
-
-    await Promise.all(promises);
-
     
 
     let mapData = await $.getJSON('./res/test_map.json');

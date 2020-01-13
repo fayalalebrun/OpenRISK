@@ -1,3 +1,5 @@
+@import "style.css";
+
 html, body {
     width: 100%;
     height: 100%;
@@ -5,12 +7,17 @@ html, body {
     border: 0;
     overflow: hidden; /*  Disable scrollbars */
     display: block;  /* No floating content on sides */
+    font-family: rexlia;
 }
 
 dialog {
     position: absolute;
     float: none;
     top: 5%;
+}
+
+#mainCanvas {
+    z-index:-10000;
 }
 
 .menuButton {
@@ -21,10 +28,309 @@ dialog {
 }
 
 .uiOverlay {
-    display: none;
+    display: block;
+
 }
 
 .menuButton:hover {
     background-color: #0000FFA0;
     outline: #0000FFA0 solid 2px;
+}
+
+/* Menu */
+.menuPanelWrapper{
+    position:absolute;
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+    height:100%;
+}
+
+.menuPanel{
+    margin-right:auto;
+    margin-left:auto;
+    background-image:url('/res/menu_popup.svg');
+    background-size:cover;
+    background-repeat:no-repeat;
+    width:24vw;
+    height:40vw;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+}
+
+.menuPanel label {
+    background-image:url('/res/button_clear.svg');
+    background-size:cover;
+    background-repeat:no-repeat;
+    text-align:center;
+    display:block;
+    width:15vw;
+    margin:1vw;
+    transition: transform 0.2s;
+}
+
+.menuPanel label:hover{
+    transform: translateY(-0.1vw);
+}
+
+/* Troop number panel*/
+
+.troopNumPanel{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: none;
+    width:53vw;
+    height:9vw;    
+}
+
+.troopsBG {
+    position: absolute;
+    margin:0;
+    border:0;
+    height:10vw;
+    bottom:0;
+    right:0;
+}
+
+
+.troopNumPanel .troopNumButton {
+    float: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1vw;
+    margin-right: 4vw;
+}
+
+.troopNumPanel .troopNumLabel{
+    position: absolute;
+    float: right;
+    right: 0.1vw;
+    font-size: x-large;
+    margin: 1vw;
+    color: red;
+
+}
+
+.troopNumPanel .troopNumButton img{
+    height: 3vw;
+    margin-left: auto;
+    margin-right: auto;
+    z-index:100;
+    transition: transform 0.2s;
+}
+
+.troopNumPanel .troopNumButton img:hover{
+    transform: translateY(-0.1vw);
+}
+
+.troopnum_slidecontainer {
+    width: 50vw; /* Width of the outside container */
+    margin: 1vw;
+}
+
+/* The slider itself */
+.troopnum_slidecontainer .slider {
+  -webkit-appearance: none;  /* Override default CSS styles */
+  appearance: none;
+  width: 100%; /* Full-width */
+  height: 1vw; /* Specified height */
+  background: #f7f7f7; /* Grey background */
+  outline: none; /* Remove outline */
+  opacity: 0.9; /* Set transparency (for mouse-over effects on hover) */
+  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+  transition: background-color 200ms linear;
+}
+
+.troopnum_slidecontainer .slider:hover {
+    background-color:#d9d9d9;
+}
+
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.troopnum_slidecontainer .slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 1.5vw; /* Set a specific slider handle width */
+  height: 1.5vw; /* Slider handle height */
+  background: red; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+.troopnum_slidecontainer .slider::-moz-range-thumb {
+  width: 1.5vw; /* Set a specific slider handle width */
+  height: 1.5vw; /* Slider handle height */
+  background: red; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+
+/* status bar */
+
+.statusBar {
+    position:absolute;
+    float:right;
+    top: 0;
+    right:0;
+    background-color: black;
+}
+
+.statusBar label {
+    color: red;
+    margin: 2vw;
+    -webkit-text-stroke: thin #d9d9d9;
+    font-size:x-large;
+}
+
+/* Win screen */
+
+.winScreenWrapper{
+    position:absolute;
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+    height:100%;
+}
+
+.winScreen {
+    margin-right:auto;
+    margin-left:auto;
+    background-image:url('/res/winScreen_bg.svg');
+    background-size:cover;
+    background-repeat:no-repeat;
+    width:57vw;
+    height:40vw;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    text-align:left;
+}
+
+.winScreen > div {
+    height:50%;
+    width:80%;
+    text-align:left;
+}
+
+.winScreen > div::first-line {
+    font-size: x-large;
+    line-height:10vw;
+    color:red;
+}
+
+/* Attack result panel */
+
+.attackResPanel {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width:55vw;
+    height:23vw;
+    display: none;
+    background-image:url('/res/attack_result_bg.svg');
+    background-size:cover;
+    background-repeat:no-repeat;
+
+    align-items: center;
+}
+
+.attackResPanel > div:first-child {
+    margin-left: 4.8vw;
+}
+
+.attackResPanel > div {
+    margin-top: 5vw;
+}
+
+
+.attackerLabel, .defenderLabel{
+    color: red;
+    margin-right:1vw;
+    margin-bottom: 1vw;
+    display: block;
+    width:12vw;
+
+}
+
+.attackerDice img, .defenderDice img{
+    height: 3vw;
+}
+
+.attackResPanel .diceResults{
+    display:flex;
+}
+
+.originDestination{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    width:40%;
+	
+}
+
+.originDestination label{
+    color:red;
+    display:block;
+    margin-bottom:2vw;
+    margin-top:1vw;
+    width:10vw;
+    text-align:center;
+}
+
+.originDestination img{
+    height:2vw;
+    margin-bottom:0;
+}
+
+.lossDisplay{
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    right:0;
+    width:40%;
+    height:100%;
+}
+
+.lossDisplay label{
+    display:flex;
+    color: red;
+    font-size: x-large;
+}
+
+.lossDisplay div {
+    display:flex;
+    margin-top:3vw;
+}
+
+.lossDisplay div svg {
+    height:6vw;
+    fill:red;
+    margin-left:0.2vw;
+    margin-right:0.2vw;
+}
+
+
+.lossDisplay > img {
+    position:absolute;
+    right:0;
+    bottom:19vw;
+    align-items: center;
+
+    height: 4vw;
+    margin-top:4vw;
+    transition: transform 0.2s;
+}
+
+.lossDisplay > img:hover{
+    transform: translateY(-0.1vw);
 }

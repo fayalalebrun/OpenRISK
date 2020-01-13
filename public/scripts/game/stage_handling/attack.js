@@ -20,9 +20,16 @@ export class Attack extends StageHandler {
 	    let from = game.mapView.zoneMap[msg.from].node;
 
 	    Attack._calcAttack(to,from,msg.unitAmount);
+
+	    setTimeout(function() {
+		new Audio("../../res/dice.ogg").play();
+	    }, 10);
+	    $('.attackResPanel').css('display','flex').hide().fadeIn();
 	    
 	} else if (event.attackEnd){
 	    console.log('Attack stage ended');
+
+	    $('.attackResPanel').fadeOut();
 
 	    if(game.currPlayer.tookTerritory&&game.cardDeck.length>0){
 		let card = game.cardDeck.pop();
@@ -46,10 +53,11 @@ export class Attack extends StageHandler {
 	
 	if(!zone){
 	    Attack._clearAttackZones();
+	    $('.troopNumPanel').fadeOut();
 	} else if(Attack.attackZones.some(e=>e===zone)){
 	    let from = Attack.attackFrom;
 	    let amount = Math.min(from.node.troopNumber-1,
-				  Number(window.prompt('Number of units(0-'+(from.node.troopNumber-1)+')')));
+				  Math.round($('#troopsPlaceRange').val()));
 	    if(amount<1){
 		return;
 	    }
@@ -58,10 +66,13 @@ export class Attack extends StageHandler {
 						   to:zone.node.colorID,
 						   unitAmount:amount}});
 	    Attack._clearAttackZones();
+
+	    $('.troopNumPanel').fadeOut();
 	    
 	} else if (zone===Attack.attackFrom||currPlayer.ownedNodes.every(e=>e.troopNumber<=1)){	    
 	    playerEventSource.sendMessage({attackEnd:true});
 	    Attack._clearAttackZones();
+	    $('.troopNumPanel').fadeOut();
 	} else if(zone.node.owner===currPlayer&&zone.node.troopNumber>1){
 	    Attack._clearAttackZones();
 	    Attack.attackFrom = zone;
@@ -79,7 +90,30 @@ export class Attack extends StageHandler {
 	    Attack.attackZones.forEach(z=>{
 		z.activateColor(0);
 	    });
+	    $('.attackResPanel').fadeOut(()=>{$('.troopNumPanel').fadeIn();});
+	    Attack._updateSlider(zone);
 	}
+    }
+
+    static _updateSlider(zone){
+	if(Math.round($('#troopsPlaceRange').val())>zone.node.troopNumber-1){
+	    document.getElementById("troopsPlaceRange").value = zone.node.troopNumber-1;
+	    $('#troopNumLabel').text(Math.round($('#troopsPlaceRange').val()));
+	}
+
+	document.getElementById("troopsPlaceRange").max = zone.node.troopNumber-1;
+	$('#troopsPlaceRange').on('input',()=>{
+	    $('#troopNumLabel').text(Math.round($('#troopsPlaceRange').val()));
+	});
+	$('#troopOne').click(()=>{
+	    $('#troopNumLabel').text(1);
+	    document.getElementById("troopsPlaceRange").value = 1;
+	});
+
+	$('#troopAll').click(()=>{
+	    $('#troopNumLabel').text(zone.node.troopNumber-1);
+	    document.getElementById("troopsPlaceRange").value = zone.node.troopNumber-1;
+	});
     }
 
 
@@ -100,19 +134,23 @@ export class Attack extends StageHandler {
 	console.log('Attacker');
 	console.log(attackerRolls);
 	
-
+	let attackUnitsLost = {attacker:0,defender:0};
 	for(let i = 0; i < Math.min(attackerRollAmount, defenderRollAmount); i++){	    
 	    if(attackerRolls[i]>defenderRolls[i]){
 		to.troopNumber--;
+		attackUnitsLost.defender++;
 	    } else {
 		unitAmount--;
 		from.troopNumber--;
+		attackUnitsLost.attacker++;
 	    }
 	}
 
 	console.log('After '+from.troopNumber+' '+to.troopNumber);
 
-	if(to.troopNumber==0){	    
+	Attack._updateResultsDisplay(to, from, attackerRolls, defenderRolls, attackUnitsLost);
+
+	if(to.troopNumber==0){
 	    to.owner.ownedNodes.splice(to.owner.ownedNodes.indexOf(to),1);
 	    to.owner = from.owner;
 	    from.owner.ownedNodes.push(to);
@@ -120,6 +158,53 @@ export class Attack extends StageHandler {
 	    from.troopNumber-=unitAmount;
 	    from.owner.tookTerritory=true;
 	}
+
+
+    }
+
+    static _updateResultsDisplay(to, from, attackerRolls, defenderRolls, attackUnitsLost) {
+	$('.attackerLabel').text(from.owner.nick).css('color',from.owner.color);
+	$('.defenderLabel').text(to.owner.nick).css('color',to.owner.color);
+	$('.originDestination .toLabel').text(to.name);
+	$('.originDestination .fromLabel').text(from.name);
+
+	let lowestAmountOfDice = Math.min(attackerRolls.length, defenderRolls.length);
+
+	console.log(lowestAmountOfDice);
+	
+	for(let i = 0; i<lowestAmountOfDice; i++){
+	    $('.attackerDice img:nth-child('+(i+1)+')').attr('src','res/dice'+attackerRolls[i]+'.svg');
+	    $('.attackerDice img:nth-child('+(i+1)+')').show();
+	}
+	
+	for(let i = lowestAmountOfDice; i<3;i++){
+	    $('.attackerDice img:nth-child('+(i+1)+')').hide();
+	}
+
+	for(let i = 0; i<lowestAmountOfDice; i++){
+	    $('.defenderDice img:nth-child('+(i+1)+')').attr('src','res/dice'+defenderRolls[i]+'.svg');
+	    $('.defenderDice img:nth-child('+(i+1)+')').show();	    
+	}
+
+	for(let i = lowestAmountOfDice; i<2;i++){
+	    $('.defenderDice img:nth-child('+(i+1)+')').hide();
+	}
+
+	$('.lossDisplay div object').css('color','blue');
+	
+	$('.lossDisplay div svg:nth-child(1)').hide();
+	$('.lossDisplay div svg:nth-child(2)').hide();
+	
+	if(attackUnitsLost.attacker>0){
+	    $('.lossDisplay div svg:nth-child(1)').show().css('fill',from.owner.color);
+	}
+
+	if(attackUnitsLost.defender>0){
+	    $('.lossDisplay div svg:nth-child(2)').show().css('fill',to.owner.color);
+	}
+
+	
+	$('.lossDisplay > img').click(()=>{$('.attackResPanel').fadeOut();});
     }
 
     static _genRolls(amount){
@@ -145,6 +230,17 @@ export class Attack extends StageHandler {
 	game.setStageHandler(Attack);
 
 	Attack.attackZones = [];
+	Attack._printStatus();
+    }
+
+    static _printStatus(){
+	let player = game.currPlayer;
+	let string = player.nick;
 	
+	if(game.currPlayer.isLocal){
+	    string+="(You)";
+	}
+	string+=': Attack territories.';
+	game.setGameStatus(string,player.color);
     }
 }

@@ -21,6 +21,126 @@
       src="scripts/play.js"></script>
     <div class="uiOverlay">
       <img class="menuButton" src="https://img.icons8.com/android/24/000000/menu.png">
+
+      <div class="menuPanelWrapper">
+	<div class="menuPanel">
+	  <label id="menuFullscreenButton"> Fullscreen </label>
+	  <label id="menuBackButton"> Back to Game </label>
+	</div>
+      </div>
+      
+      <div class="troopNumPanel">
+	<img class="troopsBG" src="res/place_troops_bg.svg">  
+	<div class="troopCheckBox">
+	  <div class="upperBox">
+	    <div class="troopNumButton" id="troopOne">
+	      <img src="res/place_troops_one.svg">
+	    </div>
+	    <div class="troopNumButton" id="troopAll">
+	      <img src="res/place_troops_all.svg">
+	    </div>
+	    <label class="troopNumLabel" id="troopNumLabel">
+	      0
+	    </label>
+	  </div>
+	  <div class="troopnum_slidecontainer">
+	    <input type="range" min="0" step="0.1" max="100" value="0" class="slider" id="troopsPlaceRange">
+	  </div>
+
+	</div>
+      </div>
+
+      <div class="statusBar">
+	<label>
+	  No status.
+	</label>
+      </div>
+
+      <div class="winScreenWrapper">
+	<div class="winScreen">
+	  <div>
+	    Congratulations.<br/>
+
+	    You are winner.
+	  </div>
+	</div>
+      </div>
+
+      
+      <div class="attackResPanel">
+	
+	<div>
+	  <div class="diceResults">
+	    p
+	    <div>
+	      <div>
+		<label class="attackerLabel"> Attacker </label>
+	      </div>
+	      <div>
+		<label class="defenderLabel"> Defender </label>
+	      </div>
+	    </div>
+	    
+	    <div>
+	      <div class="attackerDice">
+		<img src="res/dice1.svg"/>
+		<img src="res/dice1.svg"/>
+		<img src="res/dice1.svg"/>
+
+	      </div>
+	      <div class="defenderDice">
+		<img src="res/dice1.svg"/>
+		<img src="res/dice1.svg"/>
+
+	      </div>
+	    </div>
+
+	    
+	  </div>
+
+	  <div class="originDestination">
+	    <label class="fromLabel">From</label>
+	    <img src="res/arrow_down.svg"/>
+	    <label class="toLabel">To</label>
+	  </div>
+
+	</div>
+
+	
+	<div class="lossDisplay">
+	  <label>Losses</label>
+
+	  <div>
+
+	    <svg viewBox="0 0 56.96507 88.746742" xmlns="http://www.w3.org/2000/svg">
+	      <g id="units1" transform="translate(-39.938463,-59.116509)">
+		<path
+		  transform="matrix(1,0,0,1.3930005,0,-31.325145)"
+		  d="m 68.420998,127.82284 -13.889661,-24.0576 -13.889661,-24.057598 27.779322,0 27.779321,-1e-6 -13.889661,24.057599 z"/>
+		<path
+		  d="m 67.88646,59.928509 4.514996,7.820203 4.514996,7.820203 -9.029993,-10e-7 -9.029992,0 4.514996,-7.820202 z" />
+	      </g>
+	    </svg>
+
+	    <svg viewBox="0 0 56.96507 88.746742" xmlns="http://www.w3.org/2000/svg">
+	      <g id="units1" transform="translate(-39.938463,-59.116509)">
+		<path
+		  transform="matrix(1,0,0,1.3930005,0,-31.325145)"
+		  d="m 68.420998,127.82284 -13.889661,-24.0576 -13.889661,-24.057598 27.779322,0 27.779321,-1e-6 -13.889661,24.057599 z"/>
+		<path
+		  d="m 67.88646,59.928509 4.514996,7.820203 4.514996,7.820203 -9.029993,-10e-7 -9.029992,0 4.514996,-7.820202 z" />
+	      </g>
+	    </svg>
+
+	    
+	  </div>
+	  <img src="res/exit_button.svg"/>
+	</div>
+	
+      </div>
+
+
+      
     </div>
   </body>
 </html>

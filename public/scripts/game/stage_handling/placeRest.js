@@ -24,6 +24,8 @@ export class PlaceRest extends StageHandler {
 
 		game.nextPlayer();
 
+		PlaceRest._printStatus();
+
 		if(game.players.every(e=>e.unitPool===0)){
 		    console.log('PlaceRest stage complete');
 		    PlaceArmies.select();
@@ -45,5 +47,18 @@ export class PlaceRest extends StageHandler {
 
     static select(){
 	game.setStageHandler(this);
+	PlaceRest._printStatus();
     }
+
+        static _printStatus(){
+	let player = game.currPlayer;
+	let string = player.nick;
+	
+	if(game.currPlayer.isLocal){
+	    string+="(You)";
+	}
+	string+=': Placing three armies.';
+	game.setGameStatus(string,player.color);
+    }
+
 }

@@ -24,9 +24,17 @@ export class PlaceArmies extends StageHandler {
 		player.unitPool-=unitsToPlace;
 		node.troopNumber+=unitsToPlace;
 
+		if(player.isLocal){
+		    PlaceArmies._updateSlider();
+		}
 
+		
+		
 		if(player.unitPool===0){
 		    console.log('PlaceArmies stage complete');
+		    if(player.isLocal){
+			$('.troopNumPanel').fadeOut();
+		    }
 		    Attack.select();
 		}
 	    } else {
@@ -43,7 +51,7 @@ export class PlaceArmies extends StageHandler {
 	}
 	if(currPlayer.isLocal&&zone.node.owner===currPlayer){
 	    let unitsToPlace = Math.min(currPlayer.unitPool,
-					    Number(window.prompt('Units (0-'+currPlayer.unitPool+')')));
+					    Math.round($('#troopsPlaceRange').val()));
 	    playerEventSource.sendMessage({placeArmies:{playerID:currPlayer.id, nodeID:zone.node.colorID, placeAmount:unitsToPlace}});
 	}
     }
@@ -51,6 +59,34 @@ export class PlaceArmies extends StageHandler {
     static select(){
 	game.setStageHandler(this);
 	this._calcAndAddArmies();
+
+	if(game.currPlayer.isLocal){
+	    this._updateSlider();
+	    $('.troopNumPanel').fadeIn();
+	}
+
+	PlaceArmies._printStatus();
+    }
+
+    static _updateSlider(){
+	if(Math.round($('#troopsPlaceRange').val())>game.currPlayer.unitPool){
+	    document.getElementById("troopsPlaceRange").value = game.currPlayer.unitPool;
+	    $('#troopNumLabel').text(Math.round($('#troopsPlaceRange').val()));
+	}
+
+	document.getElementById("troopsPlaceRange").max = game.currPlayer.unitPool;
+	$('#troopsPlaceRange').on('input',()=>{
+	    $('#troopNumLabel').text(Math.round($('#troopsPlaceRange').val()));
+	});
+	$('#troopOne').click(()=>{
+	    $('#troopNumLabel').text(1);
+	    document.getElementById("troopsPlaceRange").value = 1;
+	});
+
+	$('#troopAll').click(()=>{
+	    $('#troopNumLabel').text(game.currPlayer.unitPool);
+	    document.getElementById("troopsPlaceRange").value = game.currPlayer.unitPool;
+	});
     }
 
     static _calcAndAddArmies(){
@@ -91,4 +127,17 @@ export class PlaceArmies extends StageHandler {
 
 	player.unitPool+=territorialBonus+continentalBonus+cardBonus;
     }
+
+        static _printStatus(){
+	let player = game.currPlayer;
+	let string = player.nick;
+	
+	if(game.currPlayer.isLocal){
+	    string+="(You)";
+	}
+	string+=': Placing armies.';
+	game.setGameStatus(string,player.color);
+    }
+
+
 }

@@ -33,3 +33,7 @@ section{
     margin: auto;
     top: 25px;
 }
+@font-face {
+    font-family: rexlia;
+    src: url(/res/rexlia.ttf);
+}

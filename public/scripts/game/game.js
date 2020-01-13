@@ -28,9 +28,30 @@ export async function main(seed, playerEventSource, gameInfo){
 
     $('.waitingForGame').remove();
     $('body').append($('<canvas>').attr('id','mainCanvas').attr('width',640).attr('height',480));
-    $('.uiOverlay').show();
 
-    renderer = new graphics.Renderer('mainCanvas');
+
+
+        let zoneImg = new Image();
+    let img = new Image();
+    zoneImg.src = '../res/test_map_zones.png';
+    img.src = '../res/test_map.png';
+    
+    let promises = [];
+
+    promises.push(new Promise ((resolve)=>{
+	img.onload = (()=> {	   	    
+	    resolve();
+	});
+    }));
+
+    promises.push(new Promise ((resolve)=>{
+	    zoneImg.onload = (()=> resolve());
+    }));
+
+    await Promise.all(promises);
+    
+    
+    renderer = new graphics.Renderer('mainCanvas',img.width, img.height);
 
     let mapStage = new graphics.Stage(renderer,-100);
     renderer.addStage(mapStage);
@@ -59,10 +80,12 @@ export async function main(seed, playerEventSource, gameInfo){
 	renderer.eventHitTest(e);
     });
 
-    mapView = await mapFunctions.init(renderer);
+
+
+    mapView = await mapFunctions.init(renderer,img,zoneImg);
     
     requestAnimationFrame(()=>renderer.draw());
-
+    
 
     currPlayer = players[0];
 
@@ -70,7 +93,11 @@ export async function main(seed, playerEventSource, gameInfo){
 
     cardDeck = Card.createDeck(mapFunctions.map.nodes, globalRand);
 
+    setupMenu();
+
     stageHandling.WaitReady.ready();
+
+    $('.uiOverlay').fadeIn();
 }
 
 export function setStageHandler(stageHandler){
@@ -107,6 +134,20 @@ async function decidePlayerOrder(gameInfo){
     });
 }
 
+function setupMenu(){
+    $('.menuButton').click(()=>{
+	$('.menuPanelWrapper').css('display','flex').hide().fadeIn();
+    });
+
+    $('#menuBackButton').click(()=>{
+	$('.menuPanelWrapper').fadeOut();
+    });
+
+    $('#menuFullscreenButton').click(()=>{
+	document.documentElement.requestFullscreen();
+    });
+}
+
 function* getPlayerColor(colors) {
     for(let e of colors){
 	yield e;
@@ -127,6 +168,11 @@ export function nextPlayer(){
     let index = players.findIndex(e=>e.id===currPlayer.id);
     index = (index+1)%players.length;
     currPlayer = players[index];
+}
+
+export function setGameStatus(status, color='red'){
+    $(".statusBar label").text(status);
+    $(".statusBar label").css('color',color);
 }
 
 export var globalRand;

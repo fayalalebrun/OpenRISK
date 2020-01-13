@@ -20,6 +20,7 @@ export class TakeOne extends StageHandler{
 		node.owner = player;
 		node.troopNumber++;
 		game.nextPlayer();
+		TakeOne._printStatus();
 
 		if(map.nodes.every(e=>e.owner!=null)){
 		    console.log('TakeOne stage complete');
@@ -46,5 +47,17 @@ export class TakeOne extends StageHandler{
 
     static select(){
 	game.setStageHandler(this);
+	TakeOne._printStatus();
+    }
+
+    static _printStatus(){
+	let player = game.currPlayer;
+	let string = player.nick;
+	
+	if(game.currPlayer.isLocal){
+	    string+="(You)";
+	}
+	string+=': Taking one territory.';
+	game.setGameStatus(string,player.color);
     }
 }

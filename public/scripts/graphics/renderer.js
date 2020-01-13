@@ -15,7 +15,7 @@ export class Renderer{
      * Creates a Renderer.
      * @param {string} canvasName - The name of the canvas which the Renderer should preside over
      */
-    constructor(canvasName){
+    constructor(canvasName, viewportWidth, viewportHeight){
 	this.canvas = document.getElementById(canvasName);
 	this.ctx = this.canvas.getContext('2d');
 	this.stages = [];
@@ -23,7 +23,9 @@ export class Renderer{
 
 	this.virtualCanvas = document.createElement('canvas'); //Used for hit detection
 	this.virtualCtx = this.virtualCanvas.getContext('2d');
-
+	this.viewportWidth = viewportWidth;
+	this.viewportHeight = viewportHeight;
+	
 	this._resizeCanvas();
 	this.draw();
     }
@@ -40,14 +42,14 @@ export class Renderer{
 	    this.virtualCanvas.width = multiplier*16;
 	    this.canvas.height = document.body.clientHeight;
 	    this.virtualCanvas.height = document.body.clientHeight;
-	    this.sizeMultiplier = this.canvas.width/1280;
+	    this.sizeMultiplier = this.canvas.width/this.viewportWidth;
 	} else {
 	    let multiplier = heightUpper;
 	    this.canvas.width = document.body.clientWidth;
 	    this.virtualCanvas.width = document.body.clientWidth;
 	    this.canvas.height = multiplier*9;
 	    this.virtualCanvas.height = multiplier*9;
-	    this.sizeMultiplier = this.canvas.height/720;
+	    this.sizeMultiplier = this.canvas.height/this.viewportHeight;
 	}
 
 	this.stages.forEach((stage) => {
