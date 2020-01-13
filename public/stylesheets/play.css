@@ -23,8 +23,9 @@ dialog {
 .menuButton {
     position: absolute;
     float: left;
-    bottom: 5%;
-    margin: 1%;
+    top: 1vh;
+    margin: 1vw;
+    width: 5vw;
 }
 
 .uiOverlay {
