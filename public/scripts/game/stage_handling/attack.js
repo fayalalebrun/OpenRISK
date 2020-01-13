@@ -165,8 +165,8 @@ export class Attack extends StageHandler {
     static _updateResultsDisplay(to, from, attackerRolls, defenderRolls, attackUnitsLost) {
 	$('.attackerLabel').text(from.owner.nick).css('color',from.owner.color);
 	$('.defenderLabel').text(to.owner.nick).css('color',to.owner.color);
-	$('.originDestination .toLabel').text(to.name);
-	$('.originDestination .fromLabel').text(from.name);
+	$('.originDestination .toLabel').text(to.name).css('color',to.owner.color);
+	$('.originDestination .fromLabel').text(from.name).css('color',from.owner.color);
 
 	let lowestAmountOfDice = Math.min(attackerRolls.length, defenderRolls.length);
 
