@@ -28,7 +28,7 @@ dialog {
 }
 
 .uiOverlay {
-    display: block;
+    display: none;
 
 }
 

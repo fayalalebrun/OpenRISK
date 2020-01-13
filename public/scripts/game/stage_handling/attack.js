@@ -194,15 +194,21 @@ export class Attack extends StageHandler {
 	
 	$('.lossDisplay div svg:nth-child(1)').hide();
 	$('.lossDisplay div svg:nth-child(2)').hide();
-	
-	if(attackUnitsLost.attacker>0){
+
+	if(attackUnitsLost.attacker>1){
 	    $('.lossDisplay div svg:nth-child(1)').show().css('fill',from.owner.color);
-	}
-
-	if(attackUnitsLost.defender>0){
+	    $('.lossDisplay div svg:nth-child(2)').show().css('fill',from.owner.color);
+	} else if (attackUnitsLost.defender>1){
+	    $('.lossDisplay div svg:nth-child(1)').show().css('fill',to.owner.color);
 	    $('.lossDisplay div svg:nth-child(2)').show().css('fill',to.owner.color);
+	} else {
+	    if(attackUnitsLost.attacker>0){
+		$('.lossDisplay div svg:nth-child(1)').show().css('fill',from.owner.color);
+	    }
+	    if(attackUnitsLost.defender>0){
+		$('.lossDisplay div svg:nth-child(2)').show().css('fill',to.owner.color);
+	    }
 	}
-
 	
 	$('.lossDisplay > img').click(()=>{$('.attackResPanel').fadeOut();});
     }
