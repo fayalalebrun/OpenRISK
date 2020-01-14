@@ -41,11 +41,80 @@ export class MapView extends graphics.ImgActor {
 	tempCanvas.height = this.zoneImg.height;
 	tempContext.drawImage(this.zoneImg,0,0);
 	let imgDataArr = tempContext.getImageData(0, 0, this.zoneImg.width, this.zoneImg.height).data;
+	
+	let zoneData = {};
+
 	this.map.nodes.forEach((e)=>{
-	    let zone = new ColorZone(this.zoneContainer,0,0,0,0,1,e);
-	    zone.addDisplayColor(imgDataArr, 255, 0, 0, this.zoneImg);
-	    zone.addDisplayColor(imgDataArr, 0, 255, 0, this.zoneImg);	    
-	    zone.addDisplayColor(imgDataArr, 0, 0, 255, this.zoneImg);
+	    zoneData[e.colorID] = {};
+	    zoneData[e.colorID].minX = Number.MAX_SAFE_INTEGER;
+	    zoneData[e.colorID].maxX = Number.MIN_SAFE_INTEGER;
+	    zoneData[e.colorID].minY = Number.MAX_SAFE_INTEGER;
+	    zoneData[e.colorID].maxY = Number.MIN_SAFE_INTEGER;		
+	});
+
+
+	for(let i = 0; i < imgDataArr.length; i+=4){
+	    let data = zoneData[graphics.util.rgbToHex(imgDataArr[i],imgDataArr[i+1],imgDataArr[i+2])];
+	    if(data){
+		let p = i/4;
+		let x = p%this.zoneImg.width;
+		let y = Math.floor(p/this.zoneImg.width);
+
+		if(y>data.maxY){
+		    data.maxY = y;
+		}
+
+		if (y<data.minY){
+		    data.minY = y;
+		}
+
+		if(x>data.maxX){
+		    data.maxX = x;
+		}
+
+		if (x<data.minX) {
+		    data.minX = x;
+		}
+	    }
+	}
+
+	Object.keys(zoneData).forEach(k=>{
+	    let data = zoneData[k];
+	    data.newWidth = (data.maxX-data.minX)+1;
+	    data.newHeight = (data.maxY-data.minY)+1;
+	    data.newDataArr = new Uint8ClampedArray(data.newWidth*data.newHeight*4);
+	});
+
+	for(let i = 0; i < imgDataArr.length; i+=4){
+	    let p = i/4;
+	    let x = p%this.zoneImg.width;
+	    let y = Math.floor(p/this.zoneImg.width);
+
+	    let data = zoneData[graphics.util.rgbToHex(imgDataArr[i],imgDataArr[i+1],imgDataArr[i+2])];
+	    
+	    if(data&&x>=data.minX&&x<=data.maxX&&y>=data.minY&&y<=data.maxY){
+
+		let newX = x - data.minX;
+		let newY = y - data.minY;
+		let newP = newX+newY*data.newWidth;
+		let newI = newP*4;
+		
+		data.newDataArr[newI]=255;
+		data.newDataArr[newI+1]=0;
+		data.newDataArr[newI+2]=0;
+		data.newDataArr[newI+3]=128;
+	    }
+
+	}
+	
+	this.map.nodes.forEach((e)=>{
+	    let data = zoneData[e.colorID];
+	    let newImgData = new ImageData(data.newDataArr, data.newWidth);
+	    let image = graphics.util.imageDataToImage(newImgData);
+	    let zone = new ColorZone(this.zoneContainer,data.minX,data.minY,0,0,1, image, e);
+	    zone.addFilter("");
+	    zone.addFilter("hue-rotate(120deg)");
+	    zone.addFilter("hue-rotate(240deg)");	    
 	    this.zoneContainer.addChild(zone);
 	    this.zoneMap[e.colorID] = zone;
 	});
