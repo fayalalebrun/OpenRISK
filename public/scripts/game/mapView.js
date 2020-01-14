@@ -39,7 +39,14 @@ export class MapView extends graphics.ImgActor {
 	let tempContext = tempCanvas.getContext('2d');
 	tempCanvas.width = this.zoneImg.width;
 	tempCanvas.height = this.zoneImg.height;
+	
 	tempContext.drawImage(this.zoneImg,0,0);
+	tempContext.drawImage(this.zoneImg,0,0); // no idea why this works
+	tempContext.drawImage(this.zoneImg,0,0);
+	tempContext.drawImage(this.zoneImg,0,0);
+
+
+	
 	let imgDataArr = tempContext.getImageData(0, 0, this.zoneImg.width, this.zoneImg.height).data;
 	
 	let zoneData = {};
@@ -137,6 +144,7 @@ export class MapView extends graphics.ImgActor {
 		ctx.restore();
 
 		let color = graphics.util.rgbToHex(data[0],data[1],data[2]);
+		console.log(color);
 		let zone = this.zoneMap[color];
 		this.onZoneHit(zone,this);
 	    }

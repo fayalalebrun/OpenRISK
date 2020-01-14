@@ -33,8 +33,8 @@ export async function main(seed, playerEventSource, gameInfo){
 
         let zoneImg = new Image();
     let img = new Image();
-    zoneImg.src = '../res/test_map_zones.png';
-    img.src = '../res/test_map.png';
+    zoneImg.src = '../res/map_zones.svg';
+    img.src = '../res/map.svg';
     
     let promises = [];
 
@@ -110,7 +110,7 @@ async function decidePlayerOrder(gameInfo){
     let colorData = await $.getJSON('res/player_colors.json');
     const colorGenerator = getPlayerColor(colorData.colors);
 
-    let unitAmount = {2:4,3:35,4:30,5:25,6:20};
+    let unitAmount = {2:40,3:35,4:30,5:25,6:20};
 
     let playerMap = Object.keys(gameInfo.players).map((e)=>{
 	let isLocal = e == window.sessionStorage.getItem('conID');
@@ -145,7 +145,9 @@ function* getPlayerColor(colors) {
 
 export function onPlayerEvent(event){
     handleEvent(event);
-    requestAnimationFrame(()=>renderer.draw());
+    if(renderer){
+	requestAnimationFrame(()=>renderer.draw());
+    }
 }
 
 function onPlayerInput(zone, mapView){

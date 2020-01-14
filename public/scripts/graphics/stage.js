@@ -34,8 +34,8 @@ export class Stage{
 	 */
     constructor(renderer,z){
 	this.renderer = renderer;
-	this.width = 1280;
-	this.height = 720;
+	this.width = 1920;
+	this.height = 1080;
 	this.scenes = [];
 	this.camera = new Camera(0,0,1);
 	this.z = z;

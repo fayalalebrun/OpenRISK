@@ -13,13 +13,13 @@ import {players} from './game.js';
 export async function init(renderer, img, zoneImg){
     let stage = new graphics.Stage(renderer,2);
     renderer.addStage(stage);
-    let scene = new graphics.Scene(stage, 0, 0, 0, 1280, 720, 0);
+    let scene = new graphics.Scene(stage, 0, 0, 0, 1920, 1080, 0);
     stage.scenes.push(scene);
 
     let actor = {};
     
 
-    let mapData = await $.getJSON('./res/test_map.json');
+    let mapData = await $.getJSON('./res/map.json');
 
     map = new Map(mapData);
 

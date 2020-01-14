@@ -125,7 +125,7 @@ export class PlaceArmies extends StageHandler {
 	console.log('Units awarded to %s:', player.nick);
 	console.log('Territory: %i Zones: %i Cards: %i', territorialBonus, continentalBonus, cardBonus);
 
-	player.unitPool+=territorialBonus+continentalBonus+cardBonus;
+	player.unitPool+=Math.floor(territorialBonus)+continentalBonus+cardBonus;
     }
 
         static _printStatus(){
