@@ -24,6 +24,10 @@ export class TextActor extends Actor {
 	ctx.textAlign = this.textAlign;
 	ctx.textBaseline = this.textBaseline;
 	ctx.direction = this.direction;
+	ctx.strokeStyle = "#FF0000";
+	ctx.strokeStyle = 'black';
+	ctx.lineWidth = 8;
+	ctx.strokeText(this.text, 0, 0);
 	ctx.fillText(this.text, 0, 0);
     }
 };
