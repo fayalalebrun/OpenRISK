@@ -9,7 +9,7 @@
 export * from "./mapView.js";
 export * from "./player.js";
 export * from "./util.js";
-import {randomIntFromInterval} from "./util.js";
+import {randomIntFromInterval,shuffle} from "./util.js";
 import {Player} from "./player.js";
 import {Card} from "./card.js";
 import * as graphics from "../graphics/graphics.js";
@@ -106,32 +106,21 @@ export function setStageHandler(stageHandler){
 }
 
 async function decidePlayerOrder(gameInfo){
-    let playerMap = [];
-    Object.entries(gameInfo.players).forEach(([e,v])=>{
-	let roll = randomIntFromInterval(1,6,globalRand);	
-	playerMap.push({id:e,diceRoll:roll});
-    });
-
-    playerMap.sort((a,b)=>{
-	if(a.diceRoll>b.diceRoll){
-	    return -1;
-	} else {
-	    return 1;
-	}
-
-    });
 
     let colorData = await $.getJSON('res/player_colors.json');
     const colorGenerator = getPlayerColor(colorData.colors);
 
     let unitAmount = {2:4,3:35,4:30,5:25,6:20};
 
-    
-    return playerMap.map((e)=>{
-	let isLocal = e.id == window.sessionStorage.getItem('conID');
-	return new Player(e.id, gameInfo.players[e.id], isLocal, colorGenerator.next().value,
-			  unitAmount[playerMap.length]);
+    let playerMap = Object.keys(gameInfo.players).map((e)=>{
+	let isLocal = e == window.sessionStorage.getItem('conID');
+	return new Player(e, gameInfo.players[e], isLocal, colorGenerator.next().value,
+			  unitAmount[Object.keys(gameInfo.players).length]);
     });
+    shuffle(playerMap,globalRand);
+    
+    return playerMap;
+
 }
 
 function setupMenu(){

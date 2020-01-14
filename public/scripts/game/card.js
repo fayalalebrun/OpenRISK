@@ -1,3 +1,5 @@
+import * as util from "./util.js";
+
 export class Card{    
     constructor(node, type){
 	this.node = node;
@@ -7,15 +9,8 @@ export class Card{
     static createDeck(nodes, rand){	
 	let typeGen = Card._giveTypes();
 	let deck = nodes.map(n=>new Card(n,typeGen.next().value));
-	Card._shuffle(deck, rand);
+	util.shuffle(deck, rand);
 	return deck;
-    }
-
-    static _shuffle(array, rand) {
-	for (let i = array.length - 1; i > 0; i--) {
-	    let j = Math.floor(rand() * (i + 1));
-	    [array[i], array[j]] = [array[j], array[i]];
-	}
     }
 
     static* _giveTypes(){
