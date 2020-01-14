@@ -48,6 +48,8 @@ export async function main(seed, playerEventSource, gameInfo){
 	    zoneImg.onload = (()=> resolve());
     }));
 
+    await generateUnitSprites();
+    
     await Promise.all(promises);
     
     
@@ -123,6 +125,33 @@ async function decidePlayerOrder(gameInfo){
 
 }
 
+async function generateUnitSprites(){
+    spriteMap = {};
+    players.forEach((p)=>{
+	spriteMap[p.color]={};
+    });
+    await generateSingleUnitSprite('units1',spriteMap);
+    await generateSingleUnitSprite('units3',spriteMap);
+    await generateSingleUnitSprite('units5',spriteMap);
+    console.log(spriteMap);
+}
+
+async function generateSingleUnitSprite(svgName, spriteMap){
+    let data = (new XMLSerializer()).serializeToString(await $.get('res/'+svgName+'.svg'));
+    console.log();
+    let promises = [];
+    players.forEach((p)=>{
+	var img = new Image();
+
+	let coloredSvgXml = data.split('#ff88ba').join(p.color);
+
+	img.src = "data:image/svg+xml;base64,"+btoa(coloredSvgXml);
+	img.onerror = ((e)=>{console.log(e)});
+	spriteMap[p.color][svgName]=img;
+    });
+
+}
+
 function setupMenu(){
     $('.menuButton').click(()=>{
 	$('.menuPanelWrapper').css('display','flex').hide().fadeIn();
@@ -175,3 +204,4 @@ export function handleInput(){};
 export var gamePlayerEventSource;
 export var mapView;
 export var cardDeck;
+export var spriteMap;
