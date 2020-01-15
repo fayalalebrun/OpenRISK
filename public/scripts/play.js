@@ -34,6 +34,7 @@ socket.onmessage = (async (event)=>{
     } else if (msg.gameID){
 	window.sessionStorage.setItem('joinGameID', msg.gameID);
 	addNames(window.sessionStorage.getItem('joinGameID'));
+	$('.gameLink').text(window.location.host+'/play/'+msg.gameID);
     } else if (msg.playerJoinLobby||msg.playerLeftGame!=undefined) {
 	addNames(window.sessionStorage.getItem('joinGameID'));
     } else if (msg.joinError){
@@ -53,6 +54,6 @@ async function addNames(id){
     let gameData = await $.getJSON('games/'+id);
     $('.playerNames').empty();
     Object.values(gameData.players).forEach((name)=>{
-	$('.playerNames').append($('<p>').text(name));
+	$('.playerNames').append($('<label>').text(name));
     });
 }

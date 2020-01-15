@@ -28,6 +28,34 @@ dialog {
     outline: #0000FFA0 solid 2px;
 }
 
+/* Menu*/
+
+.waitingForGame {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+}
+
+.waitingForGame label, .shareLink{
+    color:red;
+    display:block;
+    text-align:center;
+}
+
+.waitingForGame label{
+    font-size:1.2vw;
+}
+
+.shareLink{
+    color:white;
+    margin-bottom:2vw;
+}
+
+.gameLink{
+    color:#d070fd;
+}
+
 /* Menu */
 .menuPanelWrapper{
     position:absolute;

@@ -1,6 +1,6 @@
 function main(){
     let nick = window.localStorage.getItem('nick');
-    if(nick===undefined){
+    if(!nick){
 	nick = "Guest";
     }
     window.localStorage.setItem('nick',nick);

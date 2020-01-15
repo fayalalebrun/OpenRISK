@@ -22,8 +22,12 @@ app.get('/', (req, res) => {
     res.render('splash.ejs',{gamesInitialized:gamesStarted,playersJoined:currConnectionID, timesVisited:req.cookies.timesVisited});
 });
 
-app.get('/play', (req, res) => {
+app.get('/play/', (req, res) => {
     res.sendFile(__dirname + "/public/" + 'play.html');
+});
+
+app.get('/play/:id', (req, res) => {
+    res.sendFile(__dirname + "/public/" + 'playJoin.html');
 });
 
 app.get('/lobby', (req, res) => {
