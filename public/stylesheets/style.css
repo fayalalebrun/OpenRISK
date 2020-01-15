@@ -12,6 +12,7 @@ html, body {
     overflow: hidden; /*  Disable scrollbars */
     display: block;  /* No floating content on sides */
     font-family: rexlia;
+    background-color: black;
 }
 
 .labelButton {

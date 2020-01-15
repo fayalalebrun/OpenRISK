@@ -1,7 +1,7 @@
 @import 'style.css';
 
 
-body{
+main, body{
     background-color: black;
     display:flex;
     flex-direction:column;
@@ -10,16 +10,15 @@ body{
 }
 
 body input{
-    background-image:url('/res/button_clear_purple.svg');
-    background-size:cover;
-    background-repeat:no-repeat;
+    background-color:white;
     text-align:center;
     display:block;
 
-    margin:1vw;
+    
     transition: transform 0.2s;
-    color:black;
+    color:black !important;
     border:0;
+    font-size:1.8vw;
 }
 
 
@@ -27,25 +26,35 @@ body input{
     width:3vw;
 }
 
-label,input,.stats{
+label,.stats{
     color:white !important;
-    -webkit-text-stroke-width:0.1vw;
-    -webkit-text-stroke-color:red;
     font-size:2vw;
 }
+
+.stats {
+    font-size:1vw;
+}
+
 
 .nicknameArea {
     display:flex;
     align-items:center;
     justify-content:center;
+    margin-bottom:4vw;
 
-
-    margin: 5vw;
 }
 
+.nicknameArea label{
+    margin-right:1vw;
+}
+
+.nicknameArea input {
+    background-color:#FFFFFFB0;
+}
 
 .logo img {
     width:60vw;
+    margin-bottom:8vw;
 }
 
 input {
@@ -54,14 +63,13 @@ input {
 }
 
 .joinOrNot {
-    margin-top:10vw;
     display:flex;
     align-items:center;
     justify-content:center;
 }
 
 .joinOrNot .labelButton{
-    margin-right: 10vw;
+    
 }
 
 .joinOrNot div{
@@ -87,3 +95,40 @@ input {
     margin: 1vw;
 }
 
+.nicknameArea  label{
+    color:#d070fd !important;
+}
+
+footer {
+    position:absolute;
+    float: left;
+    bottom:2vh;
+
+}
+
+.joinArea .labelButton {
+    background-image:url('/res/button_clear_blue.svg');
+    font-size:3vw;
+    width:30vw;
+    height:6vw;
+    margin-bottom: 2vw;
+}
+
+.joinArea span {
+    position: relative;
+    top: 1vw;
+
+}
+
+.joinArea {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+}
+
+.createGame > .labelButton {
+    font-size: 2.5vw;
+    width: 70vw;
+    height: 7vw;
+}
