@@ -1,6 +1,7 @@
 const express = require("express");
 const http = require("http");
 const websocket = require("ws");
+var cookies = require("cookie-parser");
 
 const port = process.argv[2];
 const app = express();
@@ -9,9 +10,16 @@ let games = [];
 
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
+app.use(cookies());
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + "/public/" + 'splash.html');
+    if(!req.cookies||!req.cookies.timesVisited){
+	res.cookie('timesVisited',1);
+    } else {
+	res.cookie('timesVisited',Number(req.cookies.timesVisited)+1);
+    }    
+    
+    res.render('splash.ejs',{gamesInitialized:currGameID,playersJoined:currConnectionID, timesVisited:req.cookies.timesVisited});
 });
 
 app.get('/play', (req, res) => {

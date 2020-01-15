@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>OpenRISK</title>
+    <link rel="stylesheet" href="stylesheets/splash.css">
+  </head>
+
+  <body>
+    
+    <div class="logo">
+      <img src="res/logo.svg">
+	   </div>
+
+
+    <div class="joinOrNot">
+      <div>
+	<label class='labelButton' id='joinGame'> Join game</label>
+      </div>
+      <section class='createGame' id='createGame'>
+	<div>
+	  <label>Game title</label>
+	  <input id='gameTitle' type="text" placeholder="Game Title" required>
+	</div>
+	<div>
+	  <label>#</label>
+	  <input class='maxPlayers' id='maxPlayers' type="number" value="2" min="2" max="5">
+	</div>
+	<label class='labelButton' id='createGameButton'>Create game</label>
+      </section>
+    </div>
+
+    <div class="nicknameArea">
+      <label> Nickname: </label>
+      <input id='nickname' type="text" placeholder='Nickname'>
+    </div>
+
+    <div class="stats">
+      <%= gamesInitialized %> 
+                    <%if (gamesInitialized != 1) { %>
+                        games
+                    <% } else { %>
+                        game
+                    <% } %>
+                    initialized, 
+                    <%= playersJoined %>
+		    <%if (playersJoined != 1) { %>
+                        players have
+                    <% } else { %>
+                        player has
+                    <% } %>
+                    connected. You've visited this page <%= timesVisited %>
+		    <%if (timesVisited != 1) { %>
+                        times.
+                    <% } else { %>
+                        time.
+                    <% } %>		    
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-2.2.4.min.js"
+      integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+      crossorigin="anonymous"></script>
+    <script
+      src="scripts/splash.js"></script>
+
+  </body>
+</html>

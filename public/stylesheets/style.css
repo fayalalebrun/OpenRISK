@@ -1,39 +1,31 @@
-body {
-    background-color: white;
-    background-image: url("bg.jpg");
-    background-repeat: no-repeat;
-    padding: 75px;
-    width: 175px;
-    border: 5px grey;
-    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-    
-}
 
-input{
-    height:10px;
-  }
-
-button:hover{
-    background-color: orange;
-}
-
-button{
-    position: relative;
-    margin: auto;
-}
-
-section{
-    background-image: url("brickbox.jpg");
-    border-bottom: 50px solid transparent;
-    border-left: 2px solid darkblue;
-    border-right: 2px solid grey;
-    border-top: 2px solid darkblue;
-    border-radius: px;
-    position: relative;
-    margin: auto;
-    top: 25px;
-}
 @font-face {
     font-family: rexlia;
     src: url(/res/rexlia.ttf);
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border: 0;
+    overflow: hidden; /*  Disable scrollbars */
+    display: block;  /* No floating content on sides */
+    font-family: rexlia;
+}
+
+.labelButton {
+    background-image:url('/res/button_clear.svg');
+    background-size:cover;
+    background-repeat:no-repeat;
+    text-align:center;
+    display:block;
+    width:15vw;
+    margin:1vw;
+    transition: transform 0.2s;
+    color:black;
+}
+
+.labelButton:hover{
+    transform: translateY(-0.1vw);
 }
