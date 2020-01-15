@@ -6,7 +6,7 @@ var cookies = require("cookie-parser");
 const port = process.argv[2];
 const app = express();
 
-let games = [];
+let games = {};
 
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 	res.cookie('timesVisited',Number(req.cookies.timesVisited)+1);
     }    
     
-    res.render('splash.ejs',{gamesInitialized:currGameID,playersJoined:currConnectionID, timesVisited:req.cookies.timesVisited});
+    res.render('splash.ejs',{gamesInitialized:gamesStarted,playersJoined:currConnectionID, timesVisited:req.cookies.timesVisited});
 });
 
 app.get('/play', (req, res) => {
@@ -31,7 +31,7 @@ app.get('/lobby', (req, res) => {
 });
 
 app.get('/games', (req, res) => {
-    res.send(JSON.stringify(games.filter(g=>!g.started)));
+    res.send(JSON.stringify(Object.entries(games).filter(([k,v])=>!v.started)));
 });
 
 app.get('/games/:id', (req, res) => {
@@ -43,7 +43,7 @@ const server = http.createServer(app);
 const wss = new websocket.Server({server});
 
 var currConnectionID = 0;
-var currGameID = 0;
+var gamesStarted = 0;
 var connections = {};
 
 wss.on("connection", (ws) => {
@@ -62,8 +62,10 @@ wss.on("connection", (ws) => {
 		con.send(JSON.stringify({conID:con.id}));
 	    } else if (oMsg.createLobby){
 		let msg = oMsg.createLobby;
-		let game = games[++currGameID]={};
-		game.id = currGameID;
+		gamesStarted++;
+		let newGameID = Buffer.from(String((Date.now()>>>8)%1000000)).toString('base64');
+		let game = games[newGameID]={};
+		game.id = newGameID;
 		game.title = msg.title;
 		game.players = {};
 		game.players[con.id]=con.nick;
@@ -72,7 +74,7 @@ wss.on("connection", (ws) => {
 		game.host = con.id;
 		game.started = false;
 		con.game = game;
-		con.send(JSON.stringify({gameID:currGameID}));
+		con.send(JSON.stringify({gameID:newGameID}));
 		console.log('Game created: %s', JSON.stringify(game));
 	    } else if (oMsg.joinLobby) {
 		let msg = oMsg.joinLobby;

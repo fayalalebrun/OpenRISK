@@ -1,6 +1,6 @@
 window.sessionStorage.setItem('createLobbyOptions', null);
 const games = $.getJSON('./games', (data)=>{
-    data.forEach((e)=>{
+    data.forEach(([k,e])=>{
 	if(e){	  
 	    let $info = $('<p>');
 	    $info.text(e.title + " | " + Object.keys(e.players).length + "/" + e.maxCap);
