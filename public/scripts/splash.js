@@ -18,6 +18,7 @@ function main(){
 	
 	options.title = $('#gameTitle').val();
 	options.maxCap = $('#maxPlayers').val();
+	options.visible = $('#trigger').is(":checked");
 
 	window.sessionStorage.setItem('createLobbyOptions', JSON.stringify(options));
 	window.location.href='play';
@@ -38,5 +39,5 @@ function validateInput(){
     } else {
 	$('#createGameButton').addClass('disabled');
     }
-    console.log(value);
+
 }

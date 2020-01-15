@@ -35,7 +35,7 @@ app.get('/lobby', (req, res) => {
 });
 
 app.get('/games', (req, res) => {
-    res.send(JSON.stringify(Object.entries(games).filter(([k,v])=>!v.started)));
+    res.send(JSON.stringify(Object.entries(games).filter(([k,v])=>!v.started&&v.visible)));
 });
 
 app.get('/games/:id', (req, res) => {
@@ -77,6 +77,7 @@ wss.on("connection", (ws) => {
 		game.mapInfo = msg.mapInfo;
 		game.host = con.id;
 		game.started = false;
+		game.visible = msg.visible;
 		con.game = game;
 		con.send(JSON.stringify({gameID:newGameID}));
 		console.log('Game created: %s', JSON.stringify(game));

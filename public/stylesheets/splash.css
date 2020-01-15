@@ -142,3 +142,30 @@ input:invalid {
     color:red;
     outline: 0.5vw solid red;
 }
+
+
+.trigger{
+    display:none;
+}
+
+.visibleCheckbox{
+    position:relative;
+    width:4.1vw;
+    height:2.3vw;
+    top:1.2vw;
+    background-color:white;
+}
+
+.visibleCheckbox label{
+
+    background-image: url(/res/eye.svg);
+    background-position: left center;
+    background-size: auto 100%;
+    width: 3.7vw;
+    height: 2vw;;
+    background-repeat: no-repeat;
+}
+
+.trigger:checked + div {
+    background-color:red;
+}
