@@ -22,6 +22,21 @@ function main(){
 	window.sessionStorage.setItem('createLobbyOptions', JSON.stringify(options));
 	window.location.href='play';
     });
+
+    validateInput();
+
+    $('#maxPlayers').on('change',validateInput);
 }
 
 $(document).ready(main);
+
+
+function validateInput(){
+    let value = $('#maxPlayers').val();    
+    if(value>=2&&value<=6){
+	$('#createGameButton').removeClass('disabled');
+    } else {
+	$('#createGameButton').addClass('disabled');
+    }
+    console.log(value);
+}

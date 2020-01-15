@@ -132,3 +132,13 @@ footer {
     width: 70vw;
     height: 7vw;
 }
+
+.disabled {
+    opacity:0.5;
+    pointer-events: none;
+}
+
+input:invalid {
+    color:red;
+    outline: 0.5vw solid red;
+}
