@@ -21,7 +21,7 @@ import * as stageHandling from "./stage_handling/stage_handling.js";
 export async function main(seed, playerEventSource, gameInfo){
     stageHandling.WaitReady.select();
     
-    console.log('Seed: '+seed);
+
     globalRand = new Math.seedrandom(seed);    
     players = await decidePlayerOrder(gameInfo);
     gamePlayerEventSource = playerEventSource;
@@ -133,12 +133,12 @@ async function generateUnitSprites(){
     await generateSingleUnitSprite('units1',spriteMap);
     await generateSingleUnitSprite('units3',spriteMap);
     await generateSingleUnitSprite('units5',spriteMap);
-    console.log(spriteMap);
+
 }
 
 async function generateSingleUnitSprite(svgName, spriteMap){
     let data = (new XMLSerializer()).serializeToString(await $.get('res/'+svgName+'.svg'));
-    console.log();
+
     let promises = [];
     players.forEach((p)=>{
 	var img = new Image();
@@ -146,7 +146,6 @@ async function generateSingleUnitSprite(svgName, spriteMap){
 	let coloredSvgXml = data.split('#ff88ba').join(p.color);
 
 	img.src = "data:image/svg+xml;base64,"+btoa(coloredSvgXml);
-	img.onerror = ((e)=>{console.log(e)});
 	spriteMap[p.color][svgName]=img;
     });
 

@@ -144,7 +144,7 @@ export class MapView extends graphics.ImgActor {
 		ctx.restore();
 
 		let color = graphics.util.rgbToHex(data[0],data[1],data[2]);
-		console.log(color);
+
 		let zone = this.zoneMap[color];
 		this.onZoneHit(zone,this);
 	    }
