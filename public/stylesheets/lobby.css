@@ -8,16 +8,11 @@ main, body {
     font-size:1.3vw;
 }
 
-h1{
-    
-    font-size:2vw;
-    background: -webkit-linear-gradient(#a41313, #dd2a31);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
+
 
 .games{
     color:white;
+    overflow-y:auto;
 }
 
 

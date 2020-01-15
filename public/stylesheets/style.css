@@ -30,3 +30,11 @@ html, body {
 .labelButton:hover{
     transform: translateY(-0.1vw);
 }
+
+h1{
+    
+    font-size:2vw;
+    background: -webkit-linear-gradient(#a41313, #dd2a31);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
