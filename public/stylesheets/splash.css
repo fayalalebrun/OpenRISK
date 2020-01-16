@@ -54,8 +54,7 @@ label,.stats{
 }
 
 .nicknameArea input:hover {
-    background-color:#FFFFFFD0;
-    
+    background-color:#FFFFFFD0;    
 }
 
 .logo img {
@@ -195,3 +194,33 @@ input:invalid {
 .trigger:checked + div {
     background-color:red;
 }
+
+header {
+    position:absolute;
+    float: left;
+    display: none;
+    top:2vh;
+}
+
+.stats:not(:fullscreen){
+    color:white !important;
+}
+
+.stats:fullscreen{
+    color:blue !important;
+}
+
+
+
+.sizeWarning::after{
+    color: red;
+    content:"Warning: Screen size below the recommended minimum";
+}
+
+
+@media (width < 1280px) or (height < 720px){
+    header{
+	display:block;
+    }
+}
+
