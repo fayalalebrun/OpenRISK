@@ -152,14 +152,19 @@ export class MapView extends graphics.ImgActor {
 	} else if (event.type==='mousemove'&&this.mousePressed){
 	    camera.x-=event.movementX*(1/game.renderer.sizeMultiplier);
 	    camera.y-=event.movementY*(1/game.renderer.sizeMultiplier);
-	    this.mouseDistanceTravelled+=Math.sqrt(event.movementX*event.movementX+event.movementY*event.movementY);
-	    requestAnimationFrame(()=>game.renderer.draw());
-	} else if(event.type==='wheel'){
+	    let distanceTravelled =Math.sqrt(event.movementX*event.movementX+event.movementY*event.movementY);
+	    this.mouseDistanceTravelled+=distanceTravelled;
+	    if(event.buttons==0){
+		this.mousePressed=false;
+	    }
 	    
-	    let scaleChange = event.deltaY/100;
+	    requestAnimationFrame(()=>game.renderer.draw());
+	} else if(event.type==='wheel'&&event.deltaY!=0){
+	    
+	    let scaleChange = (event.deltaY/Math.abs(event.deltaY))/70;
 	    camera.zoom+=scaleChange;
-	    camera.x+= (x*scaleChange);
-	    camera.y+= (y*scaleChange);
+	    camera.x+= (x*scaleChange)*(1/game.renderer.sizeMultiplier);
+	    camera.y+= (y*scaleChange)*(1/game.renderer.sizeMultiplier);
 	    
 	    requestAnimationFrame(()=>game.renderer.draw());
 	}
