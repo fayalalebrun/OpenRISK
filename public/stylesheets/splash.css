@@ -50,11 +50,37 @@ label,.stats{
 
 .nicknameArea input {
     background-color:#FFFFFFB0;
+    transition: 0.5s;
+}
+
+.nicknameArea input:hover {
+    background-color:#FFFFFFD0;
+    
 }
 
 .logo img {
     width:60vw;
     margin-bottom:8vw;
+}
+
+@keyframes breathing {
+    from {
+      transform: scale(0.97);
+    }
+    to {
+      transform: scale(1.03);
+    }
+}
+
+.logo img {
+
+    animation-name: breathing;
+    animation-direction: alternate;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-duration: 6s;
+
+    transform-style: preserve-3d;
 }
 
 input {
