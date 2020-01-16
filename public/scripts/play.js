@@ -4,7 +4,7 @@ import * as networking from './networking/networking.js';
 let createLobbyOptions = window.sessionStorage.getItem('createLobbyOptions');
 
 
-var socket = new WebSocket('ws://'+window.location.host);
+var socket = new WebSocket('wss://'+window.location.host);
 
 socket.onopen = (() => {
     socket.send(JSON.stringify({setNickname:window.localStorage.getItem('nick')}));
