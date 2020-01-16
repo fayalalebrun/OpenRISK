@@ -42,7 +42,7 @@ app.get('/games/:id', (req, res) => {
     res.send(JSON.stringify(games[req.params.id]));    
 });
 
-const server = http.createServer(app);
+const server = http.createServer(app).listen(process.env.PORT || 3000);
 
 const wss = new websocket.Server({server});
 
@@ -147,5 +147,3 @@ wss.on("connection", (ws) => {
     });
 });
 
-
-server.listen(port);
