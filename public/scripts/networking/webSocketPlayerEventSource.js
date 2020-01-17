@@ -9,6 +9,7 @@ export class WebSocketPlayerEventSource extends PlayerEventSource {
     constructor(callback, socket){
 	super(callback);
 	this.socket = socket;
+	setTimeout(()=>{socket.send(JSON.stringify({heartbeat:true}))},500);
 	socket.onmessage = ((event)=>{
 	    let msg = JSON.parse(event.data);
 	    if(msg.playerMessage){
@@ -16,6 +17,10 @@ export class WebSocketPlayerEventSource extends PlayerEventSource {
 	    } else if (msg.playerLeftGame!=undefined) {
 		console.log('Player left game, closing socket');
 		socket.close();
+	    } else if(msg.heartbeat){
+		setTimeout(()=>{socket.send(JSON.stringify({heartbeat:true}))},5000);
+
+		
 	    } else {
 		console.log('Received non-supported message: ');
 		console.log(msg);

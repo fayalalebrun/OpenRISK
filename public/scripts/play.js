@@ -3,8 +3,12 @@ import * as networking from './networking/networking.js';
 
 let createLobbyOptions = window.sessionStorage.getItem('createLobbyOptions');
 
-
-var socket = new WebSocket('wss://'+window.location.host);
+var socket;
+if(location.protocol === 'https:'){
+    socket = new WebSocket('wss://'+window.location.host);
+} else {
+    socket = new WebSocket('ws://'+window.location.host);
+}
 
 socket.onopen = (() => {
     socket.send(JSON.stringify({setNickname:window.localStorage.getItem('nick')}));

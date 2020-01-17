@@ -121,6 +121,9 @@ wss.on("connection", (ws) => {
 		Object.keys(con.game.players).forEach((e)=>{
 		    connections[e].send(JSON.stringify(oMsg));
 		});
+	    } else if (oMsg.heartbeat){
+
+		con.send(JSON.stringify({heartbeat:true}));
 	    }
 	});
 
