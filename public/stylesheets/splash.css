@@ -9,6 +9,10 @@ main, body{
     justify-content:center;
 }
 
+main{
+    transform: scale(1.6);
+}
+
 body input{
     background-color:white;
     text-align:center;
@@ -18,21 +22,21 @@ body input{
     transition: transform 0.2s;
     color:black !important;
     border:0;
-    font-size:1.8vw;
+    font-size:1.8vmin;
 }
 
 
 .maxPlayers{
-    width:3vw;
+    width:3vmin;
 }
 
 label,.stats{
     color:white !important;
-    font-size:2vw;
+    font-size:2vmin;
 }
 
 .stats {
-    font-size:1vw;
+    font-size:1vmin;
 }
 
 
@@ -40,12 +44,12 @@ label,.stats{
     display:flex;
     align-items:center;
     justify-content:center;
-    margin-bottom:4vw;
+    margin-bottom:4vmin;
 
 }
 
 .nicknameArea label{
-    margin-right:1vw;
+    margin-right:1vmin;
 }
 
 .nicknameArea input {
@@ -58,8 +62,8 @@ label,.stats{
 }
 
 .logo img {
-    width:60vw;
-    margin-bottom:8vw;
+    width:60vmin;
+    margin-bottom:8vmin;
 }
 
 @keyframes breathing {
@@ -117,7 +121,7 @@ input {
 
 
 .createGame input {
-    margin: 1vw;
+    margin: 1vmin;
 }
 
 .nicknameArea  label{
@@ -133,15 +137,15 @@ footer {
 
 .joinArea .labelButton {
     background-image:url('/res/button_clear_blue.svg');
-    font-size:3vw;
-    width:30vw;
-    height:6vw;
-    margin-bottom: 2vw;
+    font-size:3vmin;
+    width:30vmin;
+    height:6vmin;
+    margin-bottom: 2vmin;
 }
 
 .joinArea span {
     position: relative;
-    top: 1vw;
+    top: 1vmin;
 
 }
 
@@ -153,9 +157,9 @@ footer {
 }
 
 .createGame > .labelButton {
-    font-size: 2.5vw;
-    width: 70vw;
-    height: 7vw;
+    font-size: 2.5vmin;
+    width: 70vmin;
+    height: 7vmin;
 }
 
 .disabled {
@@ -165,7 +169,7 @@ footer {
 
 input:invalid {
     color:red;
-    outline: 0.5vw solid red;
+    outline: 0.5vmin solid red;
 }
 
 
@@ -175,9 +179,9 @@ input:invalid {
 
 .visibleCheckbox{
     position:relative;
-    width:4.1vw;
-    height:2.3vw;
-    top:1.2vw;
+    width:4.1vmin;
+    height:2.3vmin;
+    top:1.2vmin;
     background-color:white;
 }
 
@@ -186,8 +190,8 @@ input:invalid {
     background-image: url(/res/eye.svg);
     background-position: left center;
     background-size: auto 100%;
-    width: 3.7vw;
-    height: 2vw;;
+    width: 3.7vmin;
+    height: 2vmin;;
     background-repeat: no-repeat;
 }
 

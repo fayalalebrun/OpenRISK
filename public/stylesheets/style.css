@@ -21,19 +21,19 @@ html, body {
     background-repeat:no-repeat;
     text-align:center;
     display:block;
-    width:15vw;
-    margin:1vw;
+    width:15vmin;
+    margin:1vmin;
     transition: transform 0.2s;
     color:black;
 }
 
 .labelButton:hover{
-    transform: translateY(-0.1vw);
+    transform: translateY(-0.1vmin);
 }
 
 h1{
     
-    font-size:2vw;
+    font-size:2vmin;
     background: -webkit-linear-gradient(#a41313, #dd2a31);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;

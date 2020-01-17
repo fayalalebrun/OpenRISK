@@ -14,8 +14,8 @@ dialog {
     position: absolute;
     float: left;
     top: 1vh;
-    margin: 1vw;
-    width: 5vw;
+    margin: 1vmin;
+    width: 5vmin;
 }
 
 .uiOverlay {    
@@ -44,12 +44,12 @@ dialog {
 }
 
 .waitingForGame label{
-    font-size:1.2vw;
+    font-size:1.2vmin;
 }
 
 .shareLink{
     color:white;
-    margin-bottom:2vw;
+    margin-bottom:2vmin;
 }
 
 .gameLink{
@@ -73,8 +73,8 @@ dialog {
     background-image:url('/res/menu_popup.svg');
     background-size:cover;
     background-repeat:no-repeat;
-    width:24vw;
-    height:40vw;
+    width:24vmin;
+    height:40vmin;
     display:flex;
     flex-direction:column;
     align-items:center;
@@ -87,13 +87,13 @@ dialog {
     background-repeat:no-repeat;
     text-align:center;
     display:block;
-    width:15vw;
-    margin:1vw;
+    width:15vmin;
+    margin:1vmin;
     transition: transform 0.2s;
 }
 
 .menuPanel label:hover{
-    transform: translateY(-0.1vw);
+    transform: translateY(-0.1vmin);
 }
 
 /* Troop number panel*/
@@ -103,15 +103,15 @@ dialog {
     bottom: 0;
     right: 0;
     display: none;
-    width:53vw;
-    height:9vw;    
+    width:53vmin;
+    height:9vmin;    
 }
 
 .troopsBG {
     position: absolute;
     margin:0;
     border:0;
-    height:10vw;
+    height:10vmin;
     bottom:0;
     right:0;
 }
@@ -122,22 +122,22 @@ dialog {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 1vw;
-    margin-right: 4vw;
+    margin: 1vmin;
+    margin-right: 4vmin;
 }
 
 .troopNumPanel .troopNumLabel{
     position: absolute;
     float: right;
-    right: 0.1vw;
+    right: 0.1vmin;
     font-size: x-large;
-    margin: 1vw;
+    margin: 1vmin;
     color: red;
 
 }
 
 .troopNumPanel .troopNumButton img{
-    height: 3vw;
+    height: 3vmin;
     margin-left: auto;
     margin-right: auto;
     z-index:100;
@@ -145,12 +145,12 @@ dialog {
 }
 
 .troopNumPanel .troopNumButton img:hover{
-    transform: translateY(-0.1vw);
+    transform: translateY(-0.1vmin);
 }
 
 .troopnum_slidecontainer {
-    width: 50vw; /* Width of the outside container */
-    margin: 1vw;
+    width: 50vmin; /* Width of the outside container */
+    margin: 1vmin;
 }
 
 /* The slider itself */
@@ -158,7 +158,7 @@ dialog {
   -webkit-appearance: none;  /* Override default CSS styles */
   appearance: none;
   width: 100%; /* Full-width */
-  height: 1vw; /* Specified height */
+  height: 1vmin; /* Specified height */
   background: #f7f7f7; /* Grey background */
   outline: none; /* Remove outline */
   opacity: 0.9; /* Set transparency (for mouse-over effects on hover) */
@@ -175,15 +175,15 @@ dialog {
 .troopnum_slidecontainer .slider::-webkit-slider-thumb {
   -webkit-appearance: none; /* Override default look */
   appearance: none;
-  width: 1.5vw; /* Set a specific slider handle width */
-  height: 1.5vw; /* Slider handle height */
+  width: 1.5vmin; /* Set a specific slider handle width */
+  height: 1.5vmin; /* Slider handle height */
   background: red; /* Green background */
   cursor: pointer; /* Cursor on hover */
 }
 
 .troopnum_slidecontainer .slider::-moz-range-thumb {
-  width: 1.5vw; /* Set a specific slider handle width */
-  height: 1.5vw; /* Slider handle height */
+  width: 1.5vmin; /* Set a specific slider handle width */
+  height: 1.5vmin; /* Slider handle height */
   background: red; /* Green background */
   cursor: pointer; /* Cursor on hover */
 }
@@ -202,7 +202,7 @@ dialog {
 
 .statusBar label {
     color: red;
-    margin: 2vw;
+    margin: 2vmin;
 
     -webkit-text-stroke: thin #d9d9d9;
     font-size:x-large;
@@ -249,8 +249,8 @@ dialog {
     background-image:url('/res/winScreen_bg.svg');
     background-size:cover;
     background-repeat:no-repeat;
-    width:57vw;
-    height:40vw;
+    width:57vmin;
+    height:40vmin;
     display:flex;
     flex-direction:column;
     align-items:center;
@@ -267,7 +267,7 @@ dialog {
 
 .winScreen > div::first-line {
     font-size: x-large;
-    line-height:10vw;
+    line-height:10vmin;
     color:red;
 }
 
@@ -277,8 +277,8 @@ dialog {
     position: absolute;
     bottom: 0;
     right: 0;
-    width:55vw;
-    height:23vw;
+    width:55vmin;
+    height:23vmin;
     display: none;
     background-image:url('/res/attack_result_bg.svg');
     background-size:cover;
@@ -288,25 +288,25 @@ dialog {
 }
 
 .attackResPanel > div:first-child {
-    margin-left: 4.8vw;
+    margin-left: 4.8vmin;
 }
 
 .attackResPanel > div {
-    margin-top: 5vw;
+    margin-top: 5vmin;
 }
 
 
 .attackerLabel, .defenderLabel{
     color: red;
-    margin-right:1vw;
-    margin-bottom: 1vw;
+    margin-right:1vmin;
+    margin-bottom: 1vmin;
     display: block;
-    width:12vw;
+    width:12vmin;
 
 }
 
 .attackerDice img, .defenderDice img{
-    height: 3vw;
+    height: 3vmin;
 }
 
 .attackResPanel .diceResults{
@@ -324,14 +324,14 @@ dialog {
 .originDestination label{
     color:red;
     display:block;
-    margin-bottom:2vw;
-    margin-top:1vw;
-    width:10vw;
+    margin-bottom:2vmin;
+    margin-top:1vmin;
+    width:10vmin;
     text-align:center;
 }
 
 .originDestination img{
-    height:2vw;
+    height:2vmin;
     margin-bottom:0;
 }
 
@@ -353,28 +353,28 @@ dialog {
 
 .lossDisplay div {
     display:flex;
-    margin-top:3vw;
+    margin-top:3vmin;
 }
 
 .lossDisplay div svg {
-    height:6vw;
+    height:6vmin;
     fill:red;
-    margin-left:0.2vw;
-    margin-right:0.2vw;
+    margin-left:0.2vmin;
+    margin-right:0.2vmin;
 }
 
 
 .lossDisplay > img {
     position:absolute;
     right:0;
-    bottom:19vw;
+    bottom:19vmin;
     align-items: center;
 
-    height: 4vw;
-    margin-top:4vw;
+    height: 4vmin;
+    margin-top:4vmin;
     transition: transform 0.2s;
 }
 
 .lossDisplay > img:hover{
-    transform: translateY(-0.1vw);
+    transform: translateY(-0.1vmin);
 }
