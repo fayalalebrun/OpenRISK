@@ -39,6 +39,9 @@ export class Attack extends StageHandler {
 
 	    game.currPlayer.tookTerritory=false;
 
+
+	    game.filterPlayers(p=>p.ownedNodes.length>0);
+
 	    Fortify.select();
 	} else {
 	    console.error('Unsupported event type received');

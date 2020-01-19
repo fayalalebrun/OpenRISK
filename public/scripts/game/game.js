@@ -194,6 +194,10 @@ export function setGameStatus(status, color='red'){
     $(".statusBar label").css('color',color);
 }
 
+export function filterPlayers(func){
+    players = players.filter(func);
+}
+
 export var globalRand;
 export var renderer;
 export var players;
