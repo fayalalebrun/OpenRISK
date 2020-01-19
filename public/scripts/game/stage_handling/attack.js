@@ -175,21 +175,21 @@ export class Attack extends StageHandler {
 
 	console.log(lowestAmountOfDice);
 	
-	for(let i = 0; i<lowestAmountOfDice; i++){
+	for(let i = 0; i<attackerRolls.length; i++){
 	    $('.attackerDice img:nth-child('+(i+1)+')').attr('src','res/dice'+attackerRolls[i]+'.svg');
 	    $('.attackerDice img:nth-child('+(i+1)+')').show();
 	}
 	
-	for(let i = lowestAmountOfDice; i<3;i++){
+	for(let i = attackerRolls.length; i<3;i++){
 	    $('.attackerDice img:nth-child('+(i+1)+')').hide();
 	}
 
-	for(let i = 0; i<lowestAmountOfDice; i++){
+	for(let i = 0; i<defenderRolls.length; i++){
 	    $('.defenderDice img:nth-child('+(i+1)+')').attr('src','res/dice'+defenderRolls[i]+'.svg');
 	    $('.defenderDice img:nth-child('+(i+1)+')').show();	    
 	}
 
-	for(let i = lowestAmountOfDice; i<2;i++){
+	for(let i = defenderRolls.length; i<2;i++){
 	    $('.defenderDice img:nth-child('+(i+1)+')').hide();
 	}
 
