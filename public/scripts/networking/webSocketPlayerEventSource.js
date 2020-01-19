@@ -16,7 +16,10 @@ export class WebSocketPlayerEventSource extends PlayerEventSource {
 		callback(msg.playerMessage);
 	    } else if (msg.playerLeftGame!=undefined) {
 		console.log('Player left game, closing socket');
-		socket.close();
+		if(this.onPlayerLeftGame(msg.playerLeftGame)){		  
+		    socket.close();
+		}
+		
 	    } else if(msg.heartbeat){
 		setTimeout(()=>{socket.send(JSON.stringify({heartbeat:true}))},5000);
 
@@ -27,6 +30,8 @@ export class WebSocketPlayerEventSource extends PlayerEventSource {
 	    }
 	});
     }
+
+
 
     sendMessage(msg){
 	this.socket.send(JSON.stringify({playerMessage:msg}));

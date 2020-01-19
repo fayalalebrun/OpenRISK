@@ -21,5 +21,8 @@ export class PlayerEventSource{
       */
     sendMessage(msg){}
 
-    
+    //returns whether client should disconnect.
+    onPlayerLeftGame(id){
+	return true;
+    }
 }

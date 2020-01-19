@@ -26,6 +26,10 @@ export async function main(seed, playerEventSource, gameInfo){
     players = await decidePlayerOrder(gameInfo);
     gamePlayerEventSource = playerEventSource;
 
+    playerEventSource.onPlayerLeftGame = (id)=>{
+	return players.filter(p=>p.id==id).length>0;
+    };
+
     $('.waitingForGame').remove();
     $('body').append($('<canvas>').attr('id','mainCanvas').attr('width',640).attr('height',480));
 
