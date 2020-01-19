@@ -15,11 +15,12 @@ app.use(cookies());
 app.get('/', (req, res) => {
     if(!req.cookies||!req.cookies.timesVisited){
 	res.cookie('timesVisited',1);
+	req.cookies.timesVisited=0;
     } else {
 	res.cookie('timesVisited',Number(req.cookies.timesVisited)+1);
     }    
     
-    res.render('splash.ejs',{gamesInitialized:gamesStarted,playersJoined:currConnectionID, timesVisited:req.cookies.timesVisited});
+    res.render('splash.ejs',{gamesInitialized:gamesStarted,playersJoined:currConnectionID, timesVisited:Number(req.cookies.timesVisited)+1});
 });
 
 app.get('/play/', (req, res) => {
