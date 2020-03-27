@@ -30,6 +30,7 @@ export class Attack extends StageHandler {
 	    console.log('Attack stage ended');
 
 	    $('.attackResPanel').fadeOut();
+	    $('.turnOptionsPanel > .labelButton').fadeOut();
 
 	    if(game.currPlayer.tookTerritory&&game.cardDeck.length>0){
 		let card = game.cardDeck.pop();
@@ -41,7 +42,7 @@ export class Attack extends StageHandler {
 
 
 	    game.filterPlayers(p=>p.ownedNodes.length>0);
-
+	    
 	    Fortify.select();
 	} else {
 	    console.error('Unsupported event type received');
@@ -73,9 +74,7 @@ export class Attack extends StageHandler {
 	    $('.troopNumPanel').fadeOut();
 	    
 	} else if (zone===Attack.attackFrom||currPlayer.ownedNodes.every(e=>e.troopNumber<=1)){	    
-	    playerEventSource.sendMessage({attackEnd:true});
-	    Attack._clearAttackZones();
-	    $('.troopNumPanel').fadeOut();
+
 	} else if(zone.node.owner===currPlayer&&zone.node.troopNumber>1){
 	    Attack._clearAttackZones();
 	    Attack.attackFrom = zone;
@@ -240,6 +239,15 @@ export class Attack extends StageHandler {
 
 	Attack.attackZones = [];
 	Attack._printStatus();
+
+	if(game.currPlayer.isLocal) {	 
+	    $('.turnOptionsPanel > .labelButton').css('display','flex').hide().fadeIn();
+	    $('.turnOptionsPanel > .labelButton').click(()=>{
+		game.gamePlayerEventSource.sendMessage({attackEnd:true});	
+		Attack._clearAttackZones();
+		$('.troopNumPanel').fadeOut();
+	    });
+	}
     }
 
     static _printStatus(){

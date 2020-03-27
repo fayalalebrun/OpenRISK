@@ -47,7 +47,8 @@ export class Fortify extends StageHandler {
 		$('.winScreenWrapper').css('display','flex').hide().fadeIn();
 		
 	    }
-	    
+
+	    $('.turnOptionsPanel > .labelButton').fadeOut();
 	    game.nextPlayer();
 	    PlaceArmies.select();
 	} else {
@@ -74,9 +75,7 @@ export class Fortify extends StageHandler {
 	    Fortify._clearReachableZones();
 	    $('.troopNumPanel').fadeOut();
 	} else if (zone == Fortify.fortifyFrom||currPlayer.ownedNodes.every(e=>e.troopNumber<=1)){
-	    Fortify._clearReachableZones();
-	    playerEventSource.sendMessage({fortify:{}});
-	    $('.troopNumPanel').fadeOut();
+	    
 	} else if (zone.node.owner===currPlayer&&zone.node.troopNumber>1){
 	    Fortify._clearReachableZones();
 	    Fortify.fortifyFrom = zone;
@@ -145,8 +144,18 @@ export class Fortify extends StageHandler {
 
     static select(){
 	game.setStageHandler(this);
-
+	
 	Fortify.reachableZones = [];
+
+
+	if(game.currPlayer.isLocal){
+	    $('.turnOptionsPanel > .labelButton').css('display','flex').hide().fadeIn();
+	    $('.turnOptionsPanel > .labelButton').click(()=>{
+		Fortify._clearReachableZones();
+		game.gamePlayerEventSource.sendMessage({fortify:{}});
+		$('.troopNumPanel').fadeOut();
+	    });
+	}
 	Fortify._printStatus();
     }
 
