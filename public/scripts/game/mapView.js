@@ -161,7 +161,7 @@ export class MapView extends graphics.ImgActor {
 	    requestAnimationFrame(()=>game.renderer.draw());
 	} else if(event.type==='wheel'&&event.deltaY!=0){
 	    
-	    let scaleChange = (event.deltaY/Math.abs(event.deltaY))/70;
+	    let scaleChange = -(event.deltaY/Math.abs(event.deltaY))/70;
 	    camera.zoom+=scaleChange;
 	    camera.x+= (x*scaleChange)*(1/game.renderer.sizeMultiplier);
 	    camera.y+= (y*scaleChange)*(1/game.renderer.sizeMultiplier);
