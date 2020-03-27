@@ -35,6 +35,11 @@ html, body {
     transform: translateY(-0.1vmin);
 }
 
+.disabled {
+    opacity: 0.5;
+    transition: opacity 0.3s;
+}
+
 h1{
     
     font-size:2vmin;

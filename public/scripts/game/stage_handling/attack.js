@@ -30,7 +30,7 @@ export class Attack extends StageHandler {
 	    console.log('Attack stage ended');
 
 	    $('.attackResPanel').fadeOut();
-	    $('.turnOptionsPanel > .labelButton').fadeOut();
+	    $('.endPhaseButton').fadeOut();
 
 	    if(game.currPlayer.tookTerritory&&game.cardDeck.length>0){
 		let card = game.cardDeck.pop();
@@ -241,11 +241,12 @@ export class Attack extends StageHandler {
 	Attack._printStatus();
 
 	if(game.currPlayer.isLocal) {	 
-	    $('.turnOptionsPanel > .labelButton').css('display','flex').hide().fadeIn();
-	    $('.turnOptionsPanel > .labelButton').click(()=>{
-		game.gamePlayerEventSource.sendMessage({attackEnd:true});	
+	    $('.endPhaseButton').css('display','flex').hide().fadeIn();
+	    $('.endPhaseButton').click(()=>{
+		game.gamePlayerEventSource.sendMessage({attackEnd:true});
 		Attack._clearAttackZones();
 		$('.troopNumPanel').fadeOut();
+		$('.endPhaseButton').off();
 	    });
 	}
     }

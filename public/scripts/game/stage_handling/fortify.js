@@ -11,8 +11,8 @@ export class Fortify extends StageHandler {
 		console.error('Received message from wrong player');
 		return;
 	    }
-
-	    let msg = event.fortify;
+	    console.log(event);
+	    let msg = event.fortify;	    
 	    if(msg.from){
 		let to = game.mapView.zoneMap[msg.to].node;
 		let from = game.mapView.zoneMap[msg.from].node;
@@ -48,7 +48,7 @@ export class Fortify extends StageHandler {
 		
 	    }
 
-	    $('.turnOptionsPanel > .labelButton').fadeOut();
+	    $('.endPhaseButton').fadeOut();
 	    game.nextPlayer();
 	    PlaceArmies.select();
 	} else {
@@ -74,6 +74,7 @@ export class Fortify extends StageHandler {
 	    
 	    Fortify._clearReachableZones();
 	    $('.troopNumPanel').fadeOut();
+	    $('.endPhaseButton').fadeOut();
 	} else if (zone == Fortify.fortifyFrom||currPlayer.ownedNodes.every(e=>e.troopNumber<=1)){
 	    
 	} else if (zone.node.owner===currPlayer&&zone.node.troopNumber>1){
@@ -149,12 +150,16 @@ export class Fortify extends StageHandler {
 
 
 	if(game.currPlayer.isLocal){
-	    $('.turnOptionsPanel > .labelButton').css('display','flex').hide().fadeIn();
-	    $('.turnOptionsPanel > .labelButton').click(()=>{
-		Fortify._clearReachableZones();
-		game.gamePlayerEventSource.sendMessage({fortify:{}});
-		$('.troopNumPanel').fadeOut();
-	    });
+	    setTimeout(()=>{
+		$('.endPhaseButton').css('display','flex').hide().fadeIn();
+		$('.endPhaseButton').click(()=>{
+		    Fortify._clearReachableZones();
+		    console.log('sent it');
+		    game.gamePlayerEventSource.sendMessage({fortify:{}});
+		    $('.troopNumPanel').fadeOut();
+		    $('.endPhaseButton').off();
+		});
+	    },500);
 	}
 	Fortify._printStatus();
     }

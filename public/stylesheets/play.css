@@ -444,36 +444,37 @@ dialog {
     width: 30%;
 }
 
+.card > img:last-of-type{
+    width: 30%;
+    heigth:10%;
+    margin:1vmin;
+}
+
 .card > label {
     display: block;
-    width: 70%;
-    height: 20%;
+    height: 10%;
     font-size:1.5vmin;
+    text-align:center;
 }
 
 
 /* Turn options panel */
 
-.turnOptionsPanel {
-    position:absolute;
-    width:15vw;
-    height:20vh;
-    left:0;
-    bottom:0;
-    display:flex;
-    flex-direction:column;
-    align-items:flex-start;
-    justify-content:left;
-}
 
-.turnOptionsPanel >  .cardsButton{
+.cardsButton{
     height:10vmin;
     margin: 1vmin;
     display:none;
+    position:absolute;
+    bottom:0;
+    left:0;
 }
 
 
-.turnOptionsPanel > .labelButton {
+.endPhaseButton {
     width: 10vmin;
     display:none;
+    bottom:0;
+    left:0;
+    position:absolute;
 }
