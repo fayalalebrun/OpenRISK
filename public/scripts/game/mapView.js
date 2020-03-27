@@ -129,7 +129,8 @@ export class MapView extends graphics.ImgActor {
     
     onHit(ctx, event, x, y) {
 	let camera = this.parent.stage.camera;
-	if(event.type==='mousedown'){
+	console.log(event.button);
+	if(event.type==='mousedown'&&event.button==2){
 	    this.mousePressed = true;
 	} else if(event.type==='mouseup'){
 	    this.mousePressed = false;

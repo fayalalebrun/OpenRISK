@@ -20,8 +20,9 @@ import * as stageHandling from "./stage_handling/stage_handling.js";
 
 export async function main(seed, playerEventSource, gameInfo){
     stageHandling.WaitReady.select();
-    
 
+    
+    
     globalRand = new Math.seedrandom(seed);    
     players = await decidePlayerOrder(gameInfo);
     gamePlayerEventSource = playerEventSource;
@@ -32,7 +33,7 @@ export async function main(seed, playerEventSource, gameInfo){
 
     $('.waitingForGame').remove();
     $('body').append($('<canvas>').attr('id','mainCanvas').attr('width',640).attr('height',480));
-
+    $('body').on('contextmenu', '#mainCanvas', function(e){ return false; });
 
 
         let zoneImg = new Image();
