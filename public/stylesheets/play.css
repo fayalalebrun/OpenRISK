@@ -378,3 +378,102 @@ dialog {
 .lossDisplay > img:hover{
     transform: translateY(-0.1vmin);
 }
+
+/* Cards + cards menu */
+
+.cardsMenuWrapper{
+    position:absolute;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    display:none;
+    width:100%;
+    height:100%;
+}
+
+.cardsMenu {
+    margin-right:auto;
+    margin-left:auto;
+    background-image:url('/res/winScreen_bg.svg');
+    background-size: 100vmin 40vmin;
+    background-repeat:no-repeat;
+    width:100vmin;
+    height:40vmin;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    text-align:left;
+}
+
+.cardsMenu > .cardsWrapper {
+    width:100%;
+    height:60%;
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    justify-content:center;
+}
+
+
+.cardsMenu > .labelButton:first-of-type{
+    background-image:url('/res/button_clear_blue.svg');
+}
+
+.cardsWrapper > .card{
+    background-image:url('/res/card.svg');
+    background-size:contain;
+    background-repeat:no-repeat;    
+    width:15vmin;
+    height:20vmin;
+    margin: 1vmin;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    display:flex;
+}
+
+.cardsWrapper > .card~.card{
+    margin-left:-7vmin;
+}
+
+
+
+.card > img {
+    width: 30%;
+}
+
+.card > label {
+    display: block;
+    width: 70%;
+    height: 20%;
+    font-size:1.5vmin;
+}
+
+
+/* Turn options panel */
+
+.turnOptionsPanel {
+    position:absolute;
+    width:15vw;
+    height:20vh;
+    left:0;
+    bottom:0;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    justify-content:left;
+}
+
+.turnOptionsPanel >  .cardsButton{
+    height:10vmin;
+    margin: 1vmin;
+    display:none;
+}
+
+
+.turnOptionsPanel > .labelButton {
+    width: 10vmin;
+    display:none;
+}

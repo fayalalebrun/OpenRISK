@@ -31,6 +31,10 @@ html, body {
     transform: translateY(-0.1vmin);
 }
 
+.hoverable:hover{
+    transform: translateY(-0.1vmin);
+}
+
 h1{
     
     font-size:2vmin;
