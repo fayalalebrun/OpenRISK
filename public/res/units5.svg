@@ -48,7 +48,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -58,9 +58,8 @@
      id="layer1"
      transform="translate(-58.338138,-71.688629)">
     <path
-       style="opacity:1;fill:#ff88ba;fill-opacity:1;stroke:#000000;stroke-width:3.14456701;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
-       d="m 512.7207,272.71289 -290.40625,39.70117 14.13282,82.64258 63.90625,-13.1875 26.77343,-46.40625 21.07617,36.53125 175.31055,-36.17578 z"
-       transform="scale(0.26458333)"
+       style="opacity:1;fill:#ff88ba;fill-opacity:1;stroke:#000000;stroke-width:0.83200002;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
+       d="m 61.671602,72.155285 76.836648,10.504267 -3.7393,21.865848 -16.90853,-3.48919 -7.08381,-12.278321 -5.5764,9.665559 -46.384248,-9.571508 z"
        id="rect3065"
        inkscape:connector-curvature="0" />
     <path
@@ -79,7 +78,6 @@
        inkscape:randomized="0"
        d="m 97.670758,124.17959 -24.324166,0 12.162083,-21.06535 z"
        inkscape:transform-center-y="-4.1880951"
-       inkscape:transform-center-x="3.7274897e-06"
-       transform="matrix(1.1553912,0,0,1.1928876,-12.243632,-31.286854)" />
+       transform="matrix(-1.1553912,0,0,1.1928876,209.57258,-31.286854)" />
   </g>
 </svg>
