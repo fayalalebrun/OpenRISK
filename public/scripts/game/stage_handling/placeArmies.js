@@ -5,8 +5,7 @@ import * as mapFunctions from "../mapFunctions.js";
 import {Attack} from "./attack.js";
 import {Card} from "../card.js";
 
-export class PlaceArmies extends StageHandler {
-    
+export class PlaceArmies extends StageHandler {    
     
     static onPlayerEvent(event){
 	if(event.placeArmies){
@@ -44,11 +43,12 @@ export class PlaceArmies extends StageHandler {
 	    } else {
 		console.error('Invalid PlaceArmies message');
 	    }
-	} else if(event.addArmies){
+	} else if(event.addArmies&&!PlaceArmies._tradeDone){
 	    if(event.playerID!=game.currPlayer.id){
 		console.error('Received message from wrong player');
 		return;
 	    }
+	    PlaceArmies._tradeDone = true;
 
 	    if(event.addArmies.selectedCards.every(c=>{
 
@@ -99,6 +99,7 @@ export class PlaceArmies extends StageHandler {
     static select(){
 	game.setStageHandler(this);
 	this._calcAndAddArmies();
+	PlaceArmies._tradeDone = false;
 
 	if(game.currPlayer.isLocal){
 	    this._updateSlider();
