@@ -48,17 +48,23 @@ export class PlaceArmies extends StageHandler {
 		console.error('Received message from wrong player');
 		return;
 	    }
-	    PlaceArmies._tradeDone = true;
+	    console.log("Trade being done");
+	    console.log(event);
 
 	    if(event.addArmies.selectedCards.every(c=>{
 
-		return !game.currPlayer.ownedNodes.some(n=>{
-		    return n.colorID==c.nodeColorID;
+		return !game.currPlayer.cards.some(n=>{
+		    return n.node.colorID==c.nodeColorID;
 		});
 	    })){
 		console.error('Sent cards not in deck');
+		console.log(event.addArmies.selectedCards);
+		console.log(game.currPlayer.cards);
 		return;
 	    }
+
+	    
+	    PlaceArmies._tradeDone = true;
 
 	    var bonusTroops = Card.turnInGenerator.next().value;
 	    if(game.currPlayer.ownedNodes.some((n)=>{
@@ -81,7 +87,9 @@ export class PlaceArmies extends StageHandler {
 		PlaceArmies._checkTradeAvailable();
 	    }
 	} else {
-	    console.error('Unsupported event type received'+event);
+	    console.error('Unsupported event type received');
+	    console.log(event);
+	    console.log(PlaceArmies._tradeDone);
 	}
     }
 
