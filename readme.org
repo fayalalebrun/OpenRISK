@@ -1,1 +1,1 @@
-http://open-risk.herokuapp.com/
+https://openrisk.noquiche.fyi/
